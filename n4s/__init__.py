@@ -40,6 +40,48 @@ class fs():
                     return print("\nneed4swede.filesystem.make_dir():\n"
                                 f"Does Not Exist - {Dir}\n")
 
+    ## CHECK IF PATH EXISTS
+    def path_exists(Path: Path, debug: bool=False):
+        try:
+            if type(Path) == list:
+                for x in range(len(Path)):
+                    if os.path.isfile(Path[x]):
+                        if debug:
+                            print("\nneed4swede.filesystem.path_exists():\n"
+                                        f"File Found - {Path[x]}\n") 
+                        return True
+                    else:
+                        if os.path.isdir(Path[x]):
+                            if debug:
+                                print("\nneed4swede.filesystem.path_exists():\n"
+                                            f"Directory Found - {Path[x]}\n") 
+                            return True
+                        else:
+                            if debug:
+                                print("\nneed4swede.filesystem.path_exists():\n"
+                                        f"Not Found - {Path[x]}\n") 
+                            return False
+            else:
+                if os.path.isfile(Path):
+                    if debug:
+                        print("\nneed4swede.filesystem.path_exists():\n"
+                                    f"File Found - {Path}\n") 
+                    return True
+                else:
+                    if os.path.isdir(Path):
+                        if debug:
+                            print("\nneed4swede.filesystem.path_exists():\n"
+                                        f"Directory Found - {Path}\n") 
+                        return True
+                    else:
+                        if debug:
+                            print("\nneed4swede.filesystem.path_exists():\n"
+                                    f"Not Found - {Path}\n") 
+                        return False
+        except Exception:
+            return print("\nneed4swede.filesystem.path_exists():\n"
+                                    f"Path no a list or str - {Path}\n") 
+
     ## REMOVE DIRECTORIES
     def remove_dir(Dir: Path, debug: bool=False):
         '''
@@ -98,6 +140,7 @@ class fs():
                     return print("\nneed4swede.filesystem.remove_file():\n"
                                 f"Does Not Exist - {File}\n")
 
+    ## FIND DIRECTORIES (ROOT == USER)
     def root_dir(Dir: str='user', debug: bool=False):
         if Dir == 'applications' or Dir == 'apps':
             if platform.system() == 'Darwin':
@@ -132,7 +175,7 @@ class fs():
                 return "C:\Windows\System32"
 
 ## STRING MANIPULATION
-class str():
+class strgs():
 
     ## REMOVES CHARACTERS FROM TEXT
     def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False):
@@ -274,6 +317,11 @@ class term():
 
 ## WEB FOCUSED METHODS
 class web():
+
+    ## CREATE WEB FILES
+    def build_html(Directory: Path=fs.root_dir(), onefile: bool=False, debug: bool=False):
+        if not Directory == fs.root_dir():
+            fs.make_dir(Directory)
 
     ## MERGE HTML/CSS/JS INTO ONE HTML FILE
     def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool=False, filename: str='index'):
@@ -424,5 +472,3 @@ class web():
 
 
 ## TESTS
-from n4s import filesystem as fs
-fs.root_dir('user', True)
