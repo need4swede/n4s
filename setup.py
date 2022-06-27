@@ -6,7 +6,7 @@ setuptools.setup(
     author='Mike Afshari',
     author_email='theneed4swede@gmail.com',
     description='Need4Swede',
-    url='https://github.com/need4swede/n4s',
+    url='https://github.com/n4s/n4s',
     license='MIT',
     packages=['n4s'],
 )
