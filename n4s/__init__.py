@@ -9,7 +9,7 @@ category=UserWarning, module='bs4')
 #############################
 
 ## ACCESS FILESYSTEM
-class filesystem():
+class fs():
 
     ## CREATE DIRECTORIES
     def make_dir(Dir: Path, debug: bool=False):
@@ -132,7 +132,7 @@ class filesystem():
                 return "C:\Windows\System32"
 
 ## STRING MANIPULATION
-class string():
+class str():
 
     ## REMOVES CHARACTERS FROM TEXT
     def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False):
@@ -247,7 +247,7 @@ class string():
             return print("\nneed4swede.string.shorten_text():\nOperation Failed - Enable debug for more info\n")
 
 ## TERMINAL COMMANDS
-class terminal():
+class term():
     
     ## CLEAR TERMINAL
     def clear():
@@ -424,3 +424,5 @@ class web():
 
 
 ## TESTS
+from n4s import filesystem as fs
+fs.root_dir('user', True)
