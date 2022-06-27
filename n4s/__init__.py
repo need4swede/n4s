@@ -41,46 +41,120 @@ class fs():
                                 f"Does Not Exist - {Dir}\n")
 
     ## CHECK IF PATH EXISTS
-    def path_exists(Path: Path, debug: bool=False):
+    def path_exists(Path: Path, Make: bool=False, debug: bool=False):
+
+        ## CATCH ERROR
         try:
+            
+            ## IF ALL PATHS ALREADY EXIST
+            all_paths_exists = True
+
+            ## IF PATH IS A LIST OF PATHS
             if type(Path) == list:
                 for x in range(len(Path)):
+                    ## IF PATHS ARE FILES && EXIST
                     if os.path.isfile(Path[x]):
+                        ## DEBUG: FILES EXIST
                         if debug:
                             print("\nneed4swede.filesystem.path_exists():\n"
-                                        f"File Found - {Path[x]}\n") 
-                        return True
+                                        f"File Exists - {Path[x]}\n") 
+                        ## AT COMPLETION
+                        if x+1 == len(Path):
+                            if debug and all_paths_exists:
+                                print("All Paths Exist")
+                            return True
+                    ## IF PATHS ARE NOT FILES.....
                     else:
+                        ## IF PATHS ARE DIRS && EXIST
                         if os.path.isdir(Path[x]):
+                            ## DEBUG: DIRS EXIST
                             if debug:
                                 print("\nneed4swede.filesystem.path_exists():\n"
-                                            f"Directory Found - {Path[x]}\n") 
+                                            f"Directory Exists - {Path[x]}\n") 
+                            if x+1 == len(Path):
+                                if debug and all_paths_exists:
+                                    print("All Paths Exist")
+                                return True
+                        ## IF PATH DOES NOT EXIST....
+                        else:
+                            ## ALL PATHS WERE NOT FOUND
+                            all_paths_exists = False
+                            ## IF MAKE IS ENABLED AND PATH IS NOT A FILENAME
+                            if Make and not "." in Path[x]:
+                                ## CREATE THE DIRECTORY
+                                os.makedirs(Path[x])
+                                ## DEBUG: DIR CREATED
+                                if debug:
+                                    print("\nneed4swede.filesystem.path_exists():\n"
+                                            f"Created Dir - {Path[x]}\n")
+                                if x+1 == len(Path):
+                                    return True
+                            ## IF MAKE IS ENABLED AND PATH IS A FILENAME
+                            elif Make:
+                                ## CREATE THE FILE
+                                open(Path[x], 'x')
+                                ## DEBUG: FILE CREATED
+                                if debug:
+                                    print("\nneed4swede.filesystem.path_exists():\n"
+                                            f"Created File - {Path[x]}\n")
+                                if x+1 == len(Path):
+                                    return True
+                            ## IF MAKE IS DISABLED
+                            else:
+                                if debug:
+                                    print("\nneed4swede.filesystem.path_exists():\n"
+                                            f"Does Not Exist - {Path[x]}\n")
+                                return False
+            ## IF PATH IS A SINGLE STRING
+            else:
+                ## IF PATH IS A FILE && EXISTS
+                if os.path.isfile(Path):
+                    ## DEBUG: FILE EXISTS
+                    if debug:
+                        print("\nneed4swede.filesystem.path_exists():\n"
+                                    f"File Exists - {Path}\n") 
+                    return True
+                ## IF PATH IS NOT A FILE......
+                else:
+                    ## IF PATH IS A DIR && EXISTS
+                    if os.path.isdir(Path):
+                        ## DEBUG: DIR EXISTS
+                        if debug:
+                            print("\nneed4swede.filesystem.path_exists():\n"
+                                        f"Directory Exists - {Path}\n") 
+                        return True
+                    ## IF PATH DOES NOT EXIST....
+                    else:
+                        ## ALL PATHS WERE NOT FOUND
+                        all_paths_exists = False
+                        ## IF MAKE IS ENABLED AND PATH IS NOT A FILENAME
+                        if Make and not "." in Path:
+                            ## CREATE THE DIRECTORY
+                            os.makedirs(Path)
+                            ## DEBUG: DIR CREATED
+                            if debug:
+                                print("\nneed4swede.filesystem.path_exists():\n"
+                                        f"Created - {Path}\n")
                             return True
+                        ## IF MAKE IS ENABLED AND PATH IS A FILENAME
+                        elif Make:
+                            ## CREATE THE FILE
+                            open(Path, 'x')
+                            ## DEBUG: FILE CREATED
+                            if debug:
+                                print("\nneed4swede.filesystem.path_exists():\n"
+                                        f"Created File - {Path}\n")
+                            return True
+                        ## IF MAKE IS DISABLED
                         else:
                             if debug:
                                 print("\nneed4swede.filesystem.path_exists():\n"
-                                        f"Not Found - {Path[x]}\n") 
+                                        f"Does Not Exist - {Path}\n") 
                             return False
-            else:
-                if os.path.isfile(Path):
-                    if debug:
-                        print("\nneed4swede.filesystem.path_exists():\n"
-                                    f"File Found - {Path}\n") 
-                    return True
-                else:
-                    if os.path.isdir(Path):
-                        if debug:
-                            print("\nneed4swede.filesystem.path_exists():\n"
-                                        f"Directory Found - {Path}\n") 
-                        return True
-                    else:
-                        if debug:
-                            print("\nneed4swede.filesystem.path_exists():\n"
-                                    f"Not Found - {Path}\n") 
-                        return False
+        ## PATH != LIST OR STR
         except Exception:
             return print("\nneed4swede.filesystem.path_exists():\n"
-                                    f"Path no a list or str - {Path}\n") 
+                                    f"Path not a list or str - {Path}\n") 
 
     ## REMOVE DIRECTORIES
     def remove_dir(Dir: Path, debug: bool=False):
