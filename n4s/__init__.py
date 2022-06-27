@@ -23,26 +23,30 @@ class fs():
                 if not os.path.isdir(Dirs[x]):
                     os.makedirs(Dirs[x])
                     if debug:
-                        print("\nneed4swede.filesystem.make_dir():\n"
+                        print("\nn4s.fs.make_dir():\n"
                                 f"Created - {Dirs[x]}\n") 
                 else:
                     if debug:
-                        print("\nneed4swede.filesystem.make_dir():\n"
+                        print("\nn4s.fs.make_dir():\n"
                                 f"Does Not Exist - {Dirs[x]}\n")
         elif type(Dir) == str:
             if not os.path.isdir(Dir):
                 os.makedirs(Dir)
                 if debug:
-                    return print("\nneed4swede.filesystem.make_dir():\n"
+                    return print("\nn4s.fs.make_dir():\n"
                                 f"Created - {Dir}\n") 
             else:
                 if debug:
-                    return print("\nneed4swede.filesystem.make_dir():\n"
+                    return print("\nn4s.fs.make_dir():\n"
                                 f"Does Not Exist - {Dir}\n")
 
     ## CHECK IF PATH EXISTS
     def path_exists(Path: Path, Make: bool=False, debug: bool=False):
-
+        '''
+        Path: Path to directories/files (str or list)
+        Make: Create directory/file if it does not exist (boolean)
+        debug: (boolean)
+        '''
         ## CATCH ERROR
         try:
             
@@ -56,7 +60,7 @@ class fs():
                     if os.path.isfile(Path[x]):
                         ## DEBUG: FILES EXIST
                         if debug:
-                            print("\nneed4swede.filesystem.path_exists():\n"
+                            print("\nn4s.fs.path_exists():\n"
                                         f"File Exists - {Path[x]}\n") 
                         ## AT COMPLETION
                         if x+1 == len(Path):
@@ -69,7 +73,7 @@ class fs():
                         if os.path.isdir(Path[x]):
                             ## DEBUG: DIRS EXIST
                             if debug:
-                                print("\nneed4swede.filesystem.path_exists():\n"
+                                print("\nn4s.fs.path_exists():\n"
                                             f"Directory Exists - {Path[x]}\n") 
                             if x+1 == len(Path):
                                 if debug and all_paths_exists:
@@ -85,7 +89,7 @@ class fs():
                                 os.makedirs(Path[x])
                                 ## DEBUG: DIR CREATED
                                 if debug:
-                                    print("\nneed4swede.filesystem.path_exists():\n"
+                                    print("\nn4s.fs.path_exists():\n"
                                             f"Created Dir - {Path[x]}\n")
                                 if x+1 == len(Path):
                                     return True
@@ -95,14 +99,14 @@ class fs():
                                 open(Path[x], 'x')
                                 ## DEBUG: FILE CREATED
                                 if debug:
-                                    print("\nneed4swede.filesystem.path_exists():\n"
+                                    print("\nn4s.fs.path_exists():\n"
                                             f"Created File - {Path[x]}\n")
                                 if x+1 == len(Path):
                                     return True
                             ## IF MAKE IS DISABLED
                             else:
                                 if debug:
-                                    print("\nneed4swede.filesystem.path_exists():\n"
+                                    print("\nn4s.fs.path_exists():\n"
                                             f"Does Not Exist - {Path[x]}\n")
                                 return False
             ## IF PATH IS A SINGLE STRING
@@ -111,7 +115,7 @@ class fs():
                 if os.path.isfile(Path):
                     ## DEBUG: FILE EXISTS
                     if debug:
-                        print("\nneed4swede.filesystem.path_exists():\n"
+                        print("\nn4s.fs.path_exists():\n"
                                     f"File Exists - {Path}\n") 
                     return True
                 ## IF PATH IS NOT A FILE......
@@ -120,7 +124,7 @@ class fs():
                     if os.path.isdir(Path):
                         ## DEBUG: DIR EXISTS
                         if debug:
-                            print("\nneed4swede.filesystem.path_exists():\n"
+                            print("\nn4s.fs.path_exists():\n"
                                         f"Directory Exists - {Path}\n") 
                         return True
                     ## IF PATH DOES NOT EXIST....
@@ -133,7 +137,7 @@ class fs():
                             os.makedirs(Path)
                             ## DEBUG: DIR CREATED
                             if debug:
-                                print("\nneed4swede.filesystem.path_exists():\n"
+                                print("\nn4s.fs.path_exists():\n"
                                         f"Created - {Path}\n")
                             return True
                         ## IF MAKE IS ENABLED AND PATH IS A FILENAME
@@ -142,48 +146,50 @@ class fs():
                             open(Path, 'x')
                             ## DEBUG: FILE CREATED
                             if debug:
-                                print("\nneed4swede.filesystem.path_exists():\n"
+                                print("\nn4s.fs.path_exists():\n"
                                         f"Created File - {Path}\n")
                             return True
                         ## IF MAKE IS DISABLED
                         else:
                             if debug:
-                                print("\nneed4swede.filesystem.path_exists():\n"
+                                print("\nn4s.fs.path_exists():\n"
                                         f"Does Not Exist - {Path}\n") 
                             return False
         ## PATH != LIST OR STR
         except Exception:
-            return print("\nneed4swede.filesystem.path_exists():\n"
-                                    f"Path not a list or str - {Path}\n") 
+            return print("\nn4s.fs.path_exists():\n"
+                                    f"Invalid Input - {Path}\n"
+                                    "Make sure path is type(list) or type(string), "
+                                    "and that parent directories are created before nesting files\n") 
 
     ## REMOVE DIRECTORIES
-    def remove_dir(Dir: Path, debug: bool=False):
+    def remove_dir(Directory: Path, debug: bool=False):
         '''
-        Dir: Path to directories
+        Directory: Path to directories
         debug: (boolean)
         '''
-        if type(Dir) == list:
-            Dirs = Dir
+        if type(Directory) == list:
+            Dirs = Directory
             for x in range(len(Dirs)):
                 if os.path.isdir(Dirs[x]):
                     shutil.rmtree(Dirs[x])
                     if debug:
-                        print("\nneed4swede.filesystem.remove_dir():\n"
+                        print("\nn4s.fs.remove_dir():\n"
                                 f"Removed - {Dirs[x]}\n") 
                 else:
                     if debug:
-                        print("\nneed4swede.filesystem.remove_dir():\n"
+                        print("\nn4s.fs.remove_dir():\n"
                                 f"Does Not Exist - {Dirs[x]}\n")
-        elif type(Dir) == str:
-            if os.path.isdir(Dir):
-                shutil.rmtree(Dir)
+        elif type(Directory) == str:
+            if os.path.isdir(Directory):
+                shutil.rmtree(Directory)
                 if debug:
-                    return print("\nneed4swede.filesystem.remove_dir():\n"
-                                f"Removed - {Dir}\n") 
+                    return print("\nn4s.fs.remove_dir():\n"
+                                f"Removed - {Directory}\n") 
             else:
                 if debug:
-                    return print("\nneed4swede.filesystem.remove_dir():\n"
-                                f"Does Not Exist - {Dir}\n")
+                    return print("\nn4s.fs.remove_dir():\n"
+                                f"Does Not Exist - {Directory}\n")
 
     ## REMOVE FILES
     def remove_file(File: Path, debug: bool=False):
@@ -197,25 +203,25 @@ class fs():
                 if os.path.isfile(Files[x]):
                     os.remove(Files[x])
                     if debug:
-                        print("\nneed4swede.filesystem.remove_file():\n"
+                        print("\nn4s.fs.remove_file():\n"
                                 f"Removed - {Files[x]}\n") 
                 else:
                     if debug:
-                        print("\nneed4swede.filesystem.remove_file():\n"
+                        print("\nn4s.fs.remove_file():\n"
                                 f"Does Not Exist - {Files[x]}\n")
         elif type(File) == str:
             if os.path.isfile(File):
                 os.remove(File)
                 if debug:
-                    return print("\nneed4swede.filesystem.remove_file():\n"
+                    return print("\nn4s.fs.remove_file():\n"
                                 f"Removed - {File}\n") 
             else:
                 if debug:
-                    return print("\nneed4swede.filesystem.remove_file():\n"
+                    return print("\nn4s.fs.remove_file():\n"
                                 f"Does Not Exist - {File}\n")
 
     ## FIND DIRECTORIES (ROOT == USER)
-    def root_dir(Dir: str='user', debug: bool=False):
+    def root(Dir: str='user', debug: bool=False):
         if Dir == 'applications' or Dir == 'apps':
             if platform.system() == 'Darwin':
                 if debug:
@@ -323,7 +329,7 @@ class strgs():
             return filtered_Text.strip()
         except Exception:
             if debug:
-                return print("\nneed4swede.string.filter_text()\nOperation Failed\n")
+                return print("\nn4s.string.filter_text()\nOperation Failed\n")
 
     ## SHORTENS TEXT TO A SET LIMIT
     def shorten_text(text: str, length: int, debug: bool=False, suffix: str='...'):
@@ -361,7 +367,7 @@ class strgs():
                 return ' '.join(text[:length+1].split(' ')[0:-1]) + suffix
         ## ERROR
         except Exception:
-            return print("\nneed4swede.string.shorten_text():\nOperation Failed - Enable debug for more info\n")
+            return print("\nn4s.string.shorten_text():\nOperation Failed - Enable debug for more info\n")
 
 ## TERMINAL COMMANDS
 class term():
@@ -393,9 +399,8 @@ class term():
 class web():
 
     ## CREATE WEB FILES
-    def build_html(Directory: Path=fs.root_dir(), onefile: bool=False, debug: bool=False):
-        if not Directory == fs.root_dir():
-            fs.make_dir(Directory)
+    def build_html(Directory: Path, onefile: bool=False, debug: bool=False):
+        pass
 
     ## MERGE HTML/CSS/JS INTO ONE HTML FILE
     def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool=False, filename: str='index'):
@@ -420,7 +425,7 @@ class web():
             soup = BeautifulSoup(html_file, features='lxml')
         except FileNotFoundError:
             if debug:
-                return print('\nneed4swede.web.merge_html():\nHTML File Not Found - Files Not Merged\n')
+                return print('\nn4s.web.merge_html():\nHTML File Not Found - Files Not Merged\n')
             else:
                 return
 
@@ -435,7 +440,7 @@ class web():
                     css_file = Path(f'{CSS}').read_text(encoding="utf-8")
                 except FileNotFoundError:
                     if debug:
-                        return print('\nneed4swede.web.merge_html():\nCSS File Not Found - Files Not Merged\n')
+                        return print('\nn4s.web.merge_html():\nCSS File Not Found - Files Not Merged\n')
                     else:
                         return
 
@@ -455,7 +460,7 @@ class web():
                     js_file = Path(f'{JS}').read_text(encoding="utf-8")
                 except FileNotFoundError:
                     if debug:
-                        return print('\nneed4swede.web.merge_html():\nJS File Not Found - Files Not Merged\n')
+                        return print('\nn4s.web.merge_html():\nJS File Not Found - Files Not Merged\n')
                     else:
                         return
 
@@ -490,7 +495,7 @@ class web():
                 outfile.write(str(soup))
         except Exception:
             if debug:
-                return print('\nneed4swede.web.merge_html():\nHTML/CSS/JS Files Were Found\nBut Failed to Merge')
+                return print('\nn4s.web.merge_html():\nHTML/CSS/JS Files Were Found\nBut Failed to Merge')
             else:
                 return
         
