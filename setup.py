@@ -5,8 +5,14 @@ setuptools.setup(
     version='1.0',
     author='Mike Afshari',
     author_email='theneed4swede@gmail.com',
-    description='Need4Swede',
+    description='Collection of useful methods by Need4Swede',
     url='https://github.com/n4s/n4s',
     license='MIT',
-    packages=['n4s'],
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
 )
