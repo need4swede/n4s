@@ -1,20 +1,25 @@
 import re
 
 ## REMOVES CHARACTERS FROM TEXT
-def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False):
+def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False, Print: bool=False):
     '''
     Input: input string (str)
-    Casing: 'default', 'lower', 'upper', 'title', 'camel' (str)
+    Casing: 'default', 'lower', 'upper', 'title', 'camel', 'spongebob' (str)
+    Print: prints output to terminal
     Remove_Spaces: removes spaces between words (boolean)
     '''
+    
     ## REMOVE SPECIAL CHARACTERS FROM STRING
     clean = re.sub(r"[^a-zA-Z0-9 ,*\u2019-]+"," ",Input).strip()
+    
     ## CONVERT TO LOWERCASE
     if Casing == "lower":
         clean = clean.lower()
+    
     ## CONVERT TO UPPERCASE
     elif Casing == "upper":
         clean = clean.upper()
+    
     ## CONVERT TO TITLECASE
     elif Casing == "title":
         if len(clean) > 0:
@@ -38,11 +43,17 @@ def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False):
         if len(clean) > 0:
             clean = s[0] + ''.join(i.capitalize() for i in s[1:])
     
+    ## CONVERT TO MOCKING SPONGEBOB MEME
+    elif Casing == "spongebob":
+        clean = ''.join([x.lower() if i%2 else x.upper() for i,x in enumerate(clean)])
+
     ## REMOVE SPACES
     if Remove_Spaces:
         clean = clean.replace(" ", "")
     
     ## RETURN
+    if Print:
+        print(clean.strip())
     return clean.strip()
 
 ## FILTER A LIST OF WORDS FROM STRING
