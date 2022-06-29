@@ -57,7 +57,7 @@ def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False, Pri
     return clean.strip()
 
 ## FILTER A LIST OF WORDS FROM STRING
-def filter_text(Text: str, Filter: list, debug: bool=False):
+def filter_text(Text: str, Filter: list, Print: bool=False, debug: bool=False):
     '''
     ARGUMENTS
     - Text: input text (str)
@@ -70,10 +70,67 @@ def filter_text(Text: str, Filter: list, debug: bool=False):
     try:
         clean = re.compile('|'.join(map(re.escape, Filter)))
         filtered_Text = clean.sub("", Text).replace('  ', ' ')
+        if Print:
+            print(filtered_Text.strip())
         return filtered_Text.strip()
     except Exception:
         if debug:
             return print("\nn4s.string.filter_text()\nOperation Failed\n")
+
+## REPLACE TEXT
+def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False):
+    # if debug:
+        #     return print("\nn4s.strgs.replace_text():\n"
+        #                     f"Arg (Replace) needs to be a list! You entered: {Replace}\n")
+    '''
+    Text: input string (str)
+    Replace: string or list of strings to replace
+    Replacement: replacement string
+    Print: prints output to terminal
+    debug: (boolean)
+    '''
+
+    ## INPUT VALIDATION
+    error_msg = 'Invalid input!'
+    invalid_input = ("\nn4s.strgs.replace_text(): "
+                        f"{error_msg}"
+                        f"\n{type(Text)} / {type(Replace)} / {type(Replacement)}\n"
+                        f"{Text} / {Replace} / {Replacement}\n")
+    
+    ## REPLACING A SINGLE SUBSTRING WITH A STRING
+    if type(Replace) == str and type(Replacement) == str:
+        replaced_text = Text.replace(Replace, Replacement).strip()
+
+    ## REPLACING A SINGLE SUBSTRING WITH A LIST OF STRINGS
+    elif type(Replace) == str and type(Replacement) == list:
+        pass
+
+    ## REPLACING A LIST OF SUBSTRINGS WITH A STRING
+    elif type(Replace) == list and type(Replacement) == str:
+        try:
+            replaced_text = re.sub('|'.join(Replace), Replacement, Text).strip()
+        except TypeError:
+            return print(invalid_input)
+    
+    ## REPLACING A LIST OF SUBSTRINGS WITH A LIST OF STRINGS
+    elif type(Replace) == list and type(Replacement) == list:
+        try:
+            for i in range(len(Replace)):
+                Text = Text.replace(Replace[i], Replacement[i])
+        except IndexError:
+            return print(invalid_input)
+        replaced_text = Text.strip()
+
+    ## INVALID INPUT
+    else:
+        return invalid_input
+    
+    ## IF PRINT IS ENABLED
+    if Print:
+        print(replaced_text)
+    
+    ## RETURN
+    return replaced_text
 
 ## SHORTENS TEXT TO A SET LIMIT
 def shorten_text(text: str, length: int, debug: bool=False, suffix: str='...'):
@@ -107,3 +164,6 @@ def shorten_text(text: str, length: int, debug: bool=False, suffix: str='...'):
     ## ERROR
     except Exception:
         return print("\nn4s.string.shorten_text():\nOperation Failed - Enable debug for more info\n")
+
+
+## TESTS
