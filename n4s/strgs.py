@@ -1,3 +1,4 @@
+from dataclasses import replace
 import re
 
 ## REMOVES CHARACTERS FROM TEXT
@@ -78,7 +79,7 @@ def filter_text(Text: str, Filter: list, Print: bool=False, debug: bool=False):
             return print("\nn4s.string.filter_text()\nOperation Failed\n")
 
 ## REPLACE TEXT
-def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False):
+def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False, Case_Sensitive: bool=False):
     # if debug:
         #     return print("\nn4s.strgs.replace_text():\n"
         #                     f"Arg (Replace) needs to be a list! You entered: {Replace}\n")
@@ -99,16 +100,27 @@ def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False):
     
     ## REPLACING A SINGLE SUBSTRING WITH A STRING
     if type(Replace) == str and type(Replacement) == str:
-        replaced_text = Text.replace(Replace, Replacement).strip()
+        if Case_Sensitive:
+            replaced_text = Text.replace(Replace, Replacement).strip()
+        else:
+            replaced_text = re.sub(Replace, Replacement, Text, flags=re.IGNORECASE)
 
     ## REPLACING A SINGLE SUBSTRING WITH A LIST OF STRINGS
     elif type(Replace) == str and type(Replacement) == list:
-        pass
+        # indexes = [(m.start(), m.end()) for m in re.finditer(str(Replace), Text)]
+        # for i in range(len(indexes)):
+        #     print(f"Word: {Text[indexes[i][0]:indexes[i][1]]} | Position: {indexes[i]}")
+        for i in range(len(Replacement)):
+            Text = Text.replace(Replace, Replacement[i], 1)
+        replaced_text = Text.strip()
 
     ## REPLACING A LIST OF SUBSTRINGS WITH A STRING
     elif type(Replace) == list and type(Replacement) == str:
         try:
-            replaced_text = re.sub('|'.join(Replace), Replacement, Text).strip()
+            if Case_Sensitive:
+                replaced_text = re.sub('|'.join(Replace), Replacement, Text).strip()
+            else:
+                replaced_text = re.sub('|'.join(Replace), Replacement, Text, flags=re.IGNORECASE).strip()
         except TypeError:
             return print(invalid_input)
     
@@ -116,7 +128,10 @@ def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False):
     elif type(Replace) == list and type(Replacement) == list:
         try:
             for i in range(len(Replace)):
-                Text = Text.replace(Replace[i], Replacement[i])
+                if Case_Sensitive:
+                    Text = Text.replace(Replace[i], Replacement[i])
+                else:
+                    Text = re.sub(Replace[i], Replacement[i], Text, flags=re.IGNORECASE)
         except IndexError:
             return print(invalid_input)
         replaced_text = Text.strip()
@@ -130,7 +145,7 @@ def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False):
         print(replaced_text)
     
     ## RETURN
-    return replaced_text
+    return replaced_text.strip()
 
 ## SHORTENS TEXT TO A SET LIMIT
 def shorten_text(text: str, length: int, debug: bool=False, suffix: str='...'):
