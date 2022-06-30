@@ -78,6 +78,95 @@ def filter_text(Text: str, Filter: list, Print: bool=False, debug: bool=False):
         if debug:
             return print("\nn4s.string.filter_text()\nOperation Failed\n")
 
+## FIND INDEXES OF TEXT
+def find_text(Text: str, Find: list, Print_Words: bool=False, Case_Sensitive: bool=False):
+    '''
+    Text: input text
+    Find: search parameter
+    Print_Words: print findings to terminal
+    Case_Sensitive: limit search to match case
+    '''
+    ## CAPTURE INPUT ARGS
+    casing_Text = Text
+    casing_Find = Find
+
+    ## IF CASE-INSENSITIVE
+    if not Case_Sensitive:
+
+        ## CONVERT ARGS TO LOWERCASE
+        Text = Text.lower()
+        if type(Find) == str:
+            Find = str(Find).lower()
+        elif type(Find) == list:
+            for i in range(len(Find)):
+                Find[i] = Find[i].lower()
+    
+    ## FINDING A SINGLE STRING
+    if type(Find) == str:
+
+        ## CASE SENSITIVE: DISABLED
+        if not Case_Sensitive:
+            ## GET INDEXES OF STRING WITHIN INPUT TEXT
+            indexes = [(m.start(), m.end()) for m in re.finditer(str(Find), Text)]
+        
+        ## CASE SENSITIVE: ENABLED
+        else:
+            ## GET INDEXES OF STRING WITHIN INPUT TEXT
+            indexes = [(m.start(), m.end()) for m in re.finditer(str(casing_Find), Text)]
+        
+        ## PRINT WORDS: ENABLED
+        if Print_Words:
+            for i in range(len(indexes)):
+                if not Case_Sensitive:
+                    print(f"Text: {casing_Text[indexes[i][0]:indexes[i][1]]} | Position: {indexes[i]}")
+                else:
+                    print(f"Text: {Text[indexes[i][0]:indexes[i][1]]} | Position: {indexes[i]}")
+        
+        ## ERROR MSG
+        if len(indexes) < 1:
+            return print(f"\nn4s.strgs.find_text():\n"
+                                f"Can't find '{Find}' within input "
+                                f"'{shorten_text(Text, 25)}'\n")
+        
+        ## IF STRING ONLY APPEARS ONCE
+        if len(indexes) == 1:
+            return indexes[0]
+        
+        ## IF STRING OCCURS MULTIPLE TIMES
+        return indexes
+    
+    ## FINDING A LIST OF STRINGS
+    elif type(Find) == list:
+        
+        ## CREATE INDEX ARRAY
+        index_list = []
+
+        ## ITERATE OVER SEARCH LIST
+        for i in range(len(Find)):
+
+            ## GET INDEXES OF STRINGS WITHIN INPUT TEXT
+            indexes = [(m.start(), m.end()) for m in re.finditer(Find[i], Text)]
+
+            ## APPEND INDEX ARRAY
+            try:
+                index_list.append(indexes)
+            
+            ## ERROR MSG
+            except IndexError:
+                return print(f"\nn4s.strgs.find_text():\n"
+                                f"Can't find '{Find[i]}' from list {Find}\n"
+                                f"within input '{shorten_text(Text, 25)}'\n")
+            
+            ## PRINT WORDS: ENABLED
+            if Print_Words:
+                if not Case_Sensitive:
+                    print(f"Text: {casing_Text[indexes[0][0]:indexes[0][1]]} | Position: {indexes[0]}")
+                else:
+                    print(f"Text: {Find[i]} | Position: {indexes[0]}")
+        
+        ## RETURN INDEX ARRAY
+        return index_list
+
 ## REPLACE TEXT
 def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False, Case_Sensitive: bool=False):
     # if debug:
