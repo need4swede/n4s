@@ -1,4 +1,4 @@
-import os, shutil, re, base64, warnings
+import os, shutil, re, base64, warnings, webbrowser
 import http.client as httplib
 from n4s import fs
 from bs4 import BeautifulSoup
@@ -10,7 +10,7 @@ category=UserWarning, module='bs4')
 
 
 ## CREATE WEB FILES
-def build_html(Directory: Path=fs.root('desktop'), onefile: bool=False, Template: str='default', debug: bool=False):
+def build_html(Directory: Path=fs.root('desktop'), onefile: bool=False, Design: str='default', debug: bool=False):
         
         ## DIRECTORIES
         index_dir = f"{Directory}/index"
@@ -22,17 +22,11 @@ def build_html(Directory: Path=fs.root('desktop'), onefile: bool=False, Template
         html_file = f"{index_dir}/index.html"
         css_file = f"{css_dir}/style.css"
         js_file = f"{js_dir}/script.js"
-
-        ## CREATE DIRECTORIES AND FILES
-        fs.path_exists([index_dir, assets_dir,
-            css_dir,
-            js_dir,
-            html_file,
-            css_file,
-            js_file
-        ], True)
         
-        if Template == 'default':
+        Design = Design.lower()
+        ###### TEMPLATES #############
+        ## DEFAULT                   #
+        if Design == 'default':      
             ## HTML - DEFAULT TEMPALTE
             html_string = '''
 <!DOCTYPE html>
@@ -409,7 +403,74 @@ template {
             js_string = '''
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
 '''
-    
+        ## IFRAME                    #
+        if Design == 'iframe':    
+          ## HTML - IFRAME
+          html_string = '''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+    <title>Document</title>
+</head>
+<body>
+    <iframe src="https://www.mafshari.work/websites/simplicity" frameborder="0" 
+    marginheight="0" 
+    marginwidth="0" 
+    width="100%" 
+    height="100%" 
+    scrolling="auto"></iframe>
+</body>
+</html>
+'''
+          
+          ## CSS - IFRAME
+          css_string = '''
+html 
+{
+ overflow: auto;
+}
+ 
+html, body, div, iframe 
+{
+ margin: 0px; 
+ padding: 0px; 
+ height: 100%; 
+ border: none;
+}
+iframe 
+{
+ display: block; 
+ width: 100%; 
+ border: none; 
+ overflow-y: auto; 
+ overflow-x: hidden;
+}
+'''
+          
+          ## JS - IFRAME
+          js_string = '''
+console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
+'''
+        ## APPLE - PODCAST REPORT    #
+        if Design == 'applepodcastreport' or Design == 'apr':
+          print('\nDownloading Apple Podcast Report...')
+          webbrowser.get().open("https://drive.google.com/u/1/uc?id=1j94f4z5vnqBTEc9S-yOOPjIiIkowOPqH&export=download", new=1, autoraise=True)
+          return print(f'Done: {Directory}/applepodcast_report.zip')
+        ##############################
+
+        ## CREATE DIRECTORIES AND FILES
+        fs.path_exists([index_dir, assets_dir,
+            css_dir,
+            js_dir,
+            html_file,
+            css_file,
+            js_file
+        ], True)
+
         ## OUTPUT HTML FILE
         with open(html_file, 'w') as htmlFile:
             htmlFile.write(html_string)
@@ -573,3 +634,6 @@ def strip_tags(Input: str):
         '''
         clean = re.compile('<.*?>')
         return re.sub(clean, '', Input).strip()
+
+
+## TESTS
