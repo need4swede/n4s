@@ -1,4 +1,4 @@
-import os, shutil, re, base64, warnings, webbrowser
+import os, shutil, re, base64, warnings, webbrowser, requests
 import http.client as httplib
 from n4s import fs
 from bs4 import BeautifulSoup
@@ -10,7 +10,7 @@ category=UserWarning, module='bs4')
 
 
 ## CREATE WEB FILES
-def build_html(Directory: Path=fs.root('desktop'), onefile: bool=False, Design: str='default', debug: bool=False):
+def build_html(Design: str='default', onefile: bool=False, Directory: Path=fs.root('desktop'), debug: bool=False):
         
         ## DIRECTORIES
         index_dir = f"{Directory}/index"
@@ -458,8 +458,66 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
         ## APPLE - PODCAST REPORT    #
         if Design == 'applepodcastreport' or Design == 'apr':
           print('\nDownloading Apple Podcast Report...')
-          webbrowser.get().open("https://drive.google.com/u/1/uc?id=1j94f4z5vnqBTEc9S-yOOPjIiIkowOPqH&export=download", new=1, autoraise=True)
-          return print(f'Done: {Directory}/applepodcast_report.zip')
+          return webbrowser.get().open("https://drive.google.com/u/1/uc?id=1j94f4z5vnqBTEc9S-yOOPjIiIkowOPqH&export=download", new=1, autoraise=True)
+        ## BARCODE GENERATOR
+        if Design == 'barcodegenerator' or Design == 'barcode':
+        ## HTML - IFRAME
+          html_string = '''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+    <title>N4S - Barcode Generator</title>
+</head>
+<body>
+    <iframe src="https://barcode-maker.netlify.app/generator/" frameborder="0" 
+    marginheight="0" 
+    marginwidth="0" 
+    width="100%" 
+    height="100%" 
+    scrolling="auto"></iframe>
+</body>
+</html>
+'''
+          
+          ## CSS - IFRAME
+          css_string = '''
+html 
+{
+ overflow: auto;
+}
+ 
+html, body, div, iframe 
+{
+ margin: 0px; 
+ padding: 0px; 
+ height: 100%; 
+ border: none;
+}
+iframe 
+{
+ display: block; 
+ width: 100%; 
+ border: none; 
+ overflow-y: auto; 
+ overflow-x: hidden;
+}
+'''
+          
+          ## JS - IFRAME
+          js_string = '''
+console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
+'''
+        ## BARCODE GENERATOR - DOWNLOAD
+        if Design == 'barcodegenerator-dl' or Design == 'barcode-dl':
+          print('\nDownloading Barcode Generator...')
+          url = "https://drive.google.com/uc?export=download&id=1QQqCM0OdD1GhuIKv7lsxVa7ItBsj3VE8"
+          r = requests.get(url, allow_redirects=True)
+          open(f"{Directory}/barcode_generator.zip", 'wb').write(r.content)
+          return print(f'Done: {Directory}/barcode_generator.zip')
         ##############################
 
         ## CREATE DIRECTORIES AND FILES
@@ -584,7 +642,7 @@ def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool
                 return print('\nn4s.web.merge_html():\nHTML/CSS/JS Files Were Found\nBut Failed to Merge')
             else:
                 return
-        
+
         ## REMOVE PREVIOUS FILES
         if os.path.isdir(f"{directory}/assets"):
                 shutil.rmtree(f"{directory}/assets")
@@ -593,12 +651,15 @@ def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool
                 os.remove(f"{directory}/index.html")
             except FileNotFoundError:
                 pass
-        
 
         ## REMOVE PREVIOUS HTML IF ONEFILE == TRUE
         if onefile:
-            if os.path.isdir(f"{directory}/webfiles"):
-                shutil.rmtree(f"{directory}/webfiles")
+          p = Path(directory).absolute()
+          parent_dir = p.parents[0]
+          shutil.move(f"{directory}/index.html", parent_dir)
+          if os.path.isdir(directory):
+            if not directory == fs.root():
+              shutil.rmtree(directory)
 
         if debug:
             return print(f"\n{HTML}\n"
@@ -606,8 +667,7 @@ def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool
                             f"{JS}\n"
                             f"---\n"
                             f"{directory}/{filename}.html")
-        else:
-            return
+        return
 
 ## CHECK FOR WORKING NETWORK CONNECTION
 def network_test():
