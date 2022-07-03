@@ -123,14 +123,15 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                                 "and that parent directories are created before nesting files\n") 
 
 ## READS FILE EXTENSIONS
-def read_format(Input: str, Include_Period: bool=False, Print: bool=False):
+def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Uppercase: bool=False):
 
     ## INCLUDE PERIOD IN FORMAT
     if Include_Period:
-        file_format = f".{Input.split('.')[-1].upper()}"
+        file_format = f".{Input.split('.')[-1]}"
+    
     ## RETURN FORMAT WITHOUT PERIOD
     else:
-        file_format = Input.split('.')[-1].upper()
+        file_format = Input.split('.')[-1]
 
     ## CLEAR SPECIAL CHARACTERS
     if '?' in file_format:
@@ -138,6 +139,10 @@ def read_format(Input: str, Include_Period: bool=False, Print: bool=False):
     if '/' in file_format:
         file_format = file_format.split('/')[0]
     
+    ## IF UPPERCASE == ENABLED
+    if Uppercase:
+        file_format = file_format.upper()
+
     ## PRINT FORMAT TO TERMINAL
     if Print:
         print(file_format)

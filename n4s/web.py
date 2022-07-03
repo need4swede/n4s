@@ -768,18 +768,32 @@ def network_test():
             network_connectivity_test.close()
 
 ## READS FILE EXTENSIONS
-def read_format(Input: str, Include_Period: bool=False, Print: bool=False):
-  if Include_Period:
-    file_format = f".{Input.split('.')[-1].upper()}"
-  else:
-    file_format = Input.split('.')[-1].upper()
-  if '?' in file_format:
-    file_format = file_format.split('?')[0]
-  if '/' in file_format:
-    file_format = file_format.split('/')[0]
-  if Print:
-    print(file_format)
-  return file_format
+def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Uppercase: bool=False):
+    
+    ## INCLUDE PERIOD IN FORMAT
+    if Include_Period:
+        file_format = f".{Input.split('.')[-1]}"
+    
+    ## RETURN FORMAT WITHOUT PERIOD
+    else:
+        file_format = Input.split('.')[-1]
+
+    ## CLEAR SPECIAL CHARACTERS
+    if '?' in file_format:
+        file_format = file_format.split('?')[0]
+    if '/' in file_format:
+        file_format = file_format.split('/')[0]
+    
+    ## IF UPPERCASE == ENABLED
+    if Uppercase:
+        file_format = file_format.upper()
+
+    ## PRINT FORMAT TO TERMINAL
+    if Print:
+        print(file_format)
+
+    ## RETURN FORMAT
+    return file_format
 
 ## STRIP HTML TAGS FROM STRING
 def strip_tags(Input: str):
