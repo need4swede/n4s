@@ -122,6 +122,20 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                                 "Make sure path is type(list) or type(string), "
                                 "and that parent directories are created before nesting files\n") 
 
+## READS FILE EXTENSIONS
+def read_format(Input: str, Include_Period: bool=False, Print: bool=False):
+  if Include_Period:
+    file_format = f".{Input.split('.')[-1].upper()}"
+  else:
+    file_format = Input.split('.')[-1].upper()
+  if '?' in file_format:
+    file_format = file_format.split('?')[0]
+  if '/' in file_format:
+    file_format = file_format.split('/')[0]
+  if Print:
+    print(file_format)
+  return file_format
+
 ## REMOVE DIRECTORIES
 def remove_dir(Directory: Path, debug: bool=False):
     '''
@@ -225,3 +239,6 @@ def root(Dir: str='user', debug: bool=False):
             if debug:
                 print("C:\Windows\System32")
             return "C:\Windows\System32"
+
+
+## TESTS
