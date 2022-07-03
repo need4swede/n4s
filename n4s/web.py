@@ -736,7 +736,10 @@ def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool
         if onefile:
           p = Path(directory).absolute()
           parent_dir = p.parents[0]
-          shutil.move(f"{directory}/index.html", parent_dir)
+          try:
+            shutil.move(f"{directory}/index.html", parent_dir)
+          except FileNotFoundError:
+            pass
           if os.path.isdir(directory):
             if not directory == fs.root():
               shutil.rmtree(directory)
