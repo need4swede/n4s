@@ -706,7 +706,7 @@ def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool
                 tag['src'] = "data:image/png;base64, {}".format(base64_file_content.decode('ascii'))
 
         ## CREATE WEBFILES DIR FOR PREVIOUS FILES
-        os.makedirs(f"{directory}/webfiles")
+        fs.path_exists(f"{directory}/webfiles", True)
 
         ## COPY PREVIOUS FILES TO WEBFILES IF ONEFILE == FALSE
         if not onefile:
