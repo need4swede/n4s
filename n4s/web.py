@@ -627,16 +627,17 @@ def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads
       print(f'Done: {Save_Directory}/{Filename}')
 
 ## MERGE HTML/CSS/JS INTO ONE HTML FILE
-def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool=False, filename: str='index'):
+def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool=False, filename: str='index', remove_webfiles: bool=False):
         '''
         ARGUMENTS
 
-        - HTML: Path to HTML file
-        - CSS: Path to CSS file
-        - JS: Path to JS file
-        - onefile: Only keep output file (bool)
-        - debug: (bool)
-        - filename: output html filename (str)
+        HTML: Path to HTML file
+        CSS: Path to CSS file
+        JS: Path to JS file
+        onefile: Only keep output file (bool)
+        debug: (bool)
+        filename: output html filename (str)
+        remove_webfiles: delete 'webfiles' dir
 
         DESCRIPTION
 
@@ -736,14 +737,17 @@ def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool
         if onefile:
           p = Path(directory).absolute()
           parent_dir = p.parents[0]
-          try:
-            shutil.move(f"{directory}/index.html", parent_dir)
-          except FileNotFoundError:
-            pass
+          shutil.move(f"{directory}/index.html", parent_dir)
           if os.path.isdir(directory):
             if not directory == fs.root():
               shutil.rmtree(directory)
 
+        ## REMOVE WEBFILES DIR IF REMOVE_WEBFILES == ENABLED
+        if remove_webfiles:
+          if fs.path_exists(f"{directory}/webfiles"):
+            shutil.rmtree(f"{directory}/webfiles")
+
+        ## DEBUG: PRINT COMPLETION MESSAGE
         if debug:
             return print(f"\n{HTML}\n"
                             f"{CSS}\n"
