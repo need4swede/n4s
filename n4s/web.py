@@ -546,6 +546,86 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
             merge_html(html_file, css_file, js_file, True, False)
         return
 
+## DOWNLOAD FILES
+def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads'), debug: bool=False):
+  '''
+  URL: (str) to file or (list) of strings to files
+  Filename: Save As... (leave blank to inherit original filename)
+  Save_Directory: Save To... (default = User/Downloads)
+  debug: Print downloads to console
+  '''
+  
+  ## DOWNLOAD A LIST OF FILES
+  if type(URL) == list:
+
+    ## ARRAY OF FILENAMES
+    filenames = []
+
+    ## INITIAL FILENAME
+    Filname_init = Filename
+
+    ## ITERATE THROUGH LIST
+    for link in range(len(URL)):
+
+      ## INITIALIZE FILENAME
+      Filename = Filname_init
+
+      ## READ FILE FORMAT
+      file_format = f".{URL[link].split('.')[-1]}"
+
+      ## DEBUG: PRINT DL MESSAGE
+      if debug:
+        print(f"\nDownloading from {URL[link]}")
+      
+      ## DOWNLOAD FILE
+      r = requests.get(URL[link], allow_redirects=True)
+
+      ## IF NO FILENAME ENTERED, USE ORIGINAL FILENAME FROM WEB
+      if Filename == '':
+        Filename = str(URL[link]).split('/')[-1]
+
+      ## IF FILENAME ENTERED, ADD NUMBERS TO EACH FILE TO DIFFERENTIATE THEM
+      else:
+        Filename = f"{Filename.split(file_format)[0]}({link+1}){file_format}"
+
+      ## APPEND FILENAMES ARRAY
+      filenames.append(Filename)
+
+      ## SAVE FILE TO CHOSEN DIRECTORY
+      open(f"{Save_Directory}/{Filename}", 'wb').write(r.content)
+
+      ## DEBUG: PRINT COMPLETION MESSAGE
+      if debug:
+        print(f'Done: {Save_Directory}/{Filename}')
+  
+  ## DOWNLOAD SINGLE FILE
+  if type(URL) == str:
+    
+    ## READ FILE FORMAT
+    file_format = f".{str(URL).split('.')[-1]}"
+
+    ## DEBUG: PRINT DL MESSAGE
+    if debug:
+      print(f'\nDownloading from [{URL}]')
+    
+    ## DOWNLOAD FILE
+    r = requests.get(URL, allow_redirects=True)
+    
+    ## IF NO FILENAME ENTERED, USE ORIGINAL FILENAME FROM WEB
+    if Filename == '':
+      Filename = str(URL).split("/")[-1]
+    
+    ## IF FILENAME ENTERED, BUT NO EXTENSION SPECIFIED - GET EXTENSION FROM ORIGINAL FILE
+    if not '.' in Filename:
+      Filename = f"{Filename}{file_format}"
+
+    ## SAVE FILE TO CHOSEN DIRECTORY
+    open(f"{Save_Directory}/{Filename}", 'wb').write(r.content)
+
+    ## DEBUG: PRINT COMPLETION MESSAGE
+    if debug:
+      print(f'Done: {Save_Directory}/{Filename}')
+
 ## MERGE HTML/CSS/JS INTO ONE HTML FILE
 def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool=False, filename: str='index'):
         '''

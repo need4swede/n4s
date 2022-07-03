@@ -199,6 +199,10 @@ def root(Dir: str='user', debug: bool=False):
         if debug:
             print(f"{Path.home()}/Documents")
         return f"{Path.home()}/Documents"
+    if Dir == 'downloads' or Dir == 'dl':
+        if debug:
+            print(f"{Path.home()}/Downloads")
+        return f"{Path.home()}/Downloads"
     if Dir == 'user':
         if debug:
             print(Path.home())
