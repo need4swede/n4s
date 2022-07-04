@@ -1,5 +1,27 @@
 import os, platform, shutil
+from appscript import app as app_script, k
+from mactypes import Alias
 from pathlib import Path
+
+## SEND MAIL
+def mail(Subject: str='', Send_To: str='', Body: str='', Attachment: Path=''):
+    if system('is-mac'):
+        mail = app_script('Mail')
+        msg = mail.make(
+            new=k.outgoing_message,
+            with_properties={
+                k.subject: f'{str(Subject)}',
+                k.content: f'{str(Body)}\n\n'})
+        if not Attachment == '':
+            attachment = Path(Attachment)
+            p = Alias(str(attachment)) # convert string/path obj to POSIX/mactypes path
+            msg.content.paragraphs[-1].after.make(new=k.attachment,
+                with_properties={k.file_name: p})
+        msg.make(new=k.to_recipient, 
+            with_properties={k.name: Send_To})
+        msg.activate()
+    else:
+        return print('n4s.fs.mail() - ONLY supports macOS at this moment!')
 
 ## CHECK IF PATH EXISTS
 def path_exists(Path: Path, Make: bool=False, debug: bool=False):
@@ -253,6 +275,92 @@ def root(Dir: str='user', debug: bool=False):
             if debug:
                 print("C:\Windows\System32")
             return "C:\Windows\System32"
+
+## DETECT SYSTEM INFO
+def system(Action: str='info', Print: bool=False):
+    '''
+    os: Returns Operating Sytem
+    info: ['OS', 'Version', 'Processor']
+    python: Python Version
+    '''
+
+    ## CONVERT INPUT TO LOWERCASE
+    Action = Action.lower()
+
+    ## RUN SYSTEM CHECK
+    if 'is-' in Action:
+
+        ## PARAMETERS
+        os_ver = platform.platform().split('-')[0].lower()
+        os_arch = platform.machine().lower()
+        check = False
+
+        ## IF MACOS
+        if Action == 'is-mac' and os_ver == 'macos':
+            check = True
+
+        ## IF WINDOWS
+        if Action == 'is-windows' and os_ver == 'windows':
+            check = True
+
+        ## IF ARM PROCESSOR
+        if Action == 'is-arm' and 'arm' in os_arch:
+            check = True
+
+        ## PRINT TO TERMINAL
+        if Print:
+            print(check)
+
+        ## RETURN
+        return check
+
+    ## SYSTEM INFO
+    else:
+
+        ## RETURNS OPERATING SYSTEM
+        if Action == 'os':
+            if Print:
+                print(platform.platform().split('-')[0])
+            return platform.platform().split('-')[0]
+
+        ## RETURNS ['OS', 'OS-VERSION', 'PROCESSOR']
+        if Action == 'info':
+
+            ## GET INFO
+            version = platform.platform()
+
+            ## GET OS
+            version_os = version.split('-')[0]
+
+            ## GET OS VERSION
+            version_num = version.split('-')[1].replace(f"{version_os}-", '')
+
+            ## IF MACOS...
+            if 'MACOS' in version.upper():
+
+                ## GET PROCESSOR
+                if 'ARM' in version.upper():
+                    version_arch = 'arm64'
+                else:
+                    version_arch = 'Intel'
+
+            ## IF WINDOWS...
+            if 'WINDOWS' in version.upper():
+
+                ## GET PROCESSOR
+                version_arch = platform.machine()
+
+            ## RETURN
+            if Print:
+                print([version_os, version_num, version_arch])
+            return [version_os, version_num, version_arch]
+
+        ## RETURNS PYTHON VERSION
+        if Action == 'python':
+            if Print:
+                print(platform.python_version())
+            return platform.python_version()
+
 
 
 ## TESTS
