@@ -1,5 +1,9 @@
 import os, sys, platform, time
 from n4s import fs, strgs
+from PyQt6 import QtCore#, QtNetwork
+from PyQt6.QtWidgets import QApplication, QStatusBar, QPlainTextEdit, QMenuBar, QMenu, QWidget, QLabel, QLineEdit, QPushButton, QProgressBar, QMessageBox, QFileDialog, QVBoxLayout, QHBoxLayout, QCheckBox
+from PyQt6.QtGui import QIcon, QCursor, QFont, QShortcut, QKeySequence
+from PyQt6.QtCore import Qt, QDir, QCoreApplication, QObject, QRunnable, pyqtSlot, QThreadPool #, QTimer, QUrl, pyqtSignal, QThread
 
 ## CLEAR TERMINAL
 def clear():
@@ -49,14 +53,18 @@ def list_variables(Print_Variable_List: bool=False):
                                         ## READ VARIABLE TYPE
                                         var_type = strgs.clean_text(strgs.filter_text(str(type(var_value)), ['class ']))
 
-                                        ## PRINT: VARIABLE NAME, TYPE AND VALUE
-                                        if Print_Variable_List:
-                                                print(f"Variable | {var_name}\n"
-                                                        f"Type     | {var_type}\n"
-                                                        f"Value    | {var_value}\n")
+                                        ## CHECKS ONLY FOR...
+                                        # INT, FLOAT, STR, LIST, TUPLE, DICT, SET, OBJECT, COMPLEX
+                                        if var_type == 'int' or var_type == 'float' or var_type == 'str' or var_type == 'list' or var_type == 'tuple' or var_type == 'dict' or var_type == 'set' or var_type == 'object' or var_type == 'complex':
 
-                                        ## APPEND OUR VARIABLE LIST
-                                        n4s_var_list.append(var_name)
+                                                ## PRINT: VARIABLE NAME, TYPE AND VALUE
+                                                if Print_Variable_List:
+                                                        print(f"Variable | {var_name}\n"
+                                                                f"Type     | {var_type}\n"
+                                                                f"Value    | {var_value}\n")
+
+                                                ## APPEND OUR VARIABLE LIST
+                                                n4s_var_list.append(var_name)
 
                                 ## EXCLUDE VARIABLES FROM THIS FUNCTION
                                 if var_name == 'Print_Variable_List' or var_name == 'n4s_var_list':
