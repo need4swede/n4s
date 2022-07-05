@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='n4s',
-    version='2.0.0',
+    version='2.1.0',
     author='Mike Afshari',
     author_email='theneed4swede@gmail.com',
     description='Collection of useful methods by Need4Swede',
