@@ -1,9 +1,5 @@
 import os, sys, platform, time
 from n4s import fs, strgs
-from PyQt6 import QtCore#, QtNetwork
-from PyQt6.QtWidgets import QApplication, QStatusBar, QPlainTextEdit, QMenuBar, QMenu, QWidget, QLabel, QLineEdit, QPushButton, QProgressBar, QMessageBox, QFileDialog, QVBoxLayout, QHBoxLayout, QCheckBox
-from PyQt6.QtGui import QIcon, QCursor, QFont, QShortcut, QKeySequence
-from PyQt6.QtCore import Qt, QDir, QCoreApplication, QObject, QRunnable, pyqtSlot, QThreadPool #, QTimer, QUrl, pyqtSignal, QThread
 
 ## CLEAR TERMINAL
 def clear():
