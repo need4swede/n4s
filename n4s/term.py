@@ -38,10 +38,10 @@ def list_variables(Print_Variable_List: bool=False):
                 ## EXCLUDE VARIABLES THAT START WITH '__'
                 if not var_name.startswith('__'):
 
+                        ## GET VALUES
                         try:
-
                                 ## READ VARIABLE VALUE
-                                var_value = eval(var_name)
+                                var_value = __main__.__dict__[var_name]
 
                                 ## EXCLUDE MODULES AND FUNCTIONS
                                 if not str(type(var_value)) == "<class 'module'>" and not str(type(var_value)) == "<class 'function'>":
@@ -61,8 +61,11 @@ def list_variables(Print_Variable_List: bool=False):
                                 ## EXCLUDE VARIABLES FROM THIS FUNCTION
                                 if var_name == 'Print_Variable_List' or var_name == 'n4s_var_list':
                                         pass
+                        
+                        ## ERROR
                         except Exception:
-                                pass
+                                return print("\nn4s.term.list_variables():\n"
+                                        f"Unable to process request\n")
         
         ## PRINT: VARIABLE LIST TO TERMINAL
         if Print_Variable_List:
