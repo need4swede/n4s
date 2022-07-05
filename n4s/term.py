@@ -24,6 +24,8 @@ def list_variables(Print_Variable_List: bool=False):
         Returns a list of user defined variables
         '''
 
+        import __main__
+
         ## NEWLINE
         print()
 
@@ -31,7 +33,7 @@ def list_variables(Print_Variable_List: bool=False):
         n4s_var_list = []
 
         ## ITERATE THROUGH GLOBAL VARIABLES AND READ VARIABLE NAMES
-        for var_name in globals():
+        for var_name in __main__.__dict__:
 
                 ## EXCLUDE VARIABLES THAT START WITH '__'
                 if not var_name.startswith('__'):
