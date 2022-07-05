@@ -610,4 +610,3 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
-mail('RE: Doob Daaaaaab', 'doobdaab@hotmail.com', Attachment='/Users/afshari/Desktop/file.txt')
