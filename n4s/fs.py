@@ -6,9 +6,11 @@ from subprocess import call
 from n4s import strgs
 
 ## COPY FILES
-def copy_file(Source: Path, Destination: Path='', debug: bool=False):
+def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: bool=False):
     '''
-    File: Path to files
+    Source: path to file(s)
+    Destination: path to place copied file(s)
+    overwrite: (boolean), enable to overwrite existing files
     debug: (boolean)
     '''
 
@@ -22,13 +24,22 @@ def copy_file(Source: Path, Destination: Path='', debug: bool=False):
     if type(Source) == list:
 
         ## PASS EACH ITEM IN LIST TO FUNCTION
-        for x in range(len(Source)):
-            copy_file(Source[x], Destination)
+        if overwrite: ## OVERWRITE ENABLED
+            for x in range(len(Source)):
+                copy_file(Source[x], Destination, True)
 
-            ## DEBUG: PRINT COMPLETION MESSAGE
-            if debug:
-                print("\nn4s.fs.copy_file():\n"
-                        f"Source => {Source[x]}\nDestination => {Destination}\n") 
+                ## DEBUG: PRINT COMPLETION MESSAGE
+                if debug:
+                    print("\nn4s.fs.copy_file():\n"
+                            f"Source => {Source[x]}\nDestination => {Destination}\n")
+        else: ## OVERWRITE DISABLED
+            for x in range(len(Source)):
+                copy_file(Source[x], Destination, False)
+
+                ## DEBUG: PRINT COMPLETION MESSAGE
+                if debug:
+                    print("\nn4s.fs.copy_file():\n"
+                            f"Source => {Source[x]}\nDestination => {Destination}\n")
     
     ## COPY A SINGLE FILE
     elif type(Source) == str:
@@ -60,25 +71,31 @@ def copy_file(Source: Path, Destination: Path='', debug: bool=False):
                 ## IF DESTINATION IS A DIRECTORY
                 if is_dir:
 
-                    ## ITERATE COPIES WITH NUMERICAL VALUES
-                    for i in range(1, 100):
-                        if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"):
-                            Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}/{src_filename}({i+1}){file_format}')}"
-                        else:
-                            if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}{file_format}')}"):
-                                Destination = f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"
-                            break
+                    ## OVERWRITE DISABLED
+                    if not overwrite:
+
+                        ## ITERATE COPIES WITH NUMERICAL VALUES
+                        for i in range(1, 100):
+                            if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"):
+                                Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}/{src_filename}({i+1}){file_format}')}"
+                            else:
+                                if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}{file_format}')}"):
+                                    Destination = f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"
+                                break
 
                 ## IF DESTINATION IS A FILE PATH
                 else:
 
-                    ## ITERATE COPIES WITH NUMERICAL VALUES
-                    for i in range(1, 100):
-                        if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}({i})')}"):
-                            Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}({i+1})')}"
-                        else:
-                            Destination = f"{Destination.replace(dest_filename, f'{dest_filename}({i})')}"
-                            break
+                    ## OVERWRITE DISABLED
+                    if not overwrite:
+
+                        ## ITERATE COPIES WITH NUMERICAL VALUES
+                        for i in range(1, 100):
+                            if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}({i})')}"):
+                                Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}({i+1})')}"
+                            else:
+                                Destination = f"{Destination.replace(dest_filename, f'{dest_filename}({i})')}"
+                                break
             
             ## COPY FILE
             shutil.copy(Source, Destination)
