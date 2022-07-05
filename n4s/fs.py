@@ -1,5 +1,6 @@
 import os, platform, shutil
 from appscript import app as app_script, k
+from sys import executable as python_executable, argv as python_argv
 from mactypes import Alias
 from pathlib import Path
 from subprocess import call
@@ -615,11 +616,19 @@ def system(Action: str='info', Print: bool=False):
                 print([version_os, version_num, version_arch])
             return [version_os, version_num, version_arch]
 
-        ## RETURNS PYTHON VERSION
-        if Action == 'python':
-            if Print:
-                print(platform.python_version())
-            return platform.python_version()
+        ## PYTHON COMMANDS
+        if 'python' in Action:
+
+            ## RETURNS PYTHON VERSION
+            if Action == 'python':
+                if Print:
+                    print(platform.python_version())
+                return platform.python_version()
+
+            ## RESTART PYTHON APP
+            if Action == 'python-restart':
+                python = python_executable
+                os.execl(python, python, * python_argv)
         
         return print("\nn4s.fs.system():\n"
                     f"['app-', 'is-'], ['info', 'os', 'python']\n") 
@@ -627,3 +636,4 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
+system('python', True)
