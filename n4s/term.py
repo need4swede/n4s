@@ -38,26 +38,30 @@ def list_variables(Print_Variable_List: bool=False):
                 ## EXCLUDE VARIABLES THAT START WITH '__'
                 if not var_name.startswith('__'):
 
-                        ## READ VARIABLE VALUE
-                        var_value = eval(var_name)
+                        try:
 
-                        ## EXCLUDE MODULES AND FUNCTIONS
-                        if not str(type(var_value)) == "<class 'module'>" and not str(type(var_value)) == "<class 'function'>":
+                                ## READ VARIABLE VALUE
+                                var_value = eval(var_name)
 
-                                ## READ VARIABLE TYPE
-                                var_type = strgs.clean_text(strgs.filter_text(str(type(var_value)), ['class ']))
+                                ## EXCLUDE MODULES AND FUNCTIONS
+                                if not str(type(var_value)) == "<class 'module'>" and not str(type(var_value)) == "<class 'function'>":
 
-                                ## PRINT: VARIABLE NAME, TYPE AND VALUE
-                                if Print_Variable_List:
-                                        print(f"Variable | {var_name}\n"
-                                                f"Type     | {var_type}\n"
-                                                f"Value    | {var_value}\n")
-                                
-                                ## APPEND OUR VARIABLE LIST
-                                n4s_var_list.append(var_name)
-                        
-                        ## EXCLUDE VARIABLES FROM THIS FUNCTION
-                        if var_name == 'Print_Variable_List' or var_name == 'n4s_var_list':
+                                        ## READ VARIABLE TYPE
+                                        var_type = strgs.clean_text(strgs.filter_text(str(type(var_value)), ['class ']))
+
+                                        ## PRINT: VARIABLE NAME, TYPE AND VALUE
+                                        if Print_Variable_List:
+                                                print(f"Variable | {var_name}\n"
+                                                        f"Type     | {var_type}\n"
+                                                        f"Value    | {var_value}\n")
+
+                                        ## APPEND OUR VARIABLE LIST
+                                        n4s_var_list.append(var_name)
+
+                                ## EXCLUDE VARIABLES FROM THIS FUNCTION
+                                if var_name == 'Print_Variable_List' or var_name == 'n4s_var_list':
+                                        pass
+                        except Exception:
                                 pass
         
         ## PRINT: VARIABLE LIST TO TERMINAL
