@@ -1,6 +1,6 @@
 import os, platform, shutil
 from appscript import app as app_script, k
-from sys import executable as python_executable, argv as python_argv
+from sys import executable as python_executable, argv as python_argv, exit as python_exit
 from mactypes import Alias
 from pathlib import Path
 from subprocess import call
@@ -629,7 +629,11 @@ def system(Action: str='info', Print: bool=False):
             if Action == 'python-restart':
                 python = python_executable
                 os.execl(python, python, * python_argv)
-        
+
+            ## EXIT PYTHON APP
+            if Action == 'python-exit':
+                python_exit()
+
         return print("\nn4s.fs.system():\n"
                     f"['app-', 'is-'], ['info', 'os', 'python']\n") 
 
