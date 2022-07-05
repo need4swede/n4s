@@ -547,7 +547,7 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
         return
 
 ## DOWNLOAD FILES
-def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads'), debug: bool=False):
+def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads'), Detect_Format: bool=True, debug: bool=False):
   '''
   URL: (str) to file or (list) of strings to files
   Filename: Save As... (leave blank to inherit original filename)
@@ -616,7 +616,7 @@ def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads
       Filename = str(URL).split("/")[-1]
     
     ## IF FILENAME ENTERED, BUT NO EXTENSION SPECIFIED - GET EXTENSION FROM ORIGINAL FILE
-    if not '.' in Filename:
+    if not '.' in Filename and Detect_Format:
       Filename = f"{Filename}{file_format}"
 
     ## SAVE FILE TO CHOSEN DIRECTORY
