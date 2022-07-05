@@ -2,23 +2,125 @@ import os, platform, shutil
 from appscript import app as app_script, k
 from mactypes import Alias
 from pathlib import Path
+from subprocess import call
+from n4s import strgs
+
+## COPY FILES
+def copy_file(Source: Path, Destination: Path='', debug: bool=False):
+    '''
+    File: Path to files
+    debug: (boolean)
+    '''
+
+    ## CHECK IF DESTINATION IS A DIRECTORY OR FILE PATH
+    if read_format(Destination, False) == '':
+        is_dir = True
+    else:
+        is_dir = False
+
+    ## COPY A LIST OF FILES
+    if type(Source) == list:
+
+        ## PASS EACH ITEM IN LIST TO FUNCTION
+        for x in range(len(Source)):
+            copy_file(Source[x], Destination)
+
+            ## DEBUG: PRINT COMPLETION MESSAGE
+            if debug:
+                print("\nn4s.fs.copy_file():\n"
+                        f"Source => {Source[x]}\nDestination => {Destination}\n") 
+    
+    ## COPY A SINGLE FILE
+    elif type(Source) == str:
+
+        ## VALIDATE SOURCE
+        if path_exists(Source):
+
+            ## GET SOURCE FILENAME
+            src_filename = str(Source).split('.')[0].split('/')[-1]
+
+            ## IF NO DEST., USE SOURCE DIR AND ITERATE WITH INT
+            if Destination == '':
+
+                ## ITERATE COPIES WITH NUMERICAL VALUES
+                for i in range(1, 100):
+                    if path_exists(f"{Source.replace(src_filename, f'{src_filename}({i})')}"):
+                        Destination = f"{Source.replace(src_filename, f'{src_filename}({i+1})')}"
+                    else:
+                        Destination = f"{Source.replace(src_filename, f'{src_filename}({i})')}"
+                        break
+            
+            ## IF DEST. EXISTS, ITERATE WITH INT
+            if path_exists(Destination):
+
+                ## GET DESTINATION FILENAME
+                dest_filename = str(Destination).split('.')[0].split('/')[-1]
+                file_format = read_format(Source, True)
+
+                ## IF DESTINATION IS A DIRECTORY
+                if is_dir:
+
+                    ## ITERATE COPIES WITH NUMERICAL VALUES
+                    for i in range(1, 100):
+                        if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"):
+                            Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}/{src_filename}({i+1}){file_format}')}"
+                        else:
+                            if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}{file_format}')}"):
+                                Destination = f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"
+                            break
+
+                ## IF DESTINATION IS A FILE PATH
+                else:
+
+                    ## ITERATE COPIES WITH NUMERICAL VALUES
+                    for i in range(1, 100):
+                        if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}({i})')}"):
+                            Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}({i+1})')}"
+                        else:
+                            Destination = f"{Destination.replace(dest_filename, f'{dest_filename}({i})')}"
+                            break
+            
+            ## COPY FILE
+            shutil.copy(Source, Destination)
+
+            ## DEBUG: PRINT COMPLETION MESSAGE
+            if debug:
+                return print("\nn4s.fs.copy_file():\n"
+                            f"Source => {Source}\nDestination => {Destination}\n") 
+        else:
+            if debug:
+                return print("\nn4s.fs.copy_file():\n"
+                            f"Does Not Exist => {Source}\n")
+            return
 
 ## SEND MAIL
 def mail(Subject: str='', Send_To: str='', Body: str='', Attachment: Path=''):
+
+    ## SUPPORT FOR MACOS
     if system('is-mac'):
+
+        ## CALL MAIL APP
         mail = app_script('Mail')
+
+        ## COMPOSE MESSAGE W/ SUBJECT AND BODY
         msg = mail.make(
             new=k.outgoing_message,
             with_properties={
                 k.subject: f'{str(Subject)}',
                 k.content: f'{str(Body)}\n\n'})
+
+        ## ADD ATTACHMENT, IF ANY
         if not Attachment == '':
             attachment = Path(Attachment)
             p = Alias(str(attachment)) # convert string/path obj to POSIX/mactypes path
             msg.content.paragraphs[-1].after.make(new=k.attachment,
                 with_properties={k.file_name: p})
+
+        ## ADD RECIPIENT
         msg.make(new=k.to_recipient, 
             with_properties={k.name: Send_To})
+
+        ## ACTIVATE MAIL APP
         msg.activate()
     else:
         return print('n4s.fs.mail() - ONLY supports macOS at this moment!')
@@ -276,9 +378,13 @@ def root(Dir: str='user', debug: bool=False):
                 print("C:\Windows\System32")
             return "C:\Windows\System32"
 
-## DETECT SYSTEM INFO
+## SYSTEM COMMANDS
 def system(Action: str='info', Print: bool=False):
     '''
+    Action: ['app-', 'is-'], ['info', 'os', 'python']
+
+    app-: commands for applications
+    is-: system validation checks
     os: Returns Operating Sytem
     info: ['OS', 'Version', 'Processor']
     python: Python Version
@@ -294,6 +400,11 @@ def system(Action: str='info', Print: bool=False):
         os_ver = platform.platform().split('-')[0].lower()
         os_arch = platform.machine().lower()
         check = False
+
+        ## IF NO FOLLOW UP COMMAND ENTERED
+        if Action == 'is-':
+            return print("\nn4s.fs.system('is-'):\n"
+                        f"['is-mac', 'is-windows', 'is-arm']\n") 
 
         ## IF MACOS
         if Action == 'is-mac' and os_ver == 'macos':
@@ -313,6 +424,138 @@ def system(Action: str='info', Print: bool=False):
 
         ## RETURN
         return check
+
+    ## APPLICATIONS
+    if 'app-' in Action:
+
+        ## VERIFY COMPATIBILITY
+        if not system('is-mac'):
+            return print("\nn4s.fs.system('app-'):\n"
+                        f"ONLY supports macOS at this moment!\n") 
+
+        ## IF NO FOLLOW-UP COMMAND ENTERED
+        if Action == 'app-':
+            return print("\nn4s.fs.system('app-'):\n"
+                        f"Enter an app's name or use 'app-list' to return a list of installed apps\n") 
+
+        ## LIST OF ALL APPS
+        app_list = []
+
+        ## LIST OF SYSTEM/APPS
+        sys_app_list = []
+
+        ## LIST OF UTILITIES/APPS
+        util_app_list = []
+
+        ## LIST OF USER INSTALLED APPS
+        user_app_list = []
+
+        ## FILTER OUT THESE PHRASES
+        filter_list = ['.app', 
+                        '.DS_Store', 
+                        '.localized', 
+                        '.Karabiner-VirtualHIDDevice-Manager',
+                        'Utilities']
+        
+        ## READ SYSTEM APPS
+        for x in range(len(os.listdir('/System/Applications'))):
+            app_list.append(strgs.filter_text(os.listdir('/System/Applications')[x], filter_list))
+            sys_app_list.append(strgs.filter_text(os.listdir('/System/Applications')[x], filter_list))
+
+        ## READ UTILITIES APPS
+        for x in range(len(os.listdir('/System/Applications/Utilities'))):
+            app_list.append(strgs.filter_text(os.listdir('/System/Applications/Utilities')[x], filter_list))
+            util_app_list.append(strgs.filter_text(os.listdir('/System/Applications/Utilities')[x], filter_list))
+
+        ## READ USER APPS
+        for x in range(len(os.listdir('/Applications'))):
+            app_list.append(strgs.filter_text(os.listdir('/Applications')[x], filter_list))
+            user_app_list.append(strgs.filter_text(os.listdir('/Applications')[x], filter_list))
+        
+        ## SORT LISTS
+        app_list.sort()
+        sys_app_list.sort()
+        util_app_list.sort()
+        user_app_list.sort()
+
+        ## FILTER OUT EMPTY SPACES
+        app_list = list(filter(None, app_list))
+
+        ## GET APP NAME FROM ACTION INPUT
+        app_name = Action.split('-')[-1]
+
+        ## LIST OF INSTALLED APPS
+        if Action == 'app-list':
+            if Print:
+                print()
+                for x in range(len(app_list)):
+                    print(f"{app_list[x]}")
+            return app_list
+
+        ## APP...
+        for x in range(len(app_list)):
+            
+            ## IF APP IS FOUND
+            app_found = False
+
+            ## LAUNCHER
+            if Action == f"app-{str(app_list[x]).lower()}":
+
+                ## PRINT: LAUNCHING APP...
+                if Print:
+                    print(f"Launching: {app_list[x]}...")
+                
+                ## LAUNCH SYSTEM APP
+                if str(app_list[x]).lower() in str(sys_app_list).lower():
+                    call(["/usr/bin/open", f"/System/Applications/{app_list[x]}.app"])
+                    app_found = True
+                    return
+
+                ## LAUNCH UTILITIES APP
+                if str(app_list[x]).lower() in str(util_app_list).lower():
+                    call(["/usr/bin/open", f"/System/Applications/Utilities/{app_list[x]}.app"])
+                    app_found = True
+                    return
+
+                ## LAUNCH USER INSTALLED APP
+                if str(app_list[x]).lower() in str(user_app_list).lower():
+                    call(["/usr/bin/open", f"/Applications/{app_list[x]}.app"])
+                    app_found = True
+                    return
+
+            ## CHECK INSTALL
+            if Action == f"app-{str(app_list[x]).lower()}-installed":
+
+                ## LAUNCH SYSTEM APP
+                if str(app_list[x]).lower() in str(sys_app_list).lower():
+                    app_found = True
+
+                ## LAUNCH UTILITIES APP
+                if str(app_list[x]).lower() in str(util_app_list).lower():
+                    app_found = True
+
+                ## LAUNCH USER INSTALLED APP
+                if str(app_list[x]).lower() in str(user_app_list).lower():
+                    app_found = True
+                
+                ## PRINT: APP_FOUND VALUE
+                if Print:
+                    print(app_found)
+
+                return app_found
+
+        ## RETURN APP_FOUND VALUE
+        if 'installed' in Action:
+
+            ## PRINT: APP_FOUND VALUE
+            if Print:
+                print(app_found)
+
+            ## RETURN
+            return app_found
+
+        ## RETURN APP NOT FOUND
+        return print(f"App Not Found => " + strgs.clean_text(app_name, 'title'))
 
     ## SYSTEM INFO
     else:
@@ -360,7 +603,11 @@ def system(Action: str='info', Print: bool=False):
             if Print:
                 print(platform.python_version())
             return platform.python_version()
+        
+        return print("\nn4s.fs.system():\n"
+                    f"['app-', 'is-'], ['info', 'os', 'python']\n") 
 
 
 
 ## TESTS
+mail('RE: Doob Daaaaaab', 'doobdaab@hotmail.com', Attachment='/Users/afshari/Desktop/file.txt')
