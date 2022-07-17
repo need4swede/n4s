@@ -23,43 +23,23 @@ ______________________________________________________________________
 
 ## Overview
 
-### What is MLSync?
+### What is n4s?
 
-MLSync is a Python library that acts as a bridge between your ML workflow and your project planning and management tools.
+This library isn't going to revolutionize how you use Python, but it will save you some money on hair loss treatments and ibuprofen. This package is an amalgamation of years spent writing Python code and trying to simplify certain common tasks to make them far more readable.
+
+Whether you're new to Python or a veteran snake charmer, N4S is here to make your code cleaner, more intuative and easier to write.
 
 ## Installation
 
 ```sh
-pip install mlsync
+pip install n4s
 ```
 
 
-### Why MLSync?
+### Why n4s?
 
-Developing ML projects is a lot of fun, but they are also hard to plan and manage.
-While the ML community has built several tools for developers to better track and visualize their ML workflow data,
-there is a disconnect between ML workflow data and the tools that are used for project management.
-MLSync is designed to bridge this gap.
-
-<img src="./misc/media/MLSync-Notion-demo.gif" width="50%" height="50%"/>
-
-### How Does it Work?
-
-There are four main aspects of MLSync:
-
-1. MLSync interfaces with modern ML experiment tracking tools such as [MLflow](https://www.mlflow.org/) and imports the raw data.
-2. Raw data from ML experiment tracking tools are converted to MLSync internal data format (user-defined) and stored in a database.
-3. MLSync engine processes this raw data and generates consolidated insights for your project.
-4. The insights are then converted to suitable formats and sent to your project planning and management tools such as [Notion](https://notion.so/).
-
-<div align="center">
-<img src="./misc/media/mlsync-arch.png" width="75%" height="75%">
-</div>
-
-We are actively building MLSync with the vision to become a one-stop standard interface to map data from ML experiments to project management tools.
-The above figure shows the  high-level architecture of MLSync.
-All the functionality is not yet available; please refer to the [Roadmap](#roadmap) for the current status.
-If you would like to contribute to MLSync, please refer to the [Contributing](#contributing) section.
+Because writing Python code shouldn't be hard or tedious - regardless of experience and skill level.
+This library expedites basic Python functionality, so you can focus on the more complex modules of your applications. This will help you save dev time, make your code cleaner and elminiate redundancy 
 
 ## Example
 
