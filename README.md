@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="logo" width="25%" height="25%" width="400px">
+<img src="logo.png" width="25%" height="25%" width="400px">
 
 **When you feel the need...for an awesome Python package!**
 
