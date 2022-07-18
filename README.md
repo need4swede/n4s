@@ -31,7 +31,7 @@ This library isn't going to revolutionize how you use Python, but it will save y
 
 Whether you're new to Python or a veteran snake charmer, n4s is here to make your code cleaner, more intuative and easier to write.
 
-### Why n4s?
+### Why use n4s?
 
 Because writing Python code shouldn't be hard or tedious - regardless of experience and skill level.
 This library expedites basic Python functionality, so you can focus on the more complex modules of your applications. This will help you save dev time, make your code cleaner and elminiate redundancy. 
