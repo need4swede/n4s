@@ -12,7 +12,7 @@ ______________________________________________________________________
   <a href="#contributing">Contributing</a>
 </p>
 
-[![PyPI Status](https://badge.fury.io/py/mlsync.svg)](https://badge.fury.io/py/mlsync)
+[![PyPI Status](https://badge.fury.io/py/n4s.svg)](https://badge.fury.io/py/n4s.svg)
 [![PyPI Status](https://pepy.tech/badge/mlsync)](https://pepy.tech/project/mlsync)
 [![ReadTheDocs](https://readthedocs.org/projects/mlsync/badge/?version=latest)](https://mlsync.readthedocs.io/en/latest/)
 [![Slack](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://join.slack.com/t/mlsync/shared_invite/zt-1ap8axys5-awwIfDGR8OWP1oFRKZp6OQ)
