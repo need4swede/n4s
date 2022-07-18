@@ -13,7 +13,7 @@ ______________________________________________________________________
 </p>
 
 [![PyPI Status](https://badge.fury.io/py/n4s.svg)](https://badge.fury.io/py/n4s.svg)
-[![PyPI Status](https://pepy.tech/badge/mlsync)](https://pepy.tech/project/mlsync)
+[![PyPI Status](https://pepy.tech/badge/n4s)](https://pepy.tech/project/n4s)
 [![ReadTheDocs](https://readthedocs.org/projects/mlsync/badge/?version=latest)](https://mlsync.readthedocs.io/en/latest/)
 [![Slack](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://join.slack.com/t/mlsync/shared_invite/zt-1ap8axys5-awwIfDGR8OWP1oFRKZp6OQ)
 [![license](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/paletteml/mlsync/blob/master/LICENSE)
