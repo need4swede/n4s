@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>podRacer - Functionality</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="podRacer Documentation">
+    <meta name="author" content="Mike Afshari">    
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- FontAwesome JS -->
+    <script defer src="assets/fontawesome/js/all.js"></script>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="assets/plugins/prism/prism.css">
+    <link rel="stylesheet" href="assets/plugins/lightbox/dist/ekko-lightbox.css">
+    <link rel="stylesheet" href="assets/plugins/elegant_font/css/style.css">
+
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="assets/css/styles-dark.css">
+    
+</head> 
+
+<body class="body-blue">
+
+    <div class="page-wrapper">
+        <!-- ******Header****** -->
+        <header id="header" class="header">
+            <div class="container">
+                <div class="branding">
+                    <h1 class="logo">
+                        <a href="index.html">
+                            <span class="text-bold">n</span><span class="token classname-blue">eed</span><span class="text-bold">4s</span><span class="token function">wede</span>
+                        </a>
+                    </h1>
+                </div>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Functionality</li>
+                </ol>
+            </div>
+        </header>
+
+        <div class="doc-wrapper">
+            <div class="container">
+
+                <div class="doc-body row">
+
+                    <div class="doc-content col-md-9 col-12 order-1">
+
+                        <div class="content-inner">
+
+                            <section id="introduction" class="doc-section">
+                                <h2 class="section-title">Introduction</h2>
+                                <div class="section-block">
+                                    <h3 class="block-title">What it does</h3>
+                                    <p>
+                                        <strong><span class="token classname">n4s</span></strong> is a feature rich Python package that makes writing pythonic code easier and more intuative
+                                        using libraries that already come packaged with Python 3.
+                                        <br><small>* with one exception</small>
+                                    </p>
+                                    <p>There are currently four core modules:</p>
+                                    <ul><code>
+                                        <li><strong class="token classname">fs</strong> - <span class="token string">interacts with your file system</span></li>
+                                        <li><strong class="token classname">strgs</strong> - <span class="token string">manipulates strings and lists</span></li>
+                                        <li><strong class="token classname">term</strong> - <span class="token string">console / terminal commands</span></li>
+                                        <li><strong class="token classname">web</strong> - <span class="token string">series of web oriented tools</span></li>
+                                    </ul></code>
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title">Why you should use it</h3>
+                                    <p>
+                                        Because writing Python code shouldn't be hard or tedious - regardless of experience and skill level. 
+                                        This library expedites basic Python functionality, so you can focus on the more complex modules of your applications. 
+                                        This will help you save dev time, make your code cleaner and elminiate redundancy.
+                                    </p>
+                                </div>
+                            </section>
+                            
+                            <section id="filesystem" class="doc-section">
+                                <h2 class="section-title"><span class="token classname">File System</span> [<strong class="token classname">fs</strong>]</h2>
+                                <div class="section-block">
+                                    <h3 class="block-title">What it does</h3>
+                                    <p>The file system module contains a series of helpful tools for interacting with your file system
+                                        and completing various tasks.</p>
+                                    <p>
+                                        These tools include:
+                                        <ul>
+                                            <li>
+                                                A <a href="#filemanager" class="scrollto token keyword">File Manager</a> for manipulating local files
+                                            </li>
+                                            <li>
+                                                A <span class="token keyword">Mail Composer</span> for drafting e-mails (with attachment support)
+                                            </li>
+                                            <li>
+                                                A <span class="token keyword">Path Finder</span> for verifying a path's integrity, creating directories and more.
+                                            </li>
+                                        </ul>
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title">Import</h3>
+                                    <p>
+                                        <pre><code class="language-python">from n4s import fs</code></pre>
+                                    </p>
+                                </div>
+                                <div id="filemanager" class="section-block">
+                                    <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">File Manager</span></h3>
+                                    <hr>
+                                    <p>
+                                        Functions:
+                                        <ul>
+                                            <li>
+                                                Copying files and directories
+                                            </li>
+                                            <li>
+                                                Removing files and directories
+                                            </li>
+                                            <li>
+                                                Reading file formats
+                                            </li>
+                                            <li>
+                                                Renaming files and more!
+                                            </li>
+                                        </ul>
+                                    </p>
+                                    <p>
+                                        All of these functions include simple and intuative ways to verify the integrity of your
+                                        task execution, such as checking file and directory paths when moving files around, with the option to create directories
+                                        if they don't exist, setting naming conventions for multiple copies of a file, verifying file extensions, and more.
+                                    </p>
+                                    <!-- File Manager - Copy -->
+                                    <div id="filemanager-copy" class="section-block">
+                                        <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">File Manager</span><span class="child">&mdash;</span><span class="child token function">Copy</span></h3>
+                                        <hr>
+                                        <!-- Description -->
+                                        <h5 class="block-title"><br>What it does</h5>
+                                        <p>
+                                            Copies files / directories, either individually or as a list
+                                        </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">copy_file</span>()
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    fs.<span class="token function">copy_file</span>(Source: Path, 
+                                                                 Destination: Path='', 
+                                                                 overwrite: bool=<span class="token classname-blue">False</span>, 
+                                                                 debug: bool=<span class="token classname-blue">False</span>)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+
+                                                Source: Path
+
+                                                ## Path to a file, or a list of files
+
+                                                    ## Single File: 
+                                                    '../file.jpeg'
+
+                                                    ## List of Files:
+                                                    ['../file1.jpeg', '../file2.jpeg', '../file3.jpeg']
+
+
+
+                                                Destination: Path=''
+
+                                                ## Destination of the newly copied file, either as a file path or a directory path
+
+                                                    ## File Path: 
+                                                    '../Pictures/file.jpeg'
+
+                                                    ## Directory Path:
+                                                    '../Pictures/'
+
+
+
+                                                overwrite: bool=<span class="token classname-blue">False</span>
+
+                                                ## Whether or not to overwrite files with the same name and extension
+
+                                                    ## False:
+                                                    '../Pictures/file(1).jpeg' # Increases quantitatively
+
+                                                    ## True:
+                                                    '../Pictures/file.jpeg' # New file
+
+
+
+                                                debug: bool=<span class="token classname-blue">False</span>
+
+                                                ## Prints operation task to terminal
+
+                                                    ## When a Source is not found or a Destination cannot be created
+                                                    "n4s.fs.copy_file():"
+                                                        "Does Not Exist => {<span class="token keyword">Source</span>}"
+
+                                                    ## When the operation finishes
+                                                    "n4s.fs.copy_file():"
+                                                        "Source => {<span class="token keyword">Source</span>}"
+                                                        "Destination => {<span class="token keyword">Destination</span>}"
+
+                                                    ## Other errors...
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>Single File</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">copy_file</span>(Source: 'Users/need4swede/Downloads/shrek_meme.jpg', 
+             Destination: 'Users/need4swede/Pictures/')
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>List of Files</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">copy_file</span>(Source: ['Users/need4swede/Downloads/song1.mp3', 
+                      'Users/need4swede/Downloads/song2.mp3', 
+                      'Users/need4swede/Downloads/song3.mp3'], 
+             Destination: 'Users/need4swede/Music/')
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                                <p>
+                                            <small>Overwrite a File</small>
+                                                </p>
+                                                <p>
+                                        <pre><code class="language-python">
+fs.<span class="token function">copy_file</span>(Source: 'Users/need4swede/Desktop/notes.txt', 
+             Destination: 'Users/need4swede/Documents/notes.txt', 
+             overwrite: <span class="token classname-blue">True</span>)
+                                        </code></pre>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>Path Verification</small></p>
+                                                <p>
+                                                If a 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                path does not exist or cannot be found when copying a file, it will automatically be created. 
+                                                To accomplish this, the
+                                                <strong><span class="token function">path_exists</span></strong>
+                                                function is used from the 
+                                                <strong><span class="token classname">n4s</span></strong>
+                                                <strong><span class="token keyword">Path Finder</span></strong> 
+                                                to verify path integrity. This ensures that you don't have to worry about whether or not 
+                                                a directory or path exists prior to copying your files, as they will be created for you whenever possible.
+                                                </p>
+                                                <p><small>File Path vs Directory</small></p>
+                                                <p>
+                                                Your 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                can either be a file path or a directory. If it's a file path, then you will have to explicitly 
+                                                name the new file. If it's a directory path, the new file will inherit its name from the 
+                                                <strong><span class="token keyword">Source</span></strong> 
+                                                file. This means no more having to individually name each file if you don't want to, or catching an error
+                                                because you didn't explicitly pick a file path as your copy destination. This also means that you don't have 
+                                                to worry about file extensions as it inherits this information directly from the
+                                                <strong><span class="token keyword">Source</span></strong>.
+                                                You can, of course, override this functionality by explicitly declaring a file extension when copying a file.
+                                                </p>
+                                                <p><small>Handling Duplicates</small></p>
+                                                <p>
+                                                If an identical file exists at any given 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                path, the new file will contain a numerical suffix to differentiate the copies. 
+                                                This number quantifies with each iteration if multiple files are being copied at once.
+                                                </p>
+                                                <p><small>Source Not Found</small></p>
+                                                <p>
+                                                If a 
+                                                <strong><span class="token keyword">Source</span></strong> 
+                                                path is incorrect or a file cannot be located, your program won't automatically crash.
+                                                Of course, if your application relies on the existance of a file that was not copied, it will throw a
+                                                <strong><span class="token classname">FileNotFound</span></strong>
+                                                error, but the
+                                                <strong><span class="token function">copy_file</span></strong>
+                                                function will not. This allows you to call the function without having to add unecessary
+                                                <strong><span class="token boolean">try</span></strong>
+                                                and
+                                                <strong><span class="token boolean">except</span></strong>
+                                                blocks to your code. The 
+                                                <strong><span class="token function">path_exists</span></strong>
+                                                function from the 
+                                                <strong><span class="token classname">n4s</span></strong>
+                                                <strong><span class="token keyword">Path Finder</span></strong>
+                                                allows you to check if a file or directory exists if you need to validate this action later
+                                                in your code. I will go over these tools further down the documentation.
+                                                </p>
+                                                <p>
+                                                <strong><span class="token classname">fs</span>.<span class="token function">copy_file</span></strong> 
+                                                operates silently by default, so you would have to enable the 
+                                                <strong><span class="token keyword">debug</span></strong> 
+                                                feature to see if a file was not found.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="doc-section">
+                                <div class="section-block">
+                                    <h2 class="block-title">Wrap-Up</h2>
+                                    <p>
+                                        That covers the core functions of <strong><span class="token classname">n4s</span></strong>, but there's always more being added to this library.
+                                        If you need additional assistance in using this package for your own application, please do not hesitate to reach out.
+                                    </p>
+                                </div>
+                                <!-- Jumbotron -->
+                                <div class="section-block">
+                                    <div class="jumbotron text-center">
+                                        <p class="speech-bubble">
+                                            Install <strong><span class="token classname">n4s</span></strong> and try its features out for yourself!
+                                            <br>
+                                            If you have any questionsabout how it works, feel free to <a href="mailto:contact@mafshari.work?subject=RE%3A%20Software%20Engineer%20Needed!&body=Hi%20Mike%2C%0D%0A%0D%0AyourMessage%0D%0A%0D%0ASincerely%2C%0D%0AyourName" target="_blank">contact me</a>  
+                                        </p>
+                                        <ul class="list list-inline center-block">
+                                            <li class="list-inline-item"><a class="btn btn-cta btn-primary" href="../documentation/index.html" download><i class="fas fa-download"></i> Install</a></li>
+                                            <li class="list-inline-item"><a class="btn btn-cta btn-green" href="https://github.com/need4swede/n4s" target="_blank"><i class="icon_book"></i> GitHub</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+
+                        </div>
+
+                    </div>
+
+                    <div class="doc-sidebar col-md-3 col-12 order-0 d-none d-md-flex">
+                        <div id="doc-nav" class="doc-nav">
+                            <nav id="doc-menu" class="nav doc-menu flex-column sticky">
+                                <span class="nav underline"></span>
+                                <a class="nav-link scrollto" href="#introduction">Introduction</a>
+                                <span class="nav underline"></span>
+                                <a class="nav-link scrollto" href="#filesystem">File System</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#filemanager">File Manager</a>
+                                    <ol>
+                                        <a class="nav-link scrollto" href="#filemanager-copy">Copy</a>
+                                        <a class="nav-link scrollto" href="#button-find">Formats</a>
+                                        <a class="nav-link scrollto" href="#button-metadata">Remove</a>
+                                        <a class="nav-link scrollto" href="#button-metadata">Rename</a>
+                                    </ol>
+                                    <a class="nav-link scrollto" href="#button-savedir">Mail Composer</a>
+                                    <a class="nav-link scrollto" href="#button-metadata">Path Finder</a>
+                                    <ol>
+                                        <a class="nav-link scrollto" href="#button-metadata">Path Exists</a>
+                                        <a class="nav-link scrollto" href="#button-metadata">Path Root</a>
+                                    </ol>
+                                    <a class="nav-link scrollto" href="#button-metadata">System</a>
+                                    <ol>
+                                        <a class="nav-link scrollto" href="#button-metadata">Application Manager</a>
+                                        <a class="nav-link scrollto" href="#button-metadata">System Information</a>
+                                        <a class="nav-link scrollto" href="#button-metadata">Validation Tools</a>
+                                    </ol>
+                                </nav>
+                                <a class="nav-link scrollto" href="#metadata">Strings</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#button-savedir">Filter</a>
+                                    <a class="nav-link scrollto" href="#button-savedir">Find</a>
+                                    <a class="nav-link scrollto" href="#button-download">Format</a>
+                                    <a class="nav-link scrollto" href="#button-savedir">Replace</a>
+                                    <a class="nav-link scrollto" href="#button-metadata">Shorten</a>
+                                </nav>
+                                <a class="nav-link scrollto" href="#downloads">Terminal</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#button-savedir">Clear</a>
+                                    <a class="nav-link scrollto" href="#button-savedir">List</a>
+                                    <a class="nav-link scrollto" href="#button-download">Pause</a>
+                                    <a class="nav-link scrollto" href="#button-savedir">Restart</a>
+                                    <a class="nav-link scrollto" href="#button-metadata">Wait</a>
+                                </nav>
+                                <a class="nav-link scrollto" href="#itunes">Web Tools</a>
+                                <nav class="doc-sub-menu nav flex-column">
+                                    <a class="nav-link scrollto" href="#button-savedir">Build / Merge</a>
+                                    <a class="nav-link scrollto" href="#button-download">Download</a>
+                                    <a class="nav-link scrollto" href="#button-savedir">Network Test</a>
+                                    <a class="nav-link scrollto" href="#button-metadata">Read Format</a>
+                                    <a class="nav-link scrollto" href="#button-metadata">Strip Tags</a>
+                                </nav>
+                                <span class="nav underline"></span>
+                                <a id="nav-scrollup" class="nav-link scrollto" href="#header">Scroll to the top</a>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+
+
+    <footer id="footer" class="footer text-center">
+        <div class="container">
+            <small class="copyright">n4s developed by <a href="https://mafshari.work" target="_blank">Mike Afshari</a></small>
+        </div>
+    </footer>
+    
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="assets/plugins/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>    
+    <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>  
+    <script type="text/javascript" src="assets/plugins/lightbox/dist/ekko-lightbox.min.js"></script>       
+    <script type="text/javascript" src="assets/plugins/stickyfill/dist/stickyfill.min.js"></script>                                                            
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    
+</body>
+
+</html> 
+
