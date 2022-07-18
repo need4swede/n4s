@@ -19,25 +19,23 @@ ______________________________________________________________________
 
 </div>
 
-## Overview
-
-### What is n4s?
-
-This library isn't going to revolutionize how you use Python, but it will save you some money on hair loss treatments and ibuprofen. This package is an amalgamation of years spent writing Python code and trying to simplify certain common tasks to make them far more readable.
-
-Whether you're new to Python or a veteran snake charmer, N4S is here to make your code cleaner, more intuative and easier to write.
-
 ## Installation
 
 ```sh
 pip install n4s
 ```
 
+### What is n4s?
+
+This library isn't going to revolutionize how you use Python, but it will save you some money on hair loss treatments and ibuprofen. This package is an amalgamation of years spent writing Python code and trying to simplify certain common tasks to make them far more readable.
+
+Whether you're new to Python or a veteran snake charmer, n4s is here to make your code cleaner, more intuative and easier to write.
+
 ### Why n4s?
 
 Because writing Python code shouldn't be hard or tedious - regardless of experience and skill level.
-This library expedites basic Python functionality, so you can focus on the more complex modules of your applications. This will help you save dev time, make your code cleaner and elminiate redundancy 
+This library expedites basic Python functionality, so you can focus on the more complex modules of your applications. This will help you save dev time, make your code cleaner and elminiate redundancy. 
 
 ## Contributing
 
-If you would like to contribute, please feel free to open an issue or pull request. Or, if you have any feedback or suggestions, please [contact ume](mailto:contact@mafshari.work) directly. I would be happy to hear from you!
+If you would like to contribute, please feel free to open an issue or pull request. Or, if you have any feedback or suggestions, please [contact me](mailto:contact@mafshari.work) directly. I would be happy to hear from you!
