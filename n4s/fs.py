@@ -653,4 +653,3 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
-read_format('/Users/afshari/Desktop/camp-life.jpeg', True, True, False, True)
