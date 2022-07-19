@@ -325,6 +325,198 @@ fs.<span class="token function">copy_file</span>(Source: 'Users/need4swede/Deskt
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- File Manager - Formats -->
+                                    <div id="filemanager-formats" class="section-block">
+                                        <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">File Manager</span><span class="child">&mdash;</span><span class="child token function">Formats</span></h3>
+                                        <hr>
+                                        <!-- Description -->
+                                        <h5 class="block-title"><br>What it does</h5>
+                                        <p>
+                                            Reads file extensions from input paths
+                                        </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">read_format</span>()
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    fs.<span class="token function">read_format</span>(Input: str, 
+                                                                   Include_Period: bool=<span class="token classname-blue">False</span>, 
+                                                                   Print: bool=<span class="token classname-blue">False</span>, 
+                                                                   Uppercase: bool=<span class="token classname-blue">False</span>)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+                                    
+                                                Input: str
+                                    
+                                                ## Path to a file, or a list of files
+                                    
+                                                    ## Single File: 
+                                                    '../file.jpeg'
+                                    
+                                                    ## List of Files:
+                                                    ['../file1.jpeg', '../file2.jpeg', '../file3.jpeg']
+                                    
+                                    
+                                    
+                                                Destination: Path=''
+                                    
+                                                ## Destination of the newly copied file, either as a file path or a directory path
+                                    
+                                                    ## File Path: 
+                                                    '../Pictures/file.jpeg'
+                                    
+                                                    ## Directory Path:
+                                                    '../Pictures/'
+                                    
+                                    
+                                    
+                                                overwrite: bool=<span class="token classname-blue">False</span>
+                                    
+                                                ## Whether or not to overwrite files with the same name and extension
+                                    
+                                                    ## False:
+                                                    '../Pictures/file(1).jpeg' # Increases quantitatively
+                                    
+                                                    ## True:
+                                                    '../Pictures/file.jpeg' # New file
+                                    
+                                    
+                                    
+                                                debug: bool=<span class="token classname-blue">False</span>
+                                    
+                                                ## Prints operation task to terminal
+                                    
+                                                    ## When a Source is not found or a Destination cannot be created
+                                                    "n4s.fs.copy_file():"
+                                                        "Does Not Exist => {<span class="token keyword">Source</span>}"
+                                    
+                                                    ## When the operation finishes
+                                                    "n4s.fs.copy_file():"
+                                                        "Source => {<span class="token keyword">Source</span>}"
+                                                        "Destination => {<span class="token keyword">Destination</span>}"
+                                    
+                                                    ## Other errors...
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>Single File</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    fs.<span class="token function">read_format</span>(Input: 'Users/need4swede/Downloads/shrek_meme.jpg', 
+                                    Destination: 'Users/need4swede/Pictures/')
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>List of Files</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    fs.<span class="token function">copy_file</span>(Source: ['Users/need4swede/Downloads/song1.mp3', 
+                                    'Users/need4swede/Downloads/song2.mp3', 
+                                    'Users/need4swede/Downloads/song3.mp3'], 
+                                    Destination: 'Users/need4swede/Music/')
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                                <p>
+                                            <small>Overwrite a File</small>
+                                                </p>
+                                                <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">copy_file</span>(Source: 'Users/need4swede/Desktop/notes.txt', 
+                                    Destination: 'Users/need4swede/Documents/notes.txt', 
+                                    overwrite: <span class="token classname-blue">True</span>)
+                                        </code></pre>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>Path Verification</small></p>
+                                                <p>
+                                                If a 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                path does not exist or cannot be found when copying a file, it will automatically be created. 
+                                                To accomplish this, the
+                                                <strong><span class="token function">path_exists</span></strong>
+                                                function is used from the 
+                                                <strong><span class="token classname">n4s</span></strong>
+                                                <strong><span class="token keyword">Path Finder</span></strong> 
+                                                to verify path integrity. This ensures that you don't have to worry about whether or not 
+                                                a directory or path exists prior to copying your files, as they will be created for you whenever possible.
+                                                </p>
+                                                <p><small>File Path vs Directory</small></p>
+                                                <p>
+                                                Your 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                can either be a file path or a directory. If it's a file path, then you will have to explicitly 
+                                                name the new file. If it's a directory path, the new file will inherit its name from the 
+                                                <strong><span class="token keyword">Source</span></strong> 
+                                                file. This means no more having to individually name each file if you don't want to, or catching an error
+                                                because you didn't explicitly pick a file path as your copy destination. This also means that you don't have 
+                                                to worry about file extensions as it inherits this information directly from the
+                                                <strong><span class="token keyword">Source</span></strong>.
+                                                You can, of course, override this functionality by explicitly declaring a file extension when copying a file.
+                                                </p>
+                                                <p><small>Handling Duplicates</small></p>
+                                                <p>
+                                                If an identical file exists at any given 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                path, the new file will contain a numerical suffix to differentiate the copies. 
+                                                This number quantifies with each iteration if multiple files are being copied at once.
+                                                </p>
+                                                <p><small>Source Not Found</small></p>
+                                                <p>
+                                                If a 
+                                                <strong><span class="token keyword">Source</span></strong> 
+                                                path is incorrect or a file cannot be located, your program won't automatically crash.
+                                                Of course, if your application relies on the existance of a file that was not copied, it will throw a
+                                                <strong><span class="token classname">FileNotFound</span></strong>
+                                                error, but the
+                                                <strong><span class="token function">copy_file</span></strong>
+                                                function will not. This allows you to call the function without having to add unecessary
+                                                <strong><span class="token boolean">try</span></strong>
+                                                and
+                                                <strong><span class="token boolean">except</span></strong>
+                                                blocks to your code. The 
+                                                <strong><span class="token function">path_exists</span></strong>
+                                                function from the 
+                                                <strong><span class="token classname">n4s</span></strong>
+                                                <strong><span class="token keyword">Path Finder</span></strong>
+                                                allows you to check if a file or directory exists if you need to validate this action later
+                                                in your code. I will go over these tools further down the documentation.
+                                                </p>
+                                                <p>
+                                                <strong><span class="token classname">fs</span>.<span class="token function">copy_file</span></strong> 
+                                                operates silently by default, so you would have to enable the 
+                                                <strong><span class="token keyword">debug</span></strong> 
+                                                feature to see if a file was not found.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
 
@@ -367,7 +559,7 @@ fs.<span class="token function">copy_file</span>(Source: 'Users/need4swede/Deskt
                                     <a class="nav-link scrollto" href="#filemanager">File Manager</a>
                                     <ol>
                                         <a class="nav-link scrollto" href="#filemanager-copy">Copy</a>
-                                        <a class="nav-link scrollto" href="#button-find">Formats</a>
+                                        <a class="nav-link scrollto" href="#filemanager-formats">Formats</a>
                                         <a class="nav-link scrollto" href="#button-metadata">Remove</a>
                                         <a class="nav-link scrollto" href="#button-metadata">Rename</a>
                                     </ol>
