@@ -2,6 +2,7 @@
 /* ======= Base ======= */
 body {
   font-family: 'Open Sans', arial, sans-serif;
+  font-weight: 500;
   /* ORIGINAL */
   /* color: #494d55; */
   background-color: #1a1a1a;
@@ -974,6 +975,18 @@ a.pop, a.pop-large {
   color: #f4503b;
 }
 
+.body-yellow .header {
+  border-color: #f7c86b;
+}
+
+.body-yellow a {
+  color: rgb(250, 207, 67);
+}
+
+.body-yellow a:hover {
+  color: #f4e53b;
+}
+
 /* Sidebar */
 .doc-nav {
   position: absolute;
@@ -1576,6 +1589,18 @@ a.pop, a.pop-large {
 
 .cards-section .item-purple .icon {
   color: #b66edc;
+}
+
+.cards-section .item-yellow .item-inner {
+  border-top: 3px solid #e1c246;
+}
+
+.cards-section .item-yellow .item-inner:hover .title {
+  color: #f3c82e;
+}
+
+.cards-section .item-yellow .icon {
+  color: #ecc94b;
 }
 
 @media (max-width: 575.98px) {
