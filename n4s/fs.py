@@ -265,7 +265,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                                 "and that parent directories are created before nesting files\n") 
 
 ## READS FILE EXTENSIONS
-def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Uppercase: bool=False):
+def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Uppercase: bool=False, Read_Filename: bool=False):
 
     ## INCLUDE PERIOD IN FORMAT
     if Include_Period:
@@ -284,6 +284,19 @@ def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Upper
     ## IF UPPERCASE == ENABLED
     if Uppercase:
         file_format = file_format.upper()
+
+    ## IF READ_FILENAME == ENABLED
+    if Read_Filename:
+
+        ## GET FILENAME
+        file_name = strgs.filter_text(Input.split('/')[-1], [file_format])
+
+        ## PRINT FORMAT TO TERMINAL
+        if Print:
+            print(file_name)
+
+        ## RETURN FORMAT
+        return file_name
 
     ## PRINT FORMAT TO TERMINAL
     if Print:
@@ -640,3 +653,4 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
+read_format('/Users/afshari/Desktop/camp-life.jpeg', True, True, False, True)
