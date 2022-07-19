@@ -1,12 +1,5 @@
 import setuptools
 
-# for pip >= 10
-from pip._internal.req import parse_requirements
-
-def load_requirements(fname):
-    reqs = parse_requirements(fname, session="test")
-    return [str(ir.req) for ir in reqs]
-
 with open('README.md') as f:
     long_description = f.read()
 
@@ -20,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url='https://github.com/n4s/n4s',
     license='MIT',
-    install_requires=load_requirements("requirements.txt"),
+    install_requires=["appscript==1.2.0", "beautifulsoup4==4.11.1", "requests==2.27.1"],
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
