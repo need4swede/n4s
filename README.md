@@ -7,7 +7,7 @@
 ______________________________________________________________________
 
 <p align="center">
-  <a href="https://need4swede.netlify.app/">Documentation</a> •
+  <a href="https://need4swede.net">Documentation</a> •
   <a href="#installation">Installation</a> •
   <a href="#contributing">Contributing</a>
 </p>
