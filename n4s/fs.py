@@ -377,6 +377,27 @@ def rename(Name: Path, Rename: str='', debug: bool=False):
                             f"Does Not Exist - {Name}\n")
         return
 
+    ## LIST OF ROOT DIRS
+    root_dirs = [
+        str(root('user')),
+        str(root('desktop')),
+        str(root('docs')),
+        str(root('dl')),
+        str(root('applications')),
+        str(root('userlib')),
+        str(root('syslib')),
+        '/Users/afshari/test',
+        '/Users/afshari/Desktop/index'
+    ] 
+    
+    ## PREVENT RENAMING ROOT DIRS
+    for i in range(len(root_dirs)):
+        if Name == root_dirs[i] or Name == f"{root_dirs[i]}/":
+            if debug:
+                return print("\nn4s.fs.rename():\n"
+                            f"Cannot rename a user directory - {Name}\n")
+            return
+
     ## CAPTURE INPUT PATH
     Pathname = Name
 
