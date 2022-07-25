@@ -800,7 +800,7 @@ Prism.languages.python = {
             punctuation: /\./
         }
     },
-    keyword: /\b(?:_(?=\s*:)|assert|async|args|await|case|class|continue|debug|del|Destination|exec|finished|fn|global|index|Input|Include_Period|i|link|kwargs|lambda|match|nonlocal|overwrite|parent|path|Print|raise|Read_Filename|result|self|signals|Source|threadpool|Uppercase|yield)\b/,
+    keyword: /\b(?:_(?=\s*:)|assert|async|args|await|case|class|continue|debug|del|Destination|Directory|exec|File|finished|fn|global|index|Input|Include_Period|i|link|kwargs|lambda|match|nonlocal|overwrite|parent|path|Print|raise|Read_Filename|result|self|signals|Source|threadpool|Uppercase|yield)\b/,
     builtin: /\b(?:__import__|__init__|True|False|QMainWindow|MainWindow|QThreadPool|ThreadClass|QRunnable|Worker|WorkerSignals|QLabel|pandas|pd|DataFrame|re|requests|os|abs|all|any|apply|ascii|basestring|bin|bool|buffer|bytearray|bytes|callable|chr|classmethod|cmp|coerce|compile|complex|delattr|dict|dir|divmod|enumerate|eval|execfile|file|filter|float|frozenset|fs|getattr|globals|hasattr|hash|help|hex|id|input|int|intern|isinstance|issubclass|iter|len|list|locals|long|n4s|map|max|memoryview|min|next|object|oct|open|ord|Path|pow|property|range|raw_input|reduce|reload|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|unichr|unicode|vars|xrange|zip)\b/,
     boolean: /\b(?:import|from|for|if|else|as|in|and|try|except|finally|pass|return|sub|with|None)\b/,
     number: /\b0(?:b(?:_?[01])+|o(?:_?[0-7])+|x(?:_?[a-f0-9])+)\b|(?:\b\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\B\.\d+(?:_\d+)*)(?:e[+-]?\d+(?:_\d+)*)?j?(?!\w)/i,
