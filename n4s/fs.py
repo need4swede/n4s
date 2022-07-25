@@ -363,6 +363,60 @@ def remove_file(File: Path, debug: bool=False):
                 return print("\nn4s.fs.remove_file():\n"
                             f"Does Not Exist - {File}\n")
 
+## RENAME FILE / DIR
+def rename(Name: Path, Rename: str='', debug: bool=False):
+    '''
+    Name: Path to input file
+    Rename: str of the new file/dir name (do not use a full file path!)
+    debug: (boolean)
+    '''
+    ## VALIDATE INPUT PATH
+    if not path_exists(Name):
+        if debug:
+            return print("\nn4s.fs.rename():\n"
+                            f"Does Not Exist - {Name}\n")
+        return
+
+    ## CAPTURE INPUT PATH
+    Pathname = Name
+
+    ## CHECKS FOR TRAILING '/' DASH
+    if str(Name[-1]) == '/':
+        Name = str(Name.split('/')[-2])
+    else:
+        Name = str(Name.split('/')[-1])
+
+    ## UPDATE INPUT PATH
+    Pathname = strgs.filter_text(Pathname, [Name])
+    
+    ## VALIDATE RENAME ARG
+    if Rename == '':
+        if debug:
+            return print("\nn4s.fs.rename():\n"
+                        f"Rename arg can't be blank!\n")
+        return
+
+    ## CHECKS IF RENAME ALREADY EXISTS
+    if path_exists(f"{Pathname}{Rename}"):
+        if debug:
+            return print("\nn4s.fs.rename():\n"
+                            f"Rename already exists => {Rename}\n"
+                            f"{Pathname}{Rename}\n")
+        return
+
+    ## ASSIGN FULL PATH NAMES
+    Name = f"{Pathname}{Name}"
+    Rename = f"{Pathname}{Rename}"
+
+    ## RUN RENAME
+    os.rename(Name, Rename)
+
+    ## DEBUG: PRINT RESULTS
+    if debug:
+        print("\nn4s.fs.rename():\n"
+                            f"Name => {Name}\n"
+                            f"Rename => {Rename}\n")
+
 ## FIND DIRECTORIES (ROOT == USER)
 def root(Dir: str='user', debug: bool=False):
     if Dir == 'applications' or Dir == 'apps':
