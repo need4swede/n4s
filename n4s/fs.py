@@ -429,6 +429,11 @@ def rename(Name: Path, Rename: str='', debug: bool=False):
     Name = f"{Pathname}{Name}"
     Rename = f"{Pathname}{Rename}"
 
+    ## CHECK FOR EXCPLICIT FILE EXTENSION
+    if not '.' in str(Rename).split('/')[-1]:
+        inherited_format = read_format(Name, True)
+        Rename = f"{Rename}{inherited_format}"
+
     ## RUN RENAME
     os.rename(Name, Rename)
 
