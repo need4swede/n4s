@@ -113,16 +113,16 @@
                                         Functions:
                                         <ul>
                                             <li>
-                                                Copying files and directories
+                                                <a class="scrollto" href="#filemanager-copy">Copying files and directories</a>
                                             </li>
                                             <li>
-                                                Removing files and directories
+                                                <a class="scrollto" href="#filemanager-remove">Removing files and directories</a>
                                             </li>
                                             <li>
-                                                Reading file formats
+                                                <a class="scrollto" href="#filemanager-formats">Reading file formats</a>
                                             </li>
                                             <li>
-                                                Renaming files and more!
+                                                <a class="scrollto" href="#filemanager-rename">Renaming files and directories</a>
                                             </li>
                                         </ul>
                                     </p>
@@ -635,6 +635,156 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- File Manager - Rename File -->
+                                    <div id="filemanager-rename" class="section-block">
+                                        <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">File Manager</span><span class="child">&mdash;</span><span class="child token function">Rename</span></h3>
+                                        <hr>
+                                        <!-- Description -->
+                                        <h5 class="block-title"><br>What it does</h5>
+                                        <p>
+                                            Renames files and directories
+                                        </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">rename</span>()
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    fs.<span class="token function">rename</span>(Name: Path,
+                                                              Rename: str=''
+                                                              debug: bool=<span class="token classname-blue">False</span>)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+                                    
+                                                Name: Path
+                                    
+                                                ## Path to the file/directory that you want to rename
+                                    
+                                                    ## File: 
+                                                    '../file.jpeg'
+                                    
+                                                    ## Directory: 
+                                                    '../photos'
+                                    
+                                    
+                                    
+                                                Rename: Path
+
+                                                ## The new name for the file/directory
+
+                                                    ## File: 
+                                                    'photograph.jpeg'
+
+                                                    ## Directory: 
+                                                    'pictures'
+
+
+
+                                                debug: bool=<span class="token classname-blue">False</span>
+                                    
+                                                ## Prints operation task to terminal
+                                    
+                                                    ## When the operation finishes
+                                                    "n4s.fs.rename():"
+                                                        f"Name => {Name}"
+                                                        f"Rename => {Rename}")
+                                    
+                                                    ## Other errors...
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>File</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    fs.<span class="token function">rename</span>('Users/need4swede/Downloads/photo.jpg', 'dog.jpg') <span class="token comment">'../Downloads/dog.jpg'</span>
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>File with Format Inheritance</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    fs.<span class="token function">rename</span>('Users/need4swede/Music/song.mp3', 'all_star') <span class="token comment">'../Music/all_star.mp3'</span>
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>Directory</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    fs.<span class="token function">rename</span>('Users/need4swede/Documents/Homework', 'Homework_2022') <span class="token comment">'../Documents/Homework_2022'</span>
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>File Path vs Directory</small></p>
+                                                <p>
+                                                Your 
+                                                <strong><span class="token keyword">Name</span></strong> 
+                                                argument can either be a file path or a directory. The distinction is derived from the inclusion of a file extension.
+                                                If you don't explicitly pass a file extension, then the path will be treated as a directory.
+                                                </p>
+                                                <p><small>Format Inheritance</small></p>
+                                                <p>
+                                                If your
+                                                <strong><span class="token keyword">Rename</span></strong>
+                                                doesn't explicitly declare a file extension, then
+                                                <strong><span class="token classname">fs</span>.<span class="token function">rename</span></strong>
+                                                will automatically inherit the file extension from your
+                                                <strong><span class="token keyword">Name</span></strong>
+                                                parameter. Consequently, explicit extension declerations will result in your files having their file
+                                                extensions altered!
+                                                </p>
+                                                <p><small>Source Not Found</small></p>
+                                                <p>
+                                                If a 
+                                                <strong><span class="token keyword">Name</span></strong> 
+                                                path is incorrect or a file cannot be located, your program won't automatically crash.
+                                                This allows you to call the function without having to add unecessary
+                                                <strong><span class="token boolean">try</span></strong>
+                                                and
+                                                <strong><span class="token boolean">except</span></strong>
+                                                blocks to your code. The 
+                                                <strong><span class="token function">path_exists</span></strong>
+                                                function from the 
+                                                <strong><span class="token classname">n4s</span></strong>
+                                                <strong><span class="token keyword">Path Finder</span></strong>
+                                                allows you to check if a file or directory exists if you need to validate this action later
+                                                in your code. I will go over these tools further down the documentation.
+                                                </p>
+                                                <p>
+                                                <strong><span class="token classname">fs</span>.<span class="token function">rename</span></strong> 
+                                                operates silently by default, so you would have to enable the 
+                                                <strong><span class="token keyword">debug</span></strong> 
+                                                feature to see if you encountered an error.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
 
@@ -679,7 +829,7 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                         <a class="nav-link scrollto" href="#filemanager-copy">Copy</a>
                                         <a class="nav-link scrollto" href="#filemanager-formats">Formats</a>
                                         <a class="nav-link scrollto" href="#filemanager-remove">Remove</a>
-                                        <a class="nav-link scrollto" href="#button-metadata">Rename</a>
+                                        <a class="nav-link scrollto" href="#filemanager-rename">Rename</a>
                                     </ol>
                                     <a class="nav-link scrollto" href="#button-savedir">Mail Composer</a>
                                     <a class="nav-link scrollto" href="#button-metadata">Path Finder</a>
