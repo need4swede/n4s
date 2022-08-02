@@ -1,6 +1,6 @@
 import os, shutil, re, base64, warnings, webbrowser, requests
 import http.client as httplib
-from n4s import fs
+from n4s import fs, strgs
 from bs4 import BeautifulSoup
 from pathlib import Path
 ##### Dismiss the 'XML' warning
@@ -807,7 +807,13 @@ def strip_tags(Input: str):
 
         - Remove HTML tags from an input string
         '''
+        ## PREVENT CDATA CONTENT FROM BEING STRIPPED
+        Input = strgs.filter_text(Input, ['<![CDATA[', ']]>'])
+
+        ## STRIP HTML TAGS
         clean = re.compile('<.*?>')
+
+        ## RETURN (REMOVE WHITESPACE)
         return re.sub(clean, '', Input).strip()
 
 
