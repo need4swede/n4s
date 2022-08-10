@@ -25,8 +25,10 @@
 
 <body class="body-blue">
 
+    <!-- MAIN DOC -->
     <div class="page-wrapper">
-        <!-- ******Header****** -->
+
+        <!-- TOP OF PAGE -->
         <header id="header" class="header">
             <div class="container">
                 <div class="branding">
@@ -43,11 +45,13 @@
             </div>
         </header>
 
+        <!-- PAGE BODY -->
         <div class="doc-wrapper">
             <div class="container">
 
                 <div class="doc-body row">
 
+                    <!-- PAGE CONTENT -->
                     <div class="doc-content col-md-9 col-12 order-1">
 
                         <div class="content-inner">
@@ -80,6 +84,7 @@
                             </section>
                             
                             <section id="filesystem" class="doc-section">
+                                <!-- INTRO -->
                                 <h2 class="section-title"><span class="token classname">File System</span> [<strong class="token classname">fs</strong>]</h2>
                                 <div class="section-block">
                                     <h3 class="block-title">What it does</h3>
@@ -106,6 +111,7 @@
                                         <pre><code class="language-python">from n4s import fs</code></pre>
                                     </p>
                                 </div>
+                                <!-- FILEMANAGER -->
                                 <div id="filemanager" class="section-block">
                                     <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">File Manager</span></h3>
                                     <hr>
@@ -786,6 +792,7 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                         </div>
                                     </div>
                                 </div>
+                                <!-- MAIL COMPOSER -->
                                 <div id="mailcomposer" class="section-block">
                                     <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">Mail Composer</span></h3>
                                     <hr>
@@ -816,8 +823,8 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                                 <h5 class="block-title">Arguments</h5>
                                                 <p>
                                                 <pre><code class="language-python">
-                                                    fs.<span class="token function">mail</span>(Subject: str='', 
-                                                            Send_To: str='', 
+                                                    fs.<span class="token function">mail</span>(Send_To: str='', 
+                                                            Subject: str='', 
                                                             Body: str='', 
                                                             Attachment: Path='')
                                                 </code></pre>
@@ -827,37 +834,45 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                             <small>Arguments &ndash; Defined</small>
                                             <pre><code class="language-python">
                                     
-                                                File / Directory: Path
+                                                Send_To: str
                                     
-                                                ## Path to a directory/file or a list of directories/files
+                                                ## Email address of the recipient
                                     
-                                                    ## Single File: 
-                                                    '../file.jpeg'
-                                    
-                                                    ## List of Files:
-                                                    ['../file1.jpeg', '../file2.jpeg', '../file3.jpeg']
-                                    
-                                                    ## Single Directory: 
-                                                    '../photos'
-                                    
-                                                    ## List of directories:
-                                                    ['../photos', '../pictures', '../pics']
+                                                    ## Example: 
+                                                    'jdoe@company.com'
                                     
                                     
+                                                Subject: str
                                     
-                                                debug: bool=<span class="token classname-blue">False</span>
+                                                ## The subject line of the email
                                     
-                                                ## Prints operation task to terminal
+                                                    ## Example: 
+                                                    'RE: n4s mail composer'
+                                                
+                                                
+                                                Body: str
                                     
-                                                    ## When a File or Directory is not found
-                                                    "n4s.fs.remove_file():"
-                                                        "Does Not Exist => {<span class="token keyword">File</span>}"
+                                                ## Message body of the email
                                     
-                                                    ## When the operation finishes
-                                                    "n4s.fs.remove_file():"
-                                                        "Removed => {<span class="token keyword">File</span>}"
+                                                    ## Short Example: 
+                                                    'This is a short message'
                                     
-                                                    ## Other errors...
+                                    
+                                                    ## Long Example: 
+                                                    '''
+                                                    This is a longer message.
+                                                    You can write whatever you want
+                                                    and it will be included in the body.
+                                                    '''
+
+
+                                                Attachment: Path
+                                    
+                                                ## Add file attachments to your email
+                                    
+                                                    ## Example: 
+                                                    '../User/Pictures/dog.png'
+
                                             </code></pre>
                                             <span class="readmore-link"></span>
                                             </div>
@@ -868,40 +883,60 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                             <div class="readmore">
                                                 <span class="readmore-link"></span>
                                                 <p>
-                                                <small>Single File</small>
+                                                <small>Generate Mailto</small>
                                                 </p>
                                                 <p>
                                                 <pre><code class="language-python">
-                                    fs.<span class="token function">remove_file</span>('Users/need4swede/Downloads/shrek_meme.jpg')
+                                    fs.<span class="token function">mail</span>('email@domain.com')
                                                 </code></pre>
                                                 </p>
                                                 <p>
-                                                <small>List of Files</small>
+                                                <small>Compose Short Message</small>
                                                 </p>
                                                 <p>
                                                 <pre><code class="language-python">
-                                    fs.<span class="token function">remove_file</span>(['Users/need4swede/Downloads/song1.mp3', 
-                                    'Users/need4swede/Downloads/song2.mp3', 
-                                    'Users/need4swede/Downloads/song3.mp3'])
+                                    fs.<span class="token function">mail</span>('email@domain.com',
+                                    'RE: Mail Handler', 
+                                    'Welcome to n4s!')
                                                 </code></pre>
                                                 </p>
                                                 </p>
                                                 <p>
-                                            <small>Remove a Directory and nested content</small>
+                                            <small>Compose Long Message</small>
                                                 </p>
                                                 <p>
                                         <pre><code class="language-python">
-                                    fs.<span class="token function">remove_dir</span>('Users/need4swede/memes')
+                                    <span class="token keyword">address</span> = 'shrek@swamp-mail.org'
+                                    <span class="token keyword">subject</span> = 'RE: All Star'
+                                    <span class="token keyword">message</span> = '''
+                                    Somebody once told me the world is gonna roll me
+                                    I ain't the sharpest tool in the shed
+                                    She was looking kind of dumb with her finger and her thumb
+                                    In the shape of an "l" on her forehead
+
+                                    Well the years start coming and they don't stop coming
+                                    Fed to the rules and I hit the ground running
+                                    Didn't make sense not to live for fun
+                                    Your brain gets smart but your head gets dumb
+
+                                    So much to do so much to see
+                                    So what's wrong with taking the back streets
+                                    You'll never know if you don't go
+                                    You'll never shine if you don't glow
+                                    '''
+
+                                    fs.<span class="token function">mail</span>(<span class="token keyword">address</span>, <span class="token keyword">subject</span>, <span class="token keyword">message</span>)
                                         </code></pre>
                                                 </p>
                                                 <p>
-                                            <small>Remove a list of Directories</small>
+                                            <small>Send Attachments</small>
                                                 </p>
                                                 <p>
                                         <pre><code class="language-python">
-                                    fs.<span class="token function">remove_dir</span>(['Users/need4swede/memes', 
-                                    'Users/need4swede/oldphotos', 
-                                    'Users/need4swede/codingstuff'])
+                                    fs.<span class="token function">mail</span>('email@domain.com', # Recipient
+                                    'Important File', # Subject
+                                    'Here is the file you requested', # Message Body
+                                    '../Documents/important.pdf') # Path to file
                                         </code></pre>
                                                 </p>
                                             </div>
@@ -911,48 +946,28 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                             <div class="readmore">
                                                 <span class="readmore-link"></span>
                                                 <h5 class="block-title">Features</h5>
-                                                <p><small>File Path vs Directory</small></p>
+                                                <p><small>Mail Call</small></p>
                                                 <p>
-                                                Your 
-                                                <strong><span class="token keyword">File / Destination</span></strong> 
-                                                can either be a file path or a directory. If you are removing a directory, all the files (and sub directories)
-                                                within will also be removed. You can remove multiple files at once using a list to selectively remove content within
-                                                a directory without effecting neighboring files or folders.
-                                                <strong><span class="token keyword">Source</span></strong> 
-                                                file. This means no more having to individually name each file if you don't want to, or catching an error
-                                                because you didn't explicitly pick a file path as your copy destination. This also means that you don't have 
-                                                to worry about file extensions as it inherits this information directly from the
-                                                <strong><span class="token keyword">Source</span></strong>.
-                                                You can, of course, override this functionality by explicitly declaring a file extension when copying a file.
+                                                Create the Python equivalent of a mailto anchor in HTML by calling the
+                                                <strong><span class="token classname">fs</span>.<span class="token function">mail</span></strong>
+                                                function from your program and launching your system's mail application.
                                                 </p>
-                                                <p><small>Source Not Found</small></p>
+                                                <p><small>Conditional Attachments</small></p>
                                                 <p>
-                                                If a 
-                                                <strong><span class="token keyword">File / Directory</span></strong> 
-                                                path is incorrect or a file cannot be located, your program won't automatically crash.
-                                                This allows you to call the function without having to add unecessary
-                                                <strong><span class="token boolean">try</span></strong>
-                                                and
-                                                <strong><span class="token boolean">except</span></strong>
-                                                blocks to your code. The 
-                                                <strong><span class="token function">path_exists</span></strong>
-                                                function from the 
-                                                <strong><span class="token classname">n4s</span></strong>
-                                                <strong><span class="token keyword">Path Finder</span></strong>
-                                                allows you to check if a file or directory exists if you need to validate this action later
-                                                in your code. I will go over these tools further down the documentation.
+                                                Easily add file attachments to your messages and filter them by recipient and/or subject line,
+                                                giving you an easy and autonomous way of associating certain attachments based on certain conditions. 
                                                 </p>
+                                                <p><small>Dynamic Composition</small></p>
                                                 <p>
-                                                <strong><span class="token classname">fs</span>.<span class="token function">remove_file</span></strong> 
-                                                and
-                                                <strong><span class="token classname">fs</span>.<span class="token function">remove_dir</span></strong> 
-                                                operate silently by default, so you would have to enable the 
-                                                <strong><span class="token keyword">debug</span></strong> 
-                                                feature to see if you encountered an error.
+                                                The 
+                                                <strong><span class="token classname">fs</span>.<span class="token function">mail</span></strong>
+                                                composer allows you to compose emails dynamically with the use of variables.
+                                                Using simple conditional statements and string formation, you can create various pipelines
+                                                composed of dynamic entries, such as email addresses, subject line's and even entire messages.
                                                 </p>
+                                                
                                             </div>
                                         </div>
-
                                 </div>
                             </section>
 
@@ -984,6 +999,7 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
 
                     </div>
 
+                    <!-- SIDEBAR NAV -->
                     <div class="doc-sidebar col-md-3 col-12 order-0 d-none d-md-flex">
                         <div id="doc-nav" class="doc-nav">
                             <nav id="doc-menu" class="nav doc-menu flex-column sticky">
@@ -999,7 +1015,7 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                         <a class="nav-link scrollto" href="#filemanager-remove">Remove</a>
                                         <a class="nav-link scrollto" href="#filemanager-rename">Rename</a>
                                     </ol>
-                                    <a class="nav-link scrollto" href="#button-savedir">Mail Composer</a>
+                                    <a class="nav-link scrollto" href="#mailcomposer">Mail Composer</a>
                                     <a class="nav-link scrollto" href="#button-metadata">Path Finder</a>
                                     <ol>
                                         <a class="nav-link scrollto" href="#button-metadata">Path Exists</a>
@@ -1049,7 +1065,7 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
         
     </div>
 
-
+    <!-- FOOTER -->
     <footer id="footer" class="footer text-center">
         <div class="container">
             <small class="copyright">n4s developed by <a href="https://mafshari.work" target="_blank">Mike Afshari</a></small>
