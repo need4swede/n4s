@@ -1,7 +1,5 @@
 import os, platform, shutil
-from appscript import app as app_script, k
 from sys import executable as python_executable, argv as python_argv, exit as python_exit
-from mactypes import Alias
 from pathlib import Path
 from subprocess import call
 from n4s import strgs
@@ -112,10 +110,14 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
             return
 
 ## SEND MAIL
-def mail(Subject: str='', Send_To: str='', Body: str='', Attachment: Path=''):
+def mail(Send_To: str='', Subject: str='', Body: str='', Attachment: Path=''):
 
     ## SUPPORT FOR MACOS
     if system('is-mac'):
+
+        ## IMPORT LIBRARIES
+        from appscript import app as app_script, k
+        from mactypes import Alias
 
         ## CALL MAIL APP
         mail = app_script('Mail')
