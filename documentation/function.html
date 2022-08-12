@@ -969,6 +969,370 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                             </div>
                                         </div>
                                 </div>
+                                <!-- PATH FINDER -->
+                                <div id="pathfinder" class="section-block">
+                                    <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">Path Finder</span></h3>
+                                    <hr>
+                                    <p>
+                                        Functions:
+                                        <ul>
+                                            <li>
+                                                Verify a <a class="scrollto" href="#path-exists">path's existance</a> and create missing ones
+                                            </li>
+                                            <li>
+                                                Easily target <a class="scrollto" href="#path-root">root directories</a> of users and file systems
+                                            </li>
+                                        </ul>
+                                    </p>
+                                    <p>
+                                        The <span class="token keyword">Path Finder</span> includes simple and intuative ways to verify the integrity of your
+                                        task execution, such as checking file and directory paths, with the option to create them if they don't exist. 
+                                    </p>
+                                    <p>
+                                        It also includes quick and easy ways to access certain root directories on a system, from user folders to applications
+                                    </p>
+                                    <!-- Path - Exists -->
+                                    <div id="path-exists" class="section-block">
+                                        <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">Path Finder</span><span class="child">&mdash;</span><span class="child token function">Exists</span></h3>
+                                        <hr>
+                                        <!-- Description -->
+                                        <h5 class="block-title"><br>What it does</h5>
+                                        <p>
+                                            Verifies the existance of a given path, or a list of paths, with the option to create them if they do not exist
+                                        </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">path_exists</span>()
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    fs.<span class="token function">path_exists</span>(<span class="token keyword">Path</span>: Path, 
+                                                                 Make: bool=<span class="token classname-blue">False</span>, 
+                                                                 debug: bool=<span class="token classname-blue">False</span>)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+
+                                                <span class="token keyword">Path</span>: Path
+
+                                                ## Path to a file or directory, or list of either or both
+
+                                                    ## Single File: 
+                                                    'User/need4swede/Pictures/Memes/photo.jpeg'
+
+                                                    ## Directory:
+                                                    'User/need4swede/Pictures/Memes'
+
+                                                    ## List of Files & Directories:
+                                                    ['User/need4swede/Music/Memes',
+                                                    'User/need4swede/Music/Memes/Favorites',
+                                                    'User/need4swede/Pictures/Memes/photo1.jpeg',
+                                                    'User/need4swede/Pictures/Memes/photo2.jpeg']
+
+
+
+                                                Make: bool=<span class="token classname-blue">False</span>
+
+                                                ## Create directory / file if it does not exist
+
+
+
+                                                debug: bool=<span class="token classname-blue">False</span>
+
+                                                ## Prints operation task to terminal
+
+                                                    ## When a file path exists
+                                                    "n4s.fs.path_exists():"
+                                                        "File Exist => {'/Users/need4swede/Desktop/file.txt'}"
+
+                                                    ## When a make a file that did not previously exist
+                                                    "n4s.fs.path_exists():"
+                                                        "Created File => {'/Users/need4swede/Desktop/new_file.txt'}"
+
+                                                    ## Other operations...
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>File Exists</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">path_exists</span>('Users/need4swede/Downloads/shrek_meme.jpg') # True
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>List of Files</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">path_exists</span>(['Users/need4swede/Downloads/song1.mp3'          # True
+                      'Users/need4swede/Downloads/song2.mp3',   # False
+                      'Users/need4swede/Downloads/song3.mp3'],  # True
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                                <p>
+                                            <small>Create a directory if it does not exist</small>
+                                                </p>
+                                                <p>
+                                        <pre><code class="language-python">
+ls  /Users/need4swede/Documents
+
+    <span class="token comment">coding</span>
+    <span class="token comment">homework</span>
+    <span class="token comment">doc.pdf</span>
+
+fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/Notes', <span class="token classname-blue">True</span>) # Creates => ../Documents/Notes
+
+ls  /Users/need4swede/Documents
+
+    <span class="token comment">coding</span>
+    <span class="token comment">homework</span>
+    <span class="token comment">Notes</span>
+    <span class="token comment">doc.pdf</span>
+
+fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/Notes', <span class="token classname-blue">True</span>) # True, nothing else created
+                                        </code></pre>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>Path Verification</small></p>
+                                                <p>
+                                                If a 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                path does not exist or cannot be found when copying a file, it will automatically be created. 
+                                                To accomplish this, the
+                                                <strong><span class="token function">path_exists</span></strong>
+                                                function is used from the 
+                                                <strong><span class="token classname">n4s</span></strong>
+                                                <strong><span class="token keyword">Path Finder</span></strong> 
+                                                to verify path integrity. This ensures that you don't have to worry about whether or not 
+                                                a directory or path exists prior to copying your files, as they will be created for you whenever possible.
+                                                </p>
+                                                <p><small>File Path vs Directory</small></p>
+                                                <p>
+                                                Your 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                can either be a file path or a directory. If it's a file path, then you will have to explicitly 
+                                                name the new file. If it's a directory path, the new file will inherit its name from the 
+                                                <strong><span class="token keyword">Source</span></strong> 
+                                                file. This means no more having to individually name each file if you don't want to, or catching an error
+                                                because you didn't explicitly pick a file path as your copy destination. This also means that you don't have 
+                                                to worry about file extensions as it inherits this information directly from the
+                                                <strong><span class="token keyword">Source</span></strong>.
+                                                You can, of course, override this functionality by explicitly declaring a file extension when copying a file.
+                                                </p>
+                                                <p><small>Handling Duplicates</small></p>
+                                                <p>
+                                                If an identical file exists at any given 
+                                                <strong><span class="token keyword">Destination</span></strong> 
+                                                path, the new file will contain a numerical suffix to differentiate the copies. 
+                                                This number quantifies with each iteration if multiple files are being copied at once.
+                                                </p>
+                                                <p><small>Source Not Found</small></p>
+                                                <p>
+                                                If a 
+                                                <strong><span class="token keyword">Source</span></strong> 
+                                                path is incorrect or a file cannot be located, your program won't automatically crash.
+                                                Of course, if your application relies on the existance of a file that was not copied, it will throw a
+                                                <strong><span class="token classname">FileNotFound</span></strong>
+                                                error, but the
+                                                <strong><span class="token function">copy_file</span></strong>
+                                                function will not. This allows you to call the function without having to add unecessary
+                                                <strong><span class="token boolean">try</span></strong>
+                                                and
+                                                <strong><span class="token boolean">except</span></strong>
+                                                blocks to your code. The 
+                                                <strong><span class="token function">path_exists</span></strong>
+                                                function from the 
+                                                <strong><span class="token classname">n4s</span></strong>
+                                                <strong><span class="token keyword">Path Finder</span></strong>
+                                                allows you to check if a file or directory exists if you need to validate this action later
+                                                in your code. I will go over these tools further down the documentation.
+                                                </p>
+                                                <p>
+                                                <strong><span class="token classname">fs</span>.<span class="token function">copy_file</span></strong> 
+                                                operates silently by default, so you would have to enable the 
+                                                <strong><span class="token keyword">debug</span></strong> 
+                                                feature to see if a file was not found.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Path - Root -->
+                                    <div id="path-root" class="section-block">
+                                        <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">Path Finder</span><span class="child">&mdash;</span><span class="child token function">Root</span></h3>
+                                        <hr>
+                                        <!-- Description -->
+                                        <h5 class="block-title"><br>What it does</h5>
+                                        <p>
+                                            Reads file extensions from input paths
+                                        </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">read_format</span>()
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    fs.<span class="token function">read_format</span>(Input: str, 
+                                                                   Include_Period: bool=<span class="token classname-blue">False</span>, 
+                                                                   Print: bool=<span class="token classname-blue">False</span>, 
+                                                                   Uppercase: bool=<span class="token classname-blue">False</span>,
+                                                                   Read_Filename: bool=<span class="token classname-blue">False</span>)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+                                    
+                                                Input: str
+                                    
+                                                ## Input string, usually a path to a local file or a web address
+                                    
+                                                    ## Examples: 
+                                                    '../photo.jpeg' # jpeg
+                                                    '../word.doc' # doc
+                                                    '../adobe.pdf' # pdf
+                                    
+                                    
+                                    
+                                                Include_Period: bool=<span class="token classname-blue">False</span>
+                                    
+                                                ## Whether or not to include the period along with the format
+                                    
+                                                    ## False: 
+                                                    '../photo.jpeg' # jpeg
+                                    
+                                                    ## True:
+                                                    '../photo.jpeg' # .jpeg
+                                    
+                                    
+                                    
+                                                Print: bool=<span class="token classname-blue">False</span>
+                                    
+                                                ## Whether or not to print the returning value to your terminal
+                                    
+                                                    ## False by default
+                                    
+                                    
+                                                Uppercase: bool=<span class="token classname-blue">False</span>
+                                    
+                                                ## Returns the format in uppercase characters
+                                    
+                                                    ## False: 
+                                                    '../photo.jpeg' # jpeg
+                                
+                                                    ## True:
+                                                    '../photo.jpeg' # JPEG
+
+
+                                                Read_Filename: bool=<span class="token classname-blue">False</span>
+
+                                                ## Returns the name of a file
+
+                                                    ## True:
+                                                    '../my_resume.pdf' # my_resume
+
+                                                    ## You need to have Include_Period set to True, otherwise the
+                                                    ## period is associated with the filename, as opposed to the extension.
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>Default</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    fs.<span class="token function">read_format</span>('../audio.mp3') ## mp3
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>Include Period and Uppercase</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    <span class="token keyword">example_file</span> = '/Videos/sample_video.avi'
+                                    fs.<span class="token function">read_format</span>(<span class="token keyword">example_file</span>, <span class="token classname-blue">True</span>, Uppercase=<span class="token classname-blue">True</span>) ## .AVI
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                                <p>
+                                            <small>Read Filename with Include_Period</small>
+                                                </p>
+                                                <p>
+                                        <pre><code class="language-python">
+                                    <span class="token keyword">website_logo</span> = 'https://www.need4swede.net/../logo.png'
+                                    <span class="token keyword">filename</span> = fs.<span class="token function">read_format</span>(<span class="token keyword">website_logo</span>, <span class="token classname-blue">True</span>, Read_Filename=<span class="token classname-blue">True</span>) ## Read filename, include period
+                                    <span class="token function">print</span>(<span class="token keyword">filename</span>) # logo
+                                        </code></pre>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>File Selection</small></p>
+                                                <p>
+                                                    Reference files without having to know their file extensions. This can be really useful
+                                                    when working on a project that has a high throughput of files that all have different
+                                                    formats. You can simply reference a file's name and use
+                                                    <strong><span class="token classname">fs</span>.<span class="token function">read_format</span>(<span class="token keyword">Input</span>=<span class="token classname-blue">str</span>, <span class="token keyword">Include_Period</span>=<span class="token classname-blue">True</span>)</strong>
+                                                    to get a valid file path.
+                                                </p>
+                                                <p><small>Validate Extensions</small></p>
+                                                <p>
+                                                When saving a file from the web, sometimes file extensions change or get omitted altogether.
+                                                <strong><span class="token classname">fs</span>.<span class="token function">read_format</span></strong>
+                                                can help you avoid such issues by validating proper extensions when downloading files.
+                                                </p>
+                                                <p><small>Read Filenames</small></p>
+                                                <p>
+                                                The
+                                                <strong><span class="token keyword">Read_Filename</span></strong>
+                                                argument can help you curate a directory of files, or compare the names of files,
+                                                even if they have different extensions. You can also use this to filter duplicates,
+                                                if you have the same file in different extensions. 
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
 
                             <section class="doc-section">
@@ -1016,10 +1380,10 @@ fs.<span class="token function">copy_file</span>(Source='Users/need4swede/Deskto
                                         <a class="nav-link scrollto" href="#filemanager-rename">Rename</a>
                                     </ol>
                                     <a class="nav-link scrollto" href="#mailcomposer">Mail Composer</a>
-                                    <a class="nav-link scrollto" href="#button-metadata">Path Finder</a>
+                                    <a class="nav-link scrollto" href="#pathfinder">Path Finder</a>
                                     <ol>
-                                        <a class="nav-link scrollto" href="#button-metadata">Path Exists</a>
-                                        <a class="nav-link scrollto" href="#button-metadata">Path Root</a>
+                                        <a class="nav-link scrollto" href="#path-exists">Path Exists</a>
+                                        <a class="nav-link scrollto" href="#path-root">Path Root</a>
                                     </ol>
                                     <a class="nav-link scrollto" href="#button-metadata">System</a>
                                     <ol>
