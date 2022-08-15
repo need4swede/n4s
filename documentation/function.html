@@ -1187,13 +1187,13 @@ fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/N
                                         <!-- Description -->
                                         <h5 class="block-title"><br>What it does</h5>
                                         <p>
-                                            Reads file extensions from input paths
+                                            Points to various common directories and sub-directories on a local file system
                                         </p>
                                         <!-- Call -->
                                         <h5 class="block-title"><br>Function Call</h5>
                                         <p>
                                         <pre><code class="language-python">
-                                    fs.<span class="token function">read_format</span>()
+                                    fs.<span class="token function">root</span>()
                                         </code></pre>
                                         </p>
                                         <!-- Arguments -->
@@ -1201,11 +1201,8 @@ fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/N
                                                 <h5 class="block-title">Arguments</h5>
                                                 <p>
                                                 <pre><code class="language-python">
-                                                    fs.<span class="token function">read_format</span>(Input: str, 
-                                                                   Include_Period: bool=<span class="token classname-blue">False</span>, 
-                                                                   Print: bool=<span class="token classname-blue">False</span>, 
-                                                                   Uppercase: bool=<span class="token classname-blue">False</span>,
-                                                                   Read_Filename: bool=<span class="token classname-blue">False</span>)
+                                                    fs.<span class="token function">root</span>(Directory: str='user', 
+                                                            debug: bool=<span class="token classname-blue">False</span>)
                                                 </code></pre>
                                                 </p>
                                             <div class="readmore">
@@ -1213,56 +1210,24 @@ fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/N
                                             <small>Arguments &ndash; Defined</small>
                                             <pre><code class="language-python">
                                     
-                                                Input: str
+                                                Directory: str
                                     
-                                                ## Input string, usually a path to a local file or a web address
+                                                ## Choice of directory - default is 'user'
                                     
                                                     ## Examples: 
-                                                    '../photo.jpeg' # jpeg
-                                                    '../word.doc' # doc
-                                                    '../adobe.pdf' # pdf
+                                                    'applications' or 'apps' # root of '/Applications' or 'Program Files' directory
+                                                    'desktop' or 'desk' # local user's 'Desktop' directory
+                                                    'documents' or 'docs' # local user's 'Documents' directory
+                                                    'downloads' or 'dl' # local user's 'Downloads' directory
+                                                    'user' # root of local user directory
+                                                    'userlib' # root of 'User/Library' or 'AppData' directory
+                                                    'syslib' # root of '/Library' or 'System32' directory
                                     
                                     
                                     
-                                                Include_Period: bool=<span class="token classname-blue">False</span>
+                                                debug: bool=<span class="token classname-blue">False</span>
                                     
-                                                ## Whether or not to include the period along with the format
-                                    
-                                                    ## False: 
-                                                    '../photo.jpeg' # jpeg
-                                    
-                                                    ## True:
-                                                    '../photo.jpeg' # .jpeg
-                                    
-                                    
-                                    
-                                                Print: bool=<span class="token classname-blue">False</span>
-                                    
-                                                ## Whether or not to print the returning value to your terminal
-                                    
-                                                    ## False by default
-                                    
-                                    
-                                                Uppercase: bool=<span class="token classname-blue">False</span>
-                                    
-                                                ## Returns the format in uppercase characters
-                                    
-                                                    ## False: 
-                                                    '../photo.jpeg' # jpeg
-                                
-                                                    ## True:
-                                                    '../photo.jpeg' # JPEG
-
-
-                                                Read_Filename: bool=<span class="token classname-blue">False</span>
-
-                                                ## Returns the name of a file
-
-                                                    ## True:
-                                                    '../my_resume.pdf' # my_resume
-
-                                                    ## You need to have Include_Period set to True, otherwise the
-                                                    ## period is associated with the filename, as opposed to the extension.
+                                                ## Prints the full path of the chosen directory to the terminal
                                             </code></pre>
                                             <span class="readmore-link"></span>
                                             </div>
