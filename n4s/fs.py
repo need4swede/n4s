@@ -446,8 +446,8 @@ def rename(Name: Path, Rename: str='', debug: bool=False):
                             f"Rename => {Rename}\n")
 
 ## FIND DIRECTORIES (ROOT == USER)
-def root(Dir: str='user', debug: bool=False):
-    if Dir == 'applications' or Dir == 'apps':
+def root(Directory: str='user', debug: bool=False):
+    if Directory == 'applications' or Directory == 'apps':
         if platform.system() == 'Darwin':
             if debug:
                 print("/Applications")
@@ -456,23 +456,23 @@ def root(Dir: str='user', debug: bool=False):
             if debug:
                 print("C:\Program Files")
             return "C:\Program Files"
-    if Dir == 'desktop' or Dir == 'desk':
+    if Directory == 'desktop' or Directory == 'desk':
         if debug:
             print(f"{Path.home()}/Desktop")
         return f"{Path.home()}/Desktop"
-    if Dir == 'documents' or Dir == 'docs':
+    if Directory == 'documents' or Directory == 'docs':
         if debug:
             print(f"{Path.home()}/Documents")
         return f"{Path.home()}/Documents"
-    if Dir == 'downloads' or Dir == 'dl':
+    if Directory == 'downloads' or Directory == 'dl':
         if debug:
             print(f"{Path.home()}/Downloads")
         return f"{Path.home()}/Downloads"
-    if Dir == 'user':
+    if Directory == 'user':
         if debug:
             print(Path.home())
         return Path.home()
-    if Dir == 'userlib':
+    if Directory == 'userlib':
         if platform.system() == 'Darwin':
             if debug:
                 print(f"{Path.home()}/Library")
@@ -481,7 +481,7 @@ def root(Dir: str='user', debug: bool=False):
             if debug:
                 print(f"{Path.home()}/AppData")
             return f"{Path.home()}/AppData"
-    if Dir == 'syslib':
+    if Directory == 'syslib':
         if platform.system() == 'Darwin':
             if debug:
                 print("/Library")
