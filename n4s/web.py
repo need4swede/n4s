@@ -1,4 +1,4 @@
-import os, shutil, re, base64, warnings, webbrowser, requests
+import os, shutil, re, base64, warnings, webbrowser, requests, math
 import http.client as httplib
 from n4s import fs, strgs
 from bs4 import BeautifulSoup
@@ -625,6 +625,61 @@ def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads
     ## DEBUG: PRINT COMPLETION MESSAGE
     if debug:
       print(f'Done: {Save_Directory}/{Filename}')
+
+## READS FILE SIZES
+def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=False):
+  '''
+  File: (Path) to the file you want read
+  Print: (bool) - prints the output to your terminal
+  Bytes: (bool) - return the size in bytes
+  debug: (bool) - print errors to terminal
+  '''
+
+  ## READ HEADER
+  try:
+    resp = requests.request('HEAD', File)
+  except Exception: ## INVALID ADDRESS / FAILED TO CONNECT
+    if debug:
+      print("\nn4s.web.read_filesize():\n"
+            "Unable to retrieve filesize\n"
+            "Error => Failed to Connect / Invalid Address\n")
+      return
+  
+  ## VERIFY CONTENT LENGTH KEY IN HEADER
+  if 'Content-Length' in resp.headers:
+      file_size = resp.headers['Content-Length']
+  else:
+      try:
+          resp = requests.request('HEAD', File)
+          file_size = resp.headers['Content-Length']
+      except KeyError:
+          if debug:
+            print("\nn4s.web.read_filesize():\n"
+                  "Unable to retrieve filesize\n"
+                  "Error => No 'Content-Length' Key\n")
+          return
+  
+  ## CAST FILE SIZE AS INT
+  file_size = int(file_size)
+  
+  ## CONVERT FILE SIZE
+  if file_size == 0:
+      return "0B"
+  size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+  i = int(math.floor(math.log(file_size, 1024)))
+  p = math.pow(1024, i)
+  s = round(file_size / p, 2)
+  
+  # RETURN FILE SIZE IN BYTES
+  if Bytes:
+    if Print:
+      print(file_size)
+    return file_size
+  
+  ## RETURN FILE SIZE (FORMATTED)
+  if Print:
+    print("%s %s" % (s, size_name[i]))
+  return "%s %s" % (s, size_name[i])
 
 ## MERGE HTML/CSS/JS INTO ONE HTML FILE
 def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool=False, filename: str='index', remove_webfiles: bool=False):
