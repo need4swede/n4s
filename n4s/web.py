@@ -9,6 +9,38 @@ category=UserWarning, module='bs4')
 #############################
 
 
+## WEB BROWSWER
+def browser(URL: str, Browser: str, Action: str, debug: bool=False):
+  '''
+  URL: (str) web address
+  Browser: (str) ['safari', 'chrome', 'firefox']
+  Action: (str) ['open', 'close', 'read']
+  debug: (bool) prints debug info to console
+  '''
+
+  ## OPEN WEB ADDRESS IN BROWSER
+  if Action.lower() == 'open':
+
+    ## SUPPORT FOR MACOS
+    if fs.system('is-mac') and Browser.lower() == 'safari':
+
+      ## IMPORT LIBRARIES
+      from appscript import app as app_script, k
+      from mactypes import Alias
+
+      ## OPEN URL IN BROWSER
+      web_browser = app_script(Browser)
+      web_browser.make(new=k.document,with_properties={k.URL:URL})
+    else:
+      ## PRINT ERROR
+      if debug:
+        print('\n\nn4s.web.browser()\nOnly Safari on macOS is supported at this time!\n')
+      return
+  else:
+    ## PRINT ERROR
+      if debug:
+        print("\n\nn4s.web.browser()\nOnly the 'open' command is supported at this time!\n")
+
 ## CREATE WEB FILES
 def build_html(Design: str='default', onefile: bool=False, Directory: Path=fs.root('desktop'), debug: bool=False):
         
@@ -643,7 +675,7 @@ def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=
       print("\nn4s.web.read_filesize():\n"
             "Unable to retrieve filesize\n"
             "Error => Failed to Connect / Invalid Address\n")
-      return
+    return
   
   ## VERIFY CONTENT LENGTH KEY IN HEADER
   if 'Content-Length' in resp.headers:
