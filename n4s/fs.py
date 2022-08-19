@@ -1,4 +1,4 @@
-import os, platform, shutil
+import os, platform, shutil, math
 from sys import executable as python_executable, argv as python_argv, exit as python_exit
 from pathlib import Path
 from subprocess import call
@@ -265,6 +265,33 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                                 f"Invalid Input - {Path}\n"
                                 "Make sure path is type(list) or type(string), "
                                 "and that parent directories are created before nesting files\n") 
+
+## READS FILE SIZES
+def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=False):
+    
+    file_size = os.path.getsize(File)
+
+    ## CAST FILE SIZE AS INT
+    file_size = int(file_size)
+    
+    ## CONVERT FILE SIZE
+    if file_size == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(file_size, 1024)))
+    p = math.pow(1024, i)
+    s = round(file_size / p, 2)
+
+    # RETURN FILE SIZE IN BYTES
+    if Bytes:
+        if Print:
+            print(file_size)
+        return file_size
+    
+    ## RETURN FILE SIZE (FORMATTED)
+    if Print:
+        print("%s %s" % (s, size_name[i]))
+    return "%s %s" % (s, size_name[i])
 
 ## READS FILE EXTENSIONS
 def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Uppercase: bool=False, Read_Filename: bool=False):
