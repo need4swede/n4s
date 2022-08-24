@@ -18,28 +18,62 @@ def browser(URL: str, Browser: str, Action: str, debug: bool=False):
   debug: (bool) prints debug info to console
   '''
 
-  ## OPEN WEB ADDRESS IN BROWSER
-  if Action.lower() == 'open':
+  ## MACOS
+  if fs.system('is-mac'):
 
-    ## SUPPORT FOR MACOS
-    if fs.system('is-mac') and Browser.lower() == 'safari':
+    ## IMPORT LIBRARIES
+    from appscript import app as app_script, k
 
-      ## IMPORT LIBRARIES
-      from appscript import app as app_script, k
-      from mactypes import Alias
+    ## ADD PROTOCOL
+    if not "http://" or not "https://" in URL:
+      URL = URL.split('/')[-1]
+      URL = f"https://{URL}"
 
-      ## OPEN URL IN BROWSER
-      web_browser = app_script(Browser)
-      web_browser.make(new=k.document,with_properties={k.URL:URL})
-    else:
-      ## PRINT ERROR
-      if debug:
-        print('\n\nn4s.web.browser()\nOnly Safari on macOS is supported at this time!\n')
-      return
+    ## RENAME CHROME APP NAME
+    if Browser.lower() == 'chrome':
+          Browser = 'google chrome'
+
+    ## SET WEB BROWSER
+    web_browser = app_script(Browser)
+    
+    ## OPEN WEB ADDRESS IN BROWSER
+    if Action.lower() == 'open':
+
+      ## OPEN URL IN CHROME
+      if Browser.lower() == 'google chrome':
+        web_browser.open_location(URL)
+        return
+      
+      ## OPEN URL IN SAFARI
+      if Browser.lower() == 'safari':
+        web_browser.make(new=k.document,with_properties={k.URL:URL})
+        return
+    
+    ## RETURN URL OF CURRENT ACTIVE BROWSER TAB
+    if Action.lower() == 'active_tab':
+
+      ## CHROME
+      if Browser.lower() == 'google chrome':
+
+        ## GET ACTIVE TAB
+        try:
+          active_tab = web_browser.windows[0].active_tab().URL()
+        ## ERROR
+        except Exception:
+          if debug:
+            print('\n\nn4s.web.browser()\nNo active Chrome tabs found!\n')
+          return
+        ## RETURN TAB URL
+        if debug:
+          print(active_tab)
+        return active_tab
+
+  ## WINDOWS
   else:
     ## PRINT ERROR
-      if debug:
-        print("\n\nn4s.web.browser()\nOnly the 'open' command is supported at this time!\n")
+    if debug:
+      print('\n\nn4s.web.browser()\nOnly macOS is supported at this time!\n')
+    return
 
 ## CREATE WEB FILES
 def build_html(Design: str='default', onefile: bool=False, Directory: Path=fs.root('desktop'), debug: bool=False):
