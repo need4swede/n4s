@@ -10,7 +10,7 @@ category=UserWarning, module='bs4')
 
 
 ## WEB BROWSWER
-def browser(URL: str, Browser: str, Action: str, debug: bool=False):
+def browser(Action: str, Browser: str, URL: str='', debug: bool=False):
   '''
   URL: (str) web address
   Browser: (str) ['safari', 'chrome', 'firefox']
@@ -24,31 +24,13 @@ def browser(URL: str, Browser: str, Action: str, debug: bool=False):
     ## IMPORT LIBRARIES
     from appscript import app as app_script, k
 
-    ## ADD PROTOCOL
-    if not "http://" or not "https://" in URL:
-      URL = URL.split('/')[-1]
-      URL = f"https://{URL}"
-
     ## RENAME CHROME APP NAME
     if Browser.lower() == 'chrome':
           Browser = 'google chrome'
 
     ## SET WEB BROWSER
     web_browser = app_script(Browser)
-    
-    ## OPEN WEB ADDRESS IN BROWSER
-    if Action.lower() == 'open':
 
-      ## OPEN URL IN CHROME
-      if Browser.lower() == 'google chrome':
-        web_browser.open_location(URL)
-        return
-      
-      ## OPEN URL IN SAFARI
-      if Browser.lower() == 'safari':
-        web_browser.make(new=k.document,with_properties={k.URL:URL})
-        return
-    
     ## RETURN URL OF CURRENT ACTIVE BROWSER TAB
     if Action.lower() == 'active_tab':
 
@@ -67,6 +49,24 @@ def browser(URL: str, Browser: str, Action: str, debug: bool=False):
         if debug:
           print(active_tab)
         return active_tab
+
+    ## ADD PROTOCOL
+    if not "http://" or not "https://" in URL:
+      URL = URL.split('/')[-1]
+      URL = f"https://{URL}"
+    
+    ## OPEN WEB ADDRESS IN BROWSER
+    if Action.lower() == 'open':
+
+      ## OPEN URL IN CHROME
+      if Browser.lower() == 'google chrome':
+        web_browser.open_location(URL)
+        return
+      
+      ## OPEN URL IN SAFARI
+      if Browser.lower() == 'safari':
+        web_browser.make(new=k.document,with_properties={k.URL:URL})
+        return
 
   ## WINDOWS
   else:
@@ -939,3 +939,4 @@ def strip_tags(Input: str):
 
 
 ## TESTS
+browser('active_tab', 'chrome', debug=True)
