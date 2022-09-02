@@ -524,7 +524,7 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
         ## APPLE - PODCAST REPORT    #
         if Design == 'applepodcastreport' or Design == 'apr':
           print('\nDownloading Apple Podcast Report...')
-          return webbrowser.get().open("https://drive.google.com/u/1/uc?id=1j94f4z5vnqBTEc9S-yOOPjIiIkowOPqH&export=download", new=1, autoraise=True)
+          return webbrowser.get().open("https://drive.google.com/uc?export=download&id=1j94f4z5vnqBTEc9S-yOOPjIiIkowOPqH&export=download", new=1, autoraise=True)
         ## BARCODE GENERATOR
         if Design == 'barcodegenerator' or Design == 'barcode':
         ## HTML - IFRAME
@@ -939,4 +939,3 @@ def strip_tags(Input: str):
 
 
 ## TESTS
-browser('active_tab', 'chrome', debug=True)
