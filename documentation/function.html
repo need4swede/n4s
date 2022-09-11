@@ -1155,27 +1155,10 @@ fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/N
                                                 If a 
                                                 <strong><span class="token keyword">Source</span></strong> 
                                                 path is incorrect or a file cannot be located, your program won't automatically crash.
-                                                Of course, if your application relies on the existance of a file that was not copied, it will throw a
-                                                <strong><span class="token classname">FileNotFound</span></strong>
-                                                error, but the
-                                                <strong><span class="token function">copy_file</span></strong>
-                                                function will not. This allows you to call the function without having to add unecessary
-                                                <strong><span class="token boolean">try</span></strong>
-                                                and
-                                                <strong><span class="token boolean">except</span></strong>
-                                                blocks to your code. The 
-                                                <strong><span class="token function">path_exists</span></strong>
-                                                function from the 
-                                                <strong><span class="token classname">n4s</span></strong>
-                                                <strong><span class="token keyword">Path Finder</span></strong>
-                                                allows you to check if a file or directory exists if you need to validate this action later
-                                                in your code. I will go over these tools further down the documentation.
-                                                </p>
-                                                <p>
-                                                <strong><span class="token classname">fs</span>.<span class="token function">copy_file</span></strong> 
+                                                <strong><span class="token classname">fs</span>.<span class="token function">path_exists</span></strong> 
                                                 operates silently by default, so you would have to enable the 
                                                 <strong><span class="token keyword">debug</span></strong> 
-                                                feature to see if a file was not found.
+                                                feature to print errors.
                                                 </p>
                                             </div>
                                         </div>
@@ -1242,27 +1225,30 @@ fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/N
                                                 </p>
                                                 <p>
                                                 <pre><code class="language-python">
-                                    fs.<span class="token function">read_format</span>('../audio.mp3') ## mp3
+                                    fs.<span class="token function">root</span>() ## root of user directory
                                                 </code></pre>
                                                 </p>
                                                 <p>
-                                                <small>Include Period and Uppercase</small>
+                                                <small>Documents</small>
                                                 </p>
                                                 <p>
                                                 <pre><code class="language-python">
-                                    <span class="token keyword">example_file</span> = '/Videos/sample_video.avi'
-                                    fs.<span class="token function">read_format</span>(<span class="token keyword">example_file</span>, <span class="token classname-blue">True</span>, Uppercase=<span class="token classname-blue">True</span>) ## .AVI
+                                    fs.<span class="token function">root</span>('docs')
+
+                                    ## macOS => /$USER/Documents
+                                    ## Windows => C:\Users\$USER\Documents
                                                 </code></pre>
                                                 </p>
                                                 </p>
                                                 <p>
-                                            <small>Read Filename with Include_Period</small>
+                                            <small>User Library</small>
                                                 </p>
                                                 <p>
                                         <pre><code class="language-python">
-                                    <span class="token keyword">website_logo</span> = 'https://www.need4swede.net/../logo.png'
-                                    <span class="token keyword">filename</span> = fs.<span class="token function">read_format</span>(<span class="token keyword">website_logo</span>, <span class="token classname-blue">True</span>, Read_Filename=<span class="token classname-blue">True</span>) ## Read filename, include period
-                                    <span class="token function">print</span>(<span class="token keyword">filename</span>) # logo
+                                            fs.<span class="token function">root</span>('userlib')
+                                    
+                                            ## macOS => /$USER/Library
+                                            ## Windows => C:\Users\$USER\AppData
                                         </code></pre>
                                                 </p>
                                             </div>
@@ -1272,27 +1258,23 @@ fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/N
                                             <div class="readmore">
                                                 <span class="readmore-link"></span>
                                                 <h5 class="block-title">Features</h5>
-                                                <p><small>File Selection</small></p>
+                                                <p><small>Navigation</small></p>
                                                 <p>
-                                                    Reference files without having to know their file extensions. This can be really useful
-                                                    when working on a project that has a high throughput of files that all have different
-                                                    formats. You can simply reference a file's name and use
-                                                    <strong><span class="token classname">fs</span>.<span class="token function">read_format</span>(<span class="token keyword">Input</span>=<span class="token classname-blue">str</span>, <span class="token keyword">Include_Period</span>=<span class="token classname-blue">True</span>)</strong>
-                                                    to get a valid file path.
+                                                    Reference directories with ease without having to type their full paths. This can be really useful
+                                                    when working on a project that requires the use of certain directories without knowing exact path names.
                                                 </p>
-                                                <p><small>Validate Extensions</small></p>
+                                                <p><small>Account Names</small></p>
                                                 <p>
-                                                When saving a file from the web, sometimes file extensions change or get omitted altogether.
-                                                <strong><span class="token classname">fs</span>.<span class="token function">read_format</span></strong>
-                                                can help you avoid such issues by validating proper extensions when downloading files.
+                                                Since 
+                                                <strong><span class="token classname">fs</span>.<span class="token function">root</span></strong>
+                                                returns a string, you can use this to get the username of an account on any system.
                                                 </p>
-                                                <p><small>Read Filenames</small></p>
+                                                <p><small>Cross-Platform Compatible</small></p>
                                                 <p>
-                                                The
-                                                <strong><span class="token keyword">Read_Filename</span></strong>
-                                                argument can help you curate a directory of files, or compare the names of files,
-                                                even if they have different extensions. You can also use this to filter duplicates,
-                                                if you have the same file in different extensions. 
+                                                You don't have to make exceptions for macOS and Windows applications in your code.
+                                                <strong><span class="token classname">fs</span>.<span class="token function">root</span></strong>
+                                                uses the same arguments and handles directories differently based on the operating system, so you don't
+                                                have to worry about changing anything. Of course you can make amendments if deemed necessary.
                                                 </p>
                                             </div>
                                         </div>
