@@ -266,6 +266,109 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                                 "Make sure path is type(list) or type(string), "
                                 "and that parent directories are created before nesting files\n") 
 
+## READ THE CONTENTS OF A DIRECTORY
+def read_dir(Source: Path, Output: str='content', Ignore: list=[], Print: bool=False, Hidden: bool=False, debug: bool=False):
+    '''
+    Source: (str) path to a directory
+    
+    Output: 'content', 'files', 'dirs', 'content_count', 'file_count', 'dir_count'
+
+    Ignore: (list) of files and dirs to ignore
+
+    Print: (bool) print file/dir names to terminal
+
+    Hidden: (bool) include hidden files
+
+    debug: (bool) print results to terminal
+    '''
+
+    ## INITIALIZE FILE LIST
+    file_list = []
+
+    ## INITIALIZE DIR LIST
+    dir_list = []
+
+    ## INITIALIZE TOTAL LIST
+    if not system('is-mac') or Hidden:
+        total_list = os.listdir(Source)
+    else:
+        import Foundation
+        url = Foundation.NSURL.fileURLWithPath_(Source)
+        fm = Foundation.NSFileManager.defaultManager()
+        urls = fm.contentsOfDirectoryAtURL_includingPropertiesForKeys_options_error_(
+            url, [], Foundation.NSDirectoryEnumerationSkipsHiddenFiles, None)[0]
+        total_list = [u.path() for u in urls]
+        for x in range(len(total_list)):
+            total_list[x] = total_list[x].split('/')[-1]
+
+    ## FILTER TOTAL LIST
+    for x in range(len(Ignore)):
+        if Ignore[x] in total_list:
+            total_list.remove(Ignore[x])
+
+    ## INITIALIZE SKIPPED FILES LIST
+    skipped_list = []
+
+    ## READ LIST OF FILES
+    try:
+        for x in range(len(total_list)):
+            try:
+                if not total_list[x] == '':
+                    if os.path.isfile(f"{Source}/{total_list[x]}"):
+                        file_list.append(total_list[x])
+                    elif os.path.isdir(f"{Source}/{total_list[x]}"):
+                        dir_list.append(total_list[x])
+            except Exception:
+                skipped_list.append(total_list[x])
+    except Exception as e:
+        if debug:
+            print("\nn4s.fs.list_files():\n"
+                    f"Invalid Input - {Source}\n"
+                    f"Make sure path is a valid (str) of a directory\n")
+            return print(e)
+        return
+
+    ## PRINT TO TERMINAL
+    if Print:
+        if Output == 'files' or Output == 'file_count':
+            print()
+            for x in range(len(file_list)):
+                print(file_list[x])
+        elif Output == 'directories' or Output == 'dirs' or Output == 'dir_count':
+            print()
+            for x in range(len(dir_list)):
+                print(dir_list[x])
+        else:
+            print('\nDirectories:\n')
+            for x in range(len(dir_list)):
+                print(dir_list[x])
+            print('\nFiles:\n')
+            for x in range(len(file_list)):
+                print(file_list[x])
+
+    ## PRINT DEBUG TO TERMINAL
+    if debug:
+        if len(skipped_list) > 0:
+            print(f"Skipped:\n{skipped_list}")
+            print(f"Skip Count: {len(skipped_list)}")
+        print(f"\nFound: {len(file_list)} files")
+        print(f"Found: {len(dir_list)} directories")
+        print(f"Total: {len(total_list)}")
+
+    ## RETURN
+    if Output == 'content':
+        return total_list
+    if Output == 'files':
+        return file_list
+    if Output == 'directories' or Output == 'dirs':
+        return dir_list
+    if Output == 'content_count':
+        return len(total_list)
+    if Output == 'file_count':
+        return len(file_list)
+    if Output == 'directory_count' or Output == 'dir_count':
+        return len(dir_list)
+
 ## READS FILE SIZES
 def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=False):
     
@@ -557,6 +660,13 @@ def system(Action: str='info', Print: bool=False):
         ## IF ARM PROCESSOR
         if Action == 'is-arm' and 'arm' in os_arch:
             check = True
+
+        ## DETECT HIDDEN FILES
+        if 'is-hidden' in Action:
+            is_hidden = Action.split('-')[-1]
+            import stat
+            input(is_hidden)
+            return bool(os.stat(is_hidden).st_file_attributes & stat.FILE_ATTRIBUTE_HIDDEN)
 
         ## PRINT TO TERMINAL
         if Print:
