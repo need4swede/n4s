@@ -1280,6 +1280,129 @@ fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/N
                                         </div>
                                     </div>
                                 </div>
+                                <!-- SYSTEM -->
+                                <div id="system" class="section-block">
+                                    <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">System</span></h3>
+                                    <hr>
+                                    <p>
+                                        Functions:
+                                        <ul>
+                                            <li>
+                                                Manage and launch installed <a class="scrollto" href="#system-apps">applications</a>
+                                            </li>
+                                            <li>
+                                                Read <a class="scrollto" href="#system-info">system information</a> to perform various tasks
+                                            </li>
+                                            <li>
+                                                Set of <a class="scrollto" href="#system-python">python commands</a> for controlling your applications
+                                            </li>
+                                        </ul>
+                                    </p>
+                                    <p>
+                                        <span class="token keyword">System</span> allows for intuative ways to interact with other parts of your
+                                        operating system. It can be used to start applications, check if something is installed, validate what version
+                                        you're running and even control python code with simple commands.
+                                    </p>
+                                    <!-- System - Apps -->
+                                    <div id="system-apps" class="section-block">
+                                        <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">System</span><span class="child">&mdash;</span><span class="child token function">App</span></h3>
+                                        <hr>
+                                        <!-- Description -->
+                                        <h5 class="block-title"><br>What it does</h5>
+                                        <p>
+                                            System commands for checking and launching installed applications
+                                        </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">system</span>('app-')
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    fs.<span class="token function">system</span>(<span class="token keyword">Action</span>: str, 
+                                                              Print: bool=<span class="token classname-blue">False</span>)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+
+                                                <span class="token keyword">Action</span>: str='app-'
+
+                                                ## Launch an application
+
+                                                fs.<span class="token function">system</span>('app-APPNAME')
+
+
+                                                ## Check if an application is installed
+
+                                                fs.<span class="token function">system</span>('app-APPNAME-installed')
+
+
+                                                ## Printa a list of all installed applications
+                                                
+                                                fs.<span class="token function">system</span>('app-list')
+    
+    
+    
+                                                Print: bool=<span class="token classname-blue">False</span>
+
+                                                ## Prints info to the terminal
+
+
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>Launch MS Word</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">system</span>('app-microsoft word') # Starts MS Word
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>Check if Discord is installed</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">system</span>('app-discord-installed') # True / False
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>App Launcher</small></p>
+                                                <p>
+                                                    Conveniently launch apps directly from your python code without having to configure any complex commands or
+                                                    shell scripts. 
+                                                </p>
+                                                <p><small>Verify Installs</small></p>
+                                                <p>
+                                                    Easily verify whether or not an application has been installed on the system. You can also check to see
+                                                    if a combination of applications are installed.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
 
                             <section class="doc-section">
@@ -1332,11 +1455,11 @@ fs.<span class="token function">path_exists</span>('Users/need4swede/Documents/N
                                         <a class="nav-link scrollto" href="#path-exists">Path Exists</a>
                                         <a class="nav-link scrollto" href="#path-root">Path Root</a>
                                     </ol>
-                                    <a class="nav-link scrollto" href="#button-metadata">System</a>
+                                    <a class="nav-link scrollto" href="#system">System</a>
                                     <ol>
-                                        <a class="nav-link scrollto" href="#button-metadata">Application Manager</a>
-                                        <a class="nav-link scrollto" href="#button-metadata">System Information</a>
-                                        <a class="nav-link scrollto" href="#button-metadata">Validation Tools</a>
+                                        <a class="nav-link scrollto" href="#system-apps">Application Manager</a>
+                                        <a class="nav-link scrollto" href="#system-info">System Information</a>
+                                        <a class="nav-link scrollto" href="#system-python">Python Commands</a>
                                     </ol>
                                 </nav>
                                 <a class="nav-link scrollto" href="#metadata">Strings</a>
