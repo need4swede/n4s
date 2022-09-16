@@ -75,26 +75,26 @@ def browser(Action: str, Browser: str, URL: str='', debug: bool=False):
       print('\n\nn4s.web.browser()\nOnly macOS is supported at this time!\n')
     return
 
-## CREATE WEB FILES
+## BUILD WEB TEMPLATES
 def build_html(Design: str='default', onefile: bool=False, Directory: Path=fs.root('desktop'), debug: bool=False):
         
-        ## DIRECTORIES
-        index_dir = f"{Directory}/index"
-        assets_dir = f"{index_dir}/assets"
-        css_dir = f"{assets_dir}/css"
-        js_dir = f"{assets_dir}/js"
+  ## DIRECTORIES
+  index_dir = f"{Directory}/index"
+  assets_dir = f"{index_dir}/assets"
+  css_dir = f"{assets_dir}/css"
+  js_dir = f"{assets_dir}/js"
 
-        ## FILES
-        html_file = f"{index_dir}/index.html"
-        css_file = f"{css_dir}/style.css"
-        js_file = f"{js_dir}/script.js"
-        
-        Design = Design.lower()
-        ###### TEMPLATES #############
-        ## DEFAULT                   #
-        if Design == 'default':      
-            ## HTML - DEFAULT TEMPALTE
-            html_string = '''
+  ## FILES
+  html_file = f"{index_dir}/index.html"
+  css_file = f"{css_dir}/style.css"
+  js_file = f"{js_dir}/script.js"
+  
+  Design = Design.lower()
+  ###### TEMPLATES #############
+  ## DEFAULT                   #
+  if Design == 'default':      
+    ## HTML - DEFAULT TEMPALTE
+    html_string = '''
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -109,8 +109,8 @@ def build_html(Design: str='default', onefile: bool=False, Directory: Path=fs.ro
 </html>
 '''
 
-            ## CSS - DEFAULT TEMPLATE
-            css_string = '''
+    ## CSS - DEFAULT TEMPLATE
+    css_string = '''
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -465,14 +465,14 @@ template {
 
 '''
 
-            ## JS - DEFAULT TEMPLATE
-            js_string = '''
+    ## JS - DEFAULT TEMPLATE
+    js_string = '''
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
 '''
-        ## IFRAME                    #
-        if Design == 'iframe':    
-          ## HTML - IFRAME
-          html_string = '''
+  ## IFRAME                    #
+  if Design == 'iframe':    
+    ## HTML - IFRAME
+    html_string = '''
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -493,8 +493,8 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
 </html>
 '''
           
-          ## CSS - IFRAME
-          css_string = '''
+    ## CSS - IFRAME
+    css_string = '''
 html 
 {
  overflow: auto;
@@ -517,17 +517,17 @@ iframe
 }
 '''
           
-          ## JS - IFRAME
-          js_string = '''
+    ## JS - IFRAME
+    js_string = '''
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
 '''
-        ## APPLE - PODCAST REPORT    #
-        if Design == 'applepodcastreport' or Design == 'apr':
-          print('\nDownloading Apple Podcast Report...')
-          return webbrowser.get().open("https://drive.google.com/uc?export=download&id=1j94f4z5vnqBTEc9S-yOOPjIiIkowOPqH&export=download", new=1, autoraise=True)
-        ## BARCODE GENERATOR
-        if Design == 'barcodegenerator' or Design == 'barcode':
-        ## HTML - IFRAME
+  ## APPLE - PODCAST REPORT    #
+  if Design == 'applepodcastreport' or Design == 'apr':
+    print('\nDownloading Apple Podcast Report...')
+    return webbrowser.get().open("https://drive.google.com/uc?export=download&id=1j94f4z5vnqBTEc9S-yOOPjIiIkowOPqH&export=download", new=1, autoraise=True)
+  ## BARCODE GENERATOR
+  if Design == 'barcodegenerator' or Design == 'barcode':
+    ## HTML - IFRAME
           html_string = '''
 <!DOCTYPE html>
 <html lang="en">
@@ -577,40 +577,98 @@ iframe
           js_string = '''
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
 '''
-        ## BARCODE GENERATOR - DOWNLOAD
-        if Design == 'barcodegenerator-dl' or Design == 'barcode-dl':
-          print('\nDownloading Barcode Generator...')
-          url = "https://drive.google.com/uc?export=download&id=1QQqCM0OdD1GhuIKv7lsxVa7ItBsj3VE8"
-          r = requests.get(url, allow_redirects=True)
-          open(f"{Directory}/barcode_generator.zip", 'wb').write(r.content)
-          return print(f'Done: {Directory}/barcode_generator.zip')
-        ##############################
+  ## BARCODE GENERATOR - DOWNLOAD
+  if Design == 'barcodegenerator-dl' or Design == 'barcode-dl':
+    print('\nDownloading Barcode Generator...')
+    url = "https://drive.google.com/uc?export=download&id=1QQqCM0OdD1GhuIKv7lsxVa7ItBsj3VE8"
+    r = requests.get(url, allow_redirects=True)
+    open(f"{Directory}/barcode_generator.zip", 'wb').write(r.content)
+    return print(f'Done: {Directory}/barcode_generator.zip')
+  ##############################
 
-        ## CREATE DIRECTORIES AND FILES
-        fs.path_exists([index_dir, assets_dir,
-            css_dir,
-            js_dir,
-            html_file,
-            css_file,
-            js_file
-        ], True)
+  ## CREATE DIRECTORIES AND FILES
+  fs.path_exists([index_dir, assets_dir,
+      css_dir,
+      js_dir,
+      html_file,
+      css_file,
+      js_file
+  ], True)
 
-        ## OUTPUT HTML FILE
-        with open(html_file, 'w') as htmlFile:
-            htmlFile.write(html_string)
-        
-        ## OUTPUT CSS FILE
-        with open(css_file, 'w') as cssFile:
-            cssFile.write(css_string)
-        
-        ## OUTPUT JAVASCRIPT FILE
-        with open(js_file, 'w') as jsFile:
-            jsFile.write(js_string)
+  ## OUTPUT HTML FILE
+  with open(html_file, 'w') as htmlFile:
+    htmlFile.write(html_string)
+  
+  ## OUTPUT CSS FILE
+  with open(css_file, 'w') as cssFile:
+    cssFile.write(css_string)
+  
+  ## OUTPUT JAVASCRIPT FILE
+  with open(js_file, 'w') as jsFile:
+    jsFile.write(js_string)
 
-        ## MERGE THE FILES INTO ONE
-        if onefile:
-            merge_html(html_file, css_file, js_file, True, False)
-        return
+  ## MERGE THE FILES INTO ONE
+  if onefile:
+    merge_html(html_file, css_file, js_file, True, False)
+  return
+
+## CREATE WEB FILES (MANUAL)
+def create_html(HTML: str='', CSS: str='', JS: str='', onefile: bool=False, Directory: Path=fs.root('desktop'), debug: bool=False):
+  '''
+  HTML: (str) of HTML code
+  CSS: (str) of CSS code
+  JS: (str) of JS code
+  onefile: (bool) combines HTML/CSS/JS
+  Directory: (Path) Output Directory
+  debug: (bool) print to terminal
+  '''
+
+  ## ROOT DIRECTORY OF INDEX
+  index_directory = Directory
+
+  ## CREATE SUB-DIRECTORY IF DEFAULT PATH (DESKTOP)
+  if index_directory == str(fs.root('desktop')):
+    index_directory = f"{index_directory}/index"
+
+  ## ASSET DIRECTORY WITHIN INDEX DIRECTORY
+  assets_directory = f"{index_directory}/assets"
+
+  ## CSS AND JS DIRECTORIES
+  css_directory = f"{assets_directory}/css"
+  js_directory = f"{assets_directory}/js"
+
+  ## CREATE DIRECTORIES IF NEEDED
+  fs.path_exists([assets_directory, css_directory, js_directory], True)
+
+  ## WEB FILES
+  html_file = f"{index_directory}/index.html"
+  css_file = f"{css_directory}/style.css"
+  js_file = f"{js_directory}/script.js"
+
+  ## BUILD HTML IF BLANK
+  if HTML == '' and CSS == '' and JS == '':
+    if onefile:
+      build_html(onefile=True)
+    else:
+      build_html()
+    return
+
+  ## OUTPUT HTML FILE
+  if not fs.path_exists(html_file) and not HTML == '':
+    with open(html_file, 'w+') as htmlFile:
+        htmlFile.write(HTML)
+  
+  ## OUTPUT CSS FILE
+  with open(css_file, 'w+') as cssFile:
+      cssFile.write(CSS)
+  
+  ## OUTPUT JAVASCRIPT FILE
+  with open(js_file, 'w+') as jsFile:
+      jsFile.write(JS)
+
+  ## MERGE HTML, CSS AND JS FILES
+  if onefile:
+    merge_html(html_file, css_file, js_file, True)
 
 ## DOWNLOAD FILES
 def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads'), Detect_Format: bool=True, debug: bool=False):
