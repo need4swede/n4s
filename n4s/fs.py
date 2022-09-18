@@ -1,3 +1,4 @@
+from operator import indexOf
 import os, platform, shutil, math
 from sys import executable as python_executable, argv as python_argv, exit as python_exit
 from pathlib import Path
@@ -267,7 +268,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                                 "and that parent directories are created before nesting files\n") 
 
 ## READ THE CONTENTS OF A DIRECTORY
-def read_dir(Source: Path, Output: str='content', Ignore: list=[], Print: bool=False, Hidden: bool=False, debug: bool=False):
+def read_dir(Source: Path, Output: str='content', Ignore: list=[], Filter: list=[], Print: bool=False, Hidden: bool=False, debug: bool=False):
     '''
     Source: (str) path to a directory
     
@@ -328,6 +329,23 @@ def read_dir(Source: Path, Output: str='content', Ignore: list=[], Print: bool=F
             return print(e)
         return
 
+    if type(Filter) == str and not Filter == '':
+        if Filter.lower() == 'documents' or Filter.lower() == 'docs' or Filter.lower() == 'text' or Filter.lower() == 'txt':
+            Filter = ['doc', 'docm', 'docx', 'dot', 'dotm', 'dotx', 'htm', 'odt', 'pdf', 'rtf', 'txt', 'wps', 'xml', 'xps',
+            'csv', 'dbf', 'dif', 'ods', 'prn', 'slk', 'xla', 'xlam', 'xls', 'xlsb', 'xlsm', 'xlsx', 'xltm', 'xltx', 'xlw',
+            'pptx', 'ppt', 'ppsx', 'pps']
+        elif Filter.lower() == 'images' or Filter.lower() == 'pictures' or Filter.lower() == 'pics' or Filter.lower() == 'photos':
+            Filter = ['bmp', 'dng', 'eps', 'gif', 'jpg', 'jpeg', 'nef', 'png', 'raw']
+        for x in range(len(total_list)):
+            try:
+                if read_format(str(total_list[x]).lower()) not in Filter:
+                    if total_list[x] in file_list:
+                        file_list.remove(total_list[x])
+                        skipped_list.append(total_list[x])
+                    # total_list.remove(total_list[x])
+            except IndexError as e:
+                print(e)
+
     ## PRINT TO TERMINAL
     if Print:
         if Output == 'files' or Output == 'file_count':
@@ -349,7 +367,7 @@ def read_dir(Source: Path, Output: str='content', Ignore: list=[], Print: bool=F
     ## PRINT DEBUG TO TERMINAL
     if debug:
         if len(skipped_list) > 0:
-            print(f"Skipped:\n{skipped_list}")
+            print(f"\nSkipped:\n{skipped_list}")
             print(f"Skip Count: {len(skipped_list)}")
         print(f"\nFound: {len(file_list)} files")
         print(f"Found: {len(dir_list)} directories")
@@ -872,3 +890,4 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
+read_dir('/Users/afshari/Documents/test', Print=True, debug=True, Filter='text', Ignore='mike_afshari')
