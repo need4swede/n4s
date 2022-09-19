@@ -302,10 +302,34 @@ def read_dir(Source: Path, Output: str='content', Ignore: list=[], Filter: list=
         for x in range(len(total_list)):
             total_list[x] = total_list[x].split('/')[-1]
 
-    ## FILTER TOTAL LIST
-    for x in range(len(Ignore)):
-        if Ignore[x] in total_list:
-            total_list.remove(Ignore[x])
+    ## FILTER TOTAL LIST - VIA LIST
+    if type(Ignore) == list:
+        if len(Ignore) > 0:
+            for x in range(len(Ignore)):
+                
+                ## ADD FILE EXTENSION IF NOT PASSED IN
+                if not str(Ignore[x]).endswith(read_format(Ignore[x], True)):
+                    for y in range(len(total_list)):
+                        if Ignore[x] == str(total_list[y]).split('.')[0]:
+                            Ignore[x] = total_list[y]
+                
+                ## REMOVE FROM TOTAL
+                if Ignore[x] in total_list:
+                    total_list.remove(Ignore[x])
+
+    ## FILTER TOTAL LIST - VIA STRING
+    if type(Ignore) == str:
+        if not Ignore == '':
+
+            ## ADD FILE EXTENSION IF NOT PASSED IN
+            if not str(Ignore).endswith(read_format(Ignore, True)):
+                for x in range(len(total_list)):
+                    if Ignore == str(total_list[x]).split('.')[0]:
+                        Ignore = total_list[x]
+            
+            ## REMOVE FROM TOTAL
+            if Ignore in total_list:
+                total_list.remove(Ignore)
 
     ## INITIALIZE SKIPPED FILES LIST
     skipped_list = []
@@ -890,4 +914,4 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
-read_dir('/Users/afshari/Documents/test', Print=True, debug=True, Filter='text', Ignore='mike_afshari')
+read_dir('/Users/afshari/Documents/test', Print=True, debug=True, Filter='text', Ignore=['doc.txt', 'mike_afshari_resume', 'Car Parts'])
