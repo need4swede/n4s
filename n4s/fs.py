@@ -276,6 +276,8 @@ def read_dir(Source: Path, Output: str='content', Ignore: list=[], Filter: list=
 
     Ignore: (list) of files and dirs to ignore
 
+    Filter: (list) or (str) of filetypes to target in your search ('docs', 'images')
+
     Print: (bool) print file/dir names to terminal
 
     Hidden: (bool) include hidden files
@@ -914,4 +916,3 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
-read_dir('/Users/afshari/Documents/test', Print=True, debug=True, Filter='text', Ignore=['doc.txt', 'mike_afshari_resume', 'Car Parts'])
