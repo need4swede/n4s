@@ -2,7 +2,7 @@ from dataclasses import replace
 import re
 
 ## REMOVES CHARACTERS FROM TEXT
-def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False, Print: bool=False):
+def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False, Remove_Comma: bool=False, Print: bool=False):
     '''
     Input: input string (str)
     Casing: 'default', 'lower', 'upper', 'title', 'camel', 'spongebob' (str)
@@ -12,6 +12,11 @@ def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False, Pri
     
     ## REMOVE SPECIAL CHARACTERS FROM STRING
     clean = re.sub(r"[^a-zA-Z0-9 ,*\u2019-]+"," ",Input).strip()
+    clean = replace_text(Text=clean, Replace=[":", "-"], Replacement=["", " "])
+
+    ## REMOVES COMMAS
+    if Remove_Comma:
+        clean = replace_text(Text=clean, Replace=",", Replacement=" ")
     
     ## CONVERT TO LOWERCASE
     if Casing == "lower":
@@ -48,10 +53,16 @@ def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False, Pri
     elif Casing == "spongebob":
         clean = ''.join([x.lower() if i%2 else x.upper() for i,x in enumerate(clean)])
 
+    ## REMOVE SPACES BEFORE COMMAS
+    clean = re.sub(r'\s*([,])\s*', r', ', clean)
+    
+    ## REMOVE DOUBLE SPACES
+    clean = " ".join(clean.split())
+    
     ## REMOVE SPACES
     if Remove_Spaces:
         clean = clean.replace(" ", "")
-    
+
     ## RETURN
     if Print:
         print(clean.strip())
@@ -189,10 +200,15 @@ def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False, 
     
     ## REPLACING A SINGLE SUBSTRING WITH A STRING
     if type(Replace) == str and type(Replacement) == str:
-        if Case_Sensitive:
-            replaced_text = Text.replace(Replace, Replacement).strip()
+        ## IF REPLACING CHAR
+        if len(Replace) == 1:
+            replaced_text = Text.translate((str.maketrans({Replace: Replacement})))
+        ## IF REPLACING STRING
         else:
-            replaced_text = re.sub(Replace, Replacement, Text, flags=re.IGNORECASE)
+            if Case_Sensitive:
+                replaced_text = Text.replace(Replace, Replacement).strip()
+            else:
+                replaced_text = re.sub(Replace, Replacement, Text, flags=re.IGNORECASE)
 
     ## REPLACING A SINGLE SUBSTRING WITH A LIST OF STRINGS
     elif type(Replace) == str and type(Replacement) == list:
@@ -209,7 +225,7 @@ def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False, 
             if Case_Sensitive:
                 replaced_text = re.sub('|'.join(Replace), Replacement, Text).strip()
             else:
-                replaced_text = re.sub('|'.join(Replace), Replacement, Text, flags=re.IGNORECASE).strip()
+                replaced_text = re.sub('|'.join(Replace), Replacement, Text, flags=re.IGNORECASE | re.DOTALL).strip()
         except TypeError:
             return print(invalid_input)
     
@@ -217,10 +233,15 @@ def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False, 
     elif type(Replace) == list and type(Replacement) == list:
         try:
             for i in range(len(Replace)):
-                if Case_Sensitive:
-                    Text = Text.replace(Replace[i], Replacement[i])
+                ## IF REPLACING CHAR
+                if len(Replace[i]) == 1:
+                    Text = Text.translate((str.maketrans({Replace[i]: Replacement[i]})))
+                ## IF REPLACING STRING
                 else:
-                    Text = re.sub(Replace[i], Replacement[i], Text, flags=re.IGNORECASE)
+                    if Case_Sensitive:
+                        Text = Text.replace(Replace[i], Replacement[i])
+                    else:
+                        Text = re.sub(Replace[i], Replacement[i], Text, flags=re.IGNORECASE)
         except IndexError:
             return print(invalid_input)
         replaced_text = Text.strip()
@@ -237,7 +258,7 @@ def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False, 
     return replaced_text.strip()
 
 ## SHORTENS TEXT TO A SET LIMIT
-def shorten_text(text: str, length: int, debug: bool=False, suffix: str='...'):
+def shorten_text(Text: str, Length: int, suffix: str='...', debug: bool=False, ):
     '''
     ARGUMENTS
     - text: input (str)
@@ -250,21 +271,21 @@ def shorten_text(text: str, length: int, debug: bool=False, suffix: str='...'):
     ## DEBUGGER
     if debug:
         ## TEXT VALIDATION, STRING
-        if not type(text) == str:
+        if not type(Text) == str:
             print("\nInput text not a valid string")
             return
         ## LENGTH VALIDATION, INT
-        if not type(length) == int:
+        if not type(Length) == int:
             print("\nInput length not a valid integer")
             return
     ## MAIN
     try:
         ## RETURN TEXT IF LENGTH IS GREATER
-        if len(text) <= length:
-            return text
+        if len(Text) <= Length:
+            return Text
         else:
             ## SHORTEN TEXT AND ADD SUFFIX
-            return ' '.join(text[:length+1].split(' ')[0:-1]) + suffix
+            return ' '.join(Text[:Length+1].split(' ')[0:-1]) + suffix
     ## ERROR
     except Exception:
         return print("\nn4s.string.shorten_text():\nOperation Failed - Enable debug for more info\n")
