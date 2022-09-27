@@ -1,4 +1,3 @@
-from operator import indexOf
 import os, platform, shutil, math
 from sys import executable as python_executable, argv as python_argv, exit as python_exit
 from pathlib import Path
