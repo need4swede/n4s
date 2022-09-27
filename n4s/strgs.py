@@ -257,7 +257,7 @@ def replace_text(Text: str, Replace: list, Replacement: str, Print: bool=False, 
     return replaced_text.strip()
 
 ## SHORTENS TEXT TO A SET LIMIT
-def shorten_text(Text: str, Length: int, suffix: str='...', debug: bool=False, ):
+def shorten_text(Text: str, Length: int, Suffix: str='...', debug: bool=False, ):
     '''
     ARGUMENTS
     - text: input (str)
@@ -284,7 +284,7 @@ def shorten_text(Text: str, Length: int, suffix: str='...', debug: bool=False, )
             return Text
         else:
             ## SHORTEN TEXT AND ADD SUFFIX
-            return ' '.join(Text[:Length+1].split(' ')[0:-1]) + suffix
+            return ' '.join(Text[:Length+1].split(' ')[0:-1]) + Suffix
     ## ERROR
     except Exception:
         return print("\nn4s.string.shorten_text():\nOperation Failed - Enable debug for more info\n")
