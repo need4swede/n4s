@@ -1,4 +1,4 @@
-import os, shutil, re, base64, warnings, webbrowser, requests, math
+import os, sys, shutil, re, base64, warnings, webbrowser, requests, math
 import http.client as httplib
 from n4s import fs, strgs
 from bs4 import BeautifulSoup
@@ -470,7 +470,7 @@ template {
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
 '''
   ## IFRAME                    #
-  if Design == 'iframe':    
+  elif Design == 'iframe':    
     ## HTML - IFRAME
     html_string = '''
 <!DOCTYPE html>
@@ -522,11 +522,11 @@ iframe
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
 '''
   ## APPLE - PODCAST REPORT    #
-  if Design == 'applepodcastreport' or Design == 'apr':
+  elif Design == 'applepodcastreport' or Design == 'apr':
     print('\nDownloading Apple Podcast Report...')
     return webbrowser.get().open("https://drive.google.com/uc?export=download&id=1j94f4z5vnqBTEc9S-yOOPjIiIkowOPqH&export=download", new=1, autoraise=True)
   ## BARCODE GENERATOR
-  if Design == 'barcodegenerator' or Design == 'barcode':
+  elif Design == 'barcodegenerator' or Design == 'barcode':
     ## HTML - IFRAME
           html_string = '''
 <!DOCTYPE html>
@@ -578,12 +578,19 @@ iframe
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
 '''
   ## BARCODE GENERATOR - DOWNLOAD
-  if Design == 'barcodegenerator-dl' or Design == 'barcode-dl':
+  elif Design == 'barcodegenerator-dl' or Design == 'barcode-dl':
     print('\nDownloading Barcode Generator...')
     url = "https://drive.google.com/uc?export=download&id=1QQqCM0OdD1GhuIKv7lsxVa7ItBsj3VE8"
     r = requests.get(url, allow_redirects=True)
     open(f"{Directory}/barcode_generator.zip", 'wb').write(r.content)
     return print(f'Done: {Directory}/barcode_generator.zip')
+  ## CLEAN GUIDE TEMPLATE      #
+  elif Design == 'guide-clean-noscroll':      
+    print('\nDownloading Guide - Clean w/ No Scroll...')
+    url = "https://drive.google.com/uc?export=download&id=1gKpq1a1Ddfo5CRGA5jmh6vzUXmIPaIbf"
+    r = requests.get(url, allow_redirects=True)
+    open(f"{Directory}/guide_clean_noscroll.zip", 'wb').write(r.content)
+    return print(f'Done: {Directory}/guide_clean_noscroll.zip')
   ##############################
 
   ## CREATE DIRECTORIES AND FILES
@@ -995,5 +1002,11 @@ def strip_tags(Input: str):
         ## RETURN (REMOVE WHITESPACE)
         return re.sub(clean, '', Input).strip()
 
+## ALLOWS FOR ARGUMENTS THROUGH TERMINAL
+if __name__ == '__main__':
+  try:
+    globals()[sys.argv[1]](sys.argv[2])
+  except Exception:
+    pass
 
 ## TESTS
