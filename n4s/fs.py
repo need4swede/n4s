@@ -630,17 +630,32 @@ def root(Directory: str='user', debug: bool=False):
                 print("C:\Program Files")
             return "C:\Program Files"
     if Directory == 'desktop' or Directory == 'desk':
-        if debug:
-            print(f"{Path.home()}/Desktop")
-        return f"{Path.home()}/Desktop"
+        if platform.system() == 'Darwin':
+            if debug:
+                print(f"{Path.home()}/Desktop")
+            return f"{Path.home()}/Desktop"
+        if platform.system() == 'Windows':
+            if debug:
+                print(f"{Path.home()}\Desktop")
+            return f"{Path.home()}\Desktop"
     if Directory == 'documents' or Directory == 'docs':
-        if debug:
-            print(f"{Path.home()}/Documents")
-        return f"{Path.home()}/Documents"
+        if platform.system() == 'Darwin':
+            if debug:
+                print(f"{Path.home()}/Documents")
+            return f"{Path.home()}/Documents"
+        if platform.system() == 'Windows':
+            if debug:
+                print(f"{Path.home()}\Documents")
+            return f"{Path.home()}\Documents"
     if Directory == 'downloads' or Directory == 'dl':
-        if debug:
-            print(f"{Path.home()}/Downloads")
-        return f"{Path.home()}/Downloads"
+        if platform.system() == 'Darwin':
+            if debug:
+                print(f"{Path.home()}/Downloads")
+            return f"{Path.home()}/Downloads"
+        if platform.system() == 'Windows':
+            if debug:
+                print(f"{Path.home()}\Downloads")
+            return f"{Path.home()}\Downloads"
     if Directory == 'user':
         if debug:
             print(Path.home())
@@ -652,8 +667,8 @@ def root(Directory: str='user', debug: bool=False):
             return f"{Path.home()}/Library"
         if platform.system() == 'Windows':
             if debug:
-                print(f"{Path.home()}/AppData")
-            return f"{Path.home()}/AppData"
+                print(f"{Path.home()}\AppData")
+            return f"{Path.home()}\AppData"
     if Directory == 'syslib':
         if platform.system() == 'Darwin':
             if debug:
