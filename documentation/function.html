@@ -1494,6 +1494,103 @@ if <span class="token keyword">os_type</span> == 'macOS' and int(<span class="to
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- System - Python -->
+                                    <div id="system-python" class="section-block">
+                                        <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">System</span><span class="child">&mdash;</span><span class="child token function">Python</span></h3>
+                                        <hr>
+                                        <!-- Description -->
+                                        <h5 class="block-title"><br>What it does</h5>
+                                        <p>
+                                            Some helpful Python commands
+                                        </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">system</span>('python')
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    fs.<span class="token function">system</span>(<span class="token keyword">Action</span>: str, 
+                                                              Print: bool=<span class="token classname-blue">False</span>)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+
+                                                <span class="token keyword">Action</span>: str='python'
+
+                                                ## Returns Python Version
+
+
+                                                fs.<span class="token function">system</span>('python-restart')
+
+                                                ## Restarts your python application
+
+
+                                                fs.<span class="token function">system</span>('python-exit')
+
+                                                ## Quits your python application
+
+
+
+                                                Print: bool=<span class="token classname-blue">False</span>
+
+                                                ## Prints info to the terminal
+
+
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>Validate Operating System</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">system</span>('is-mac') # Returns 'True' if macOS
+fs.<span class="token function">system</span>('is-windows') # Returns 'True' if Windows
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>Validate if running on ARM processor</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">system</span>('is-arm') # True / False
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>Validate an OS</small></p>
+                                                <p>
+                                                    Easily check if a system is running macOS / Windows / Linux, and incpororate conditions
+                                                    allowing your applications to be more modular.
+                                                </p>
+                                                <p><small>x86 / ARM Validation</small></p>
+                                                <p>
+                                                    Allows you to conveniently check a system's architecture when creating applications.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- System - Validation -->
                                     <div id="system-validation" class="section-block">
                                         <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">System</span><span class="child">&mdash;</span><span class="child token function">Validation</span></h3>
@@ -1526,22 +1623,23 @@ if <span class="token keyword">os_type</span> == 'macOS' and int(<span class="to
 
                                                 <span class="token keyword">Action</span>: str='is-'
 
-                                                ## Validate Operating System
 
                                                 fs.<span class="token function">system</span>('is-NAME_OF_OS')
 
+                                                ## Validate Operating System
 
-                                                ## Validate System Architecture
 
                                                 fs.<span class="token function">system</span>('is-NAME_OF_ARCH')
 
+                                                ## Validate System Architecture
 
-                                                ## Validate if directory / file is hidden
-                                                
+
                                                 fs.<span class="token function">system</span>('is-hidden-PATH_TO_FILE')
     
+                                                ## Validate if directory / file is hidden
     
     
+
                                                 Print: bool=<span class="token classname-blue">False</span>
 
                                                 ## Prints info to the terminal
@@ -1650,8 +1748,8 @@ fs.<span class="token function">system</span>('is-arm') # True / False
                                     <ol>
                                         <a class="nav-link scrollto" href="#system-apps">Application Manager</a>
                                         <a class="nav-link scrollto" href="#system-info">System Information</a>
-                                        <a class="nav-link scrollto" href="#system-validation">System Validation</a>
                                         <a class="nav-link scrollto" href="#system-python">Python Commands</a>
+                                        <a class="nav-link scrollto" href="#system-validation">System Validation</a>
                                     </ol>
                                 </nav>
                                 <a class="nav-link scrollto" href="#metadata">Strings</a>
