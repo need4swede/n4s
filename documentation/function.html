@@ -1402,6 +1402,98 @@ fs.<span class="token function">system</span>('app-discord-installed') # True / 
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- System - Info -->
+                                    <div id="system-info" class="section-block">
+                                        <h3 class="block-title"><span class="token classname">File System</span><span class="child">&mdash;</span><span class="child token keyword">System</span><span class="child">&mdash;</span><span class="child token function">Info</span></h3>
+                                        <hr>
+                                        <!-- Description -->
+                                        <h5 class="block-title"><br>What it does</h5>
+                                        <p>
+                                            Returns information about your system
+                                        </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">system</span>('info')
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    fs.<span class="token function">system</span>(<span class="token keyword">Action</span>: str, 
+                                                              Print: bool=<span class="token classname-blue">False</span>)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+
+                                                fs.<span class="token function">system</span>('info')
+    
+                                                ## Returns an array of [os_type, os_version, chip_architecture]
+    
+                                                Print: bool=<span class="token classname-blue">False</span>
+
+                                                ## Prints info to the terminal
+
+
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>Apple M1 Macbook</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">system</span>('info') # ['macOS', '12.4', 'arm64']
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>Windows on AMD CPU</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+fs.<span class="token function">system</span>('info') # ['Windows', '10', 'AMD64']
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                                <p>
+                                                <small>Verify OS version (macOS)</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+<span class="token keyword">os_type</span> = fs.<span class="token function">system</span>('info')[0] # ['macOS']
+<span class="token keyword">os_version</span> = fs.<span class="token function">system</span>('info')[1] # ['12.4']
+
+if <span class="token keyword">os_type</span> == 'macOS' and int(<span class="token keyword">os_version</span>) => 12.2:
+    ## Do something...
+                                                </code></pre>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>Read OS Versions</small></p>
+                                                <p>
+                                                    Easily read what version of a given operating system the code is being excecuted on, with the ability
+                                                    to differentiate them for app support and debugging.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
 
