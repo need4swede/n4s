@@ -1694,6 +1694,209 @@ fs.<span class="token function">system</span>('is-arm') # True / False
                                 </div>
                             </section>
 
+                            <section id="strings" class="doc-section">
+                                <!-- INTRO -->
+                                <h2 class="section-title"><span class="token classname">Strings</span> [<strong class="token classname">strgs</strong>]</h2>
+                                <div class="section-block">
+                                    <h3 class="block-title">What it does</h3>
+                                    <p>The <span class="token classname"><strong>strgs</strong></span> module contains a series of helpful functions for manipulating lists and strings.</p>
+                                    <p>
+                                        With <span class="token classname"><strong>strgs</strong></span>, you can:
+                                        <ul>
+                                            <li>
+                                                <a href="#strings-clean" class="scrollto token keyword">Clean</a> strings and format them in various styles.
+                                            </li>
+                                            <li>
+                                                <a href="#strings-filter" class="scrollto token keyword">Filter</a> substrings out from strings or a list of strings.
+                                            </li>
+                                            <li>
+                                                <a href="#strings-find" class="scrollto token keyword">Find</a> the index of a string, or a list of strings, within a list or string.
+                                            </li>
+                                            <li>
+                                                <a href="#strings-clean" class="scrollto token keyword">Replace</a> words and sentences within strings or a list of strings.
+                                            </li>
+                                            <li>
+                                                <a href="#strings-clean" class="scrollto token keyword">Shorten</a> strings to fit a specific character limit.
+                                            </li>
+                                        </ul>
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <h3 class="block-title">Import</h3>
+                                    <p>
+                                        <pre><code class="language-python">from n4s import strgs</code></pre>
+                                    </p>
+                                </div>
+                                <!-- STRINGS - CLEAN -->
+                                <div id="strings-clean" class="section-block">
+                                    <h3 class="block-title"><span class="token classname">Strings</span><span class="child">&mdash;</span><span class="child token function">Clean</span></h3>
+                                    <hr>
+                                    <!-- Description -->
+                                    <h5 class="block-title"><br>What it does</h5>
+                                    <p>
+                                        Allows you to clean-up text by stripping away special characters, and output formatted text in various styles.
+                                    </p>
+                                        <!-- Call -->
+                                        <h5 class="block-title"><br>Function Call</h5>
+                                        <p>
+                                        <pre><code class="language-python">
+                                    strgs.<span class="token function">clean_text</span>()
+                                        </code></pre>
+                                        </p>
+                                        <!-- Arguments -->
+                                        <div class="section-block">
+                                                <h5 class="block-title">Arguments</h5>
+                                                <p>
+                                                <pre><code class="language-python">
+                                                    strgs.<span class="token function">clean_text</span>(Input: str='', 
+                                                            Casing: str='', 
+                                                            Remove_Spaces: str='', 
+                                                            Remove_Comma: Path='',
+                                                            Print: bool=False)
+                                                </code></pre>
+                                                </p>
+                                            <div class="readmore">
+                                            <!-- Args Explanation -->
+                                            <small>Arguments &ndash; Defined</small>
+                                            <pre><code class="language-python">
+                                    
+                                                Send_To: str
+                                    
+                                                ## Email address of the recipient
+                                    
+                                                    ## Example: 
+                                                    'jdoe@company.com'
+                                    
+                                    
+                                                Subject: str
+                                    
+                                                ## The subject line of the email
+                                    
+                                                    ## Example: 
+                                                    'RE: n4s mail composer'
+                                                
+                                                
+                                                Body: str
+                                    
+                                                ## Message body of the email
+                                    
+                                                    ## Short Example: 
+                                                    'This is a short message'
+                                    
+                                    
+                                                    ## Long Example: 
+                                                    '''
+                                                    This is a longer message.
+                                                    You can write whatever you want
+                                                    and it will be included in the body.
+                                                    '''
+
+
+                                                Attachment: Path
+                                    
+                                                ## Add file attachments to your email
+                                    
+                                                    ## Example: 
+                                                    '../User/Pictures/dog.png'
+
+                                            </code></pre>
+                                            <span class="readmore-link"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Examples -->
+                                        <div class="section-block">
+                                            <h5 class="block-title">Examples</h5>
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <p>
+                                                <small>Generate Mailto</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    fs.<span class="token function">mail</span>('email@domain.com')
+                                                </code></pre>
+                                                </p>
+                                                <p>
+                                                <small>Compose Short Message</small>
+                                                </p>
+                                                <p>
+                                                <pre><code class="language-python">
+                                    fs.<span class="token function">mail</span>('email@domain.com',
+                                    'RE: Mail Handler', 
+                                    'Welcome to n4s!')
+                                                </code></pre>
+                                                </p>
+                                                </p>
+                                                <p>
+                                            <small>Compose Long Message</small>
+                                                </p>
+                                                <p>
+                                        <pre><code class="language-python">
+                                    <span class="token keyword">address</span> = 'shrek@swamp-mail.org'
+                                    <span class="token keyword">subject</span> = 'RE: All Star'
+                                    <span class="token keyword">message</span> = '''
+                                    Somebody once told me the world is gonna roll me
+                                    I ain't the sharpest tool in the shed
+                                    She was looking kind of dumb with her finger and her thumb
+                                    In the shape of an "l" on her forehead
+
+                                    Well the years start coming and they don't stop coming
+                                    Fed to the rules and I hit the ground running
+                                    Didn't make sense not to live for fun
+                                    Your brain gets smart but your head gets dumb
+
+                                    So much to do so much to see
+                                    So what's wrong with taking the back streets
+                                    You'll never know if you don't go
+                                    You'll never shine if you don't glow
+                                    '''
+
+                                    fs.<span class="token function">mail</span>(<span class="token keyword">address</span>, <span class="token keyword">subject</span>, <span class="token keyword">message</span>)
+                                        </code></pre>
+                                                </p>
+                                                <p>
+                                            <small>Send Attachments</small>
+                                                </p>
+                                                <p>
+                                        <pre><code class="language-python">
+                                    fs.<span class="token function">mail</span>('email@domain.com', # Recipient
+                                    'Important File', # Subject
+                                    'Here is the file you requested', # Message Body
+                                    '../Documents/important.pdf') # Path to file
+                                        </code></pre>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Features -->
+                                        <div class="section-block">
+                                            <div class="readmore">
+                                                <span class="readmore-link"></span>
+                                                <h5 class="block-title">Features</h5>
+                                                <p><small>Mail Call</small></p>
+                                                <p>
+                                                Create the Python equivalent of a mailto anchor in HTML by calling the
+                                                <strong><span class="token classname">fs</span>.<span class="token function">mail</span></strong>
+                                                function from your program and launching your system's mail application.
+                                                </p>
+                                                <p><small>Conditional Attachments</small></p>
+                                                <p>
+                                                Easily add file attachments to your messages and filter them by recipient and/or subject line,
+                                                giving you an easy and autonomous way of associating certain attachments based on certain conditions. 
+                                                </p>
+                                                <p><small>Dynamic Composition</small></p>
+                                                <p>
+                                                The 
+                                                <strong><span class="token classname">fs</span>.<span class="token function">mail</span></strong>
+                                                composer allows you to compose emails dynamically with the use of variables.
+                                                Using simple conditional statements and string formation, you can create various pipelines
+                                                composed of dynamic entries, such as email addresses, subject line's and even entire messages.
+                                                </p>
+                                                
+                                            </div>
+                                        </div>
+                                </div>
+                            </section>
+
                             <section class="doc-section">
                                 <div class="section-block">
                                     <h2 class="block-title">Wrap-Up</h2>
@@ -1752,13 +1955,13 @@ fs.<span class="token function">system</span>('is-arm') # True / False
                                         <a class="nav-link scrollto" href="#system-validation">System Validation</a>
                                     </ol>
                                 </nav>
-                                <a class="nav-link scrollto" href="#metadata">Strings</a>
+                                <a class="nav-link scrollto" href="#strings">Strings</a>
                                 <nav class="doc-sub-menu nav flex-column">
-                                    <a class="nav-link scrollto" href="#button-savedir">Filter</a>
-                                    <a class="nav-link scrollto" href="#button-savedir">Find</a>
-                                    <a class="nav-link scrollto" href="#button-download">Format</a>
-                                    <a class="nav-link scrollto" href="#button-savedir">Replace</a>
-                                    <a class="nav-link scrollto" href="#button-metadata">Shorten</a>
+                                    <a class="nav-link scrollto" href="#strings-clean">Clean</a>
+                                    <a class="nav-link scrollto" href="#strings-filter">Filter</a>
+                                    <a class="nav-link scrollto" href="#strings-find">Find</a>
+                                    <a class="nav-link scrollto" href="#strings-replace">Replace</a>
+                                    <a class="nav-link scrollto" href="#strings-shorten">Shorten</a>
                                 </nav>
                                 <a class="nav-link scrollto" href="#downloads">Terminal</a>
                                 <nav class="doc-sub-menu nav flex-column">
