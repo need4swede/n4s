@@ -1750,9 +1750,9 @@ fs.<span class="token function">system</span>('is-arm') # True / False
                                                 <pre><code class="language-python">
                                                     strgs.<span class="token function">clean_text</span>(Input: str='', 
                                                             Casing: str='', 
-                                                            Remove_Spaces: str='', 
-                                                            Remove_Comma: Path='',
-                                                            Print: bool=False)
+                                                            Remove_Spaces: bool=<span class="token classname-blue">False</span>, 
+                                                            Remove_Comma: bool=<span class="token classname-blue">False</span>,
+                                                            Print: bool=<span class="token classname-blue">False</span>)
                                                 </code></pre>
                                                 </p>
                                             <div class="readmore">
@@ -1760,44 +1760,51 @@ fs.<span class="token function">system</span>('is-arm') # True / False
                                             <small>Arguments &ndash; Defined</small>
                                             <pre><code class="language-python">
                                     
-                                                Send_To: str
+                                                Input: str
                                     
-                                                ## Email address of the recipient
-                                    
-                                                    ## Example: 
-                                                    'jdoe@company.com'
-                                    
-                                    
-                                                Subject: str
-                                    
-                                                ## The subject line of the email
+                                                ## The string you want to format
                                     
                                                     ## Example: 
-                                                    'RE: n4s mail composer'
+                                                    'this, is/ a Python &library>'
+                                                    
+                                                    ## Returns:
+                                                    'this, is a Python library'
+                                    
+                                    
+                                                Casing: str
+                                    
+                                                ## The casing of your formatted string
+                                    
+                                                    ## Lower Case: 
+                                                    'this, is a python library'
+
+                                                    ## Upper Case: 
+                                                    'THIS, IS A PYTHON LIBRARY'
+
+                                                    ## Title Case: 
+                                                    'This, is a Python Library'
+
+                                                    ## Camel Case: 
+                                                    'this, IsAPythonLibrary'
+
+                                                    ## Spongebob Case: 
+                                                    'ThIs, iS A PyThOn lIbRaRy'
                                                 
                                                 
-                                                Body: str
+                                                Remove_Spaces: bool
                                     
-                                                ## Message body of the email
-                                    
-                                                    ## Short Example: 
-                                                    'This is a short message'
-                                    
-                                    
-                                                    ## Long Example: 
-                                                    '''
-                                                    This is a longer message.
-                                                    You can write whatever you want
-                                                    and it will be included in the body.
-                                                    '''
-
-
-                                                Attachment: Path
-                                    
-                                                ## Add file attachments to your email
+                                                ## Removes whitespaces from formatted string
                                     
                                                     ## Example: 
-                                                    '../User/Pictures/dog.png'
+                                                    'this,isaPythonlibrary'
+
+
+                                                Remove_Comma: bool
+                                    
+                                                ## Removes commas from formatted string
+                                    
+                                                    ## Example: 
+                                                    'this is a Python library'
 
                                             </code></pre>
                                             <span class="readmore-link"></span>
@@ -1809,62 +1816,31 @@ fs.<span class="token function">system</span>('is-arm') # True / False
                                             <div class="readmore">
                                                 <span class="readmore-link"></span>
                                                 <p>
-                                                <small>Generate Mailto</small>
+                                                <small>Title Case a Book / Movie</small>
                                                 </p>
                                                 <p>
                                                 <pre><code class="language-python">
-                                    fs.<span class="token function">mail</span>('email@domain.com')
+                                    strgs.<span class="token function">clean_text</span>('the lord of the rings', 'title')  # The Lord of the Rings
                                                 </code></pre>
                                                 </p>
                                                 <p>
-                                                <small>Compose Short Message</small>
+                                                <small>Remove Special Characters from String</small>
                                                 </p>
                                                 <p>
                                                 <pre><code class="language-python">
-                                    fs.<span class="token function">mail</span>('email@domain.com',
-                                    'RE: Mail Handler', 
-                                    'Welcome to n4s!')
+                                    strgs.<span class="token function">clean_text</span>('$#&@AN/(TH^#%@ ON Y', Casing='lower', Remove_Spaces=<span class="token classname-blue">True</span>)   # anthony
                                                 </code></pre>
                                                 </p>
                                                 </p>
                                                 <p>
-                                            <small>Compose Long Message</small>
+                                            <small>Compose a Meme</small>
                                                 </p>
                                                 <p>
                                         <pre><code class="language-python">
-                                    <span class="token keyword">address</span> = 'shrek@swamp-mail.org'
-                                    <span class="token keyword">subject</span> = 'RE: All Star'
-                                    <span class="token keyword">message</span> = '''
-                                    Somebody once told me the world is gonna roll me
-                                    I ain't the sharpest tool in the shed
-                                    She was looking kind of dumb with her finger and her thumb
-                                    In the shape of an "l" on her forehead
-
-                                    Well the years start coming and they don't stop coming
-                                    Fed to the rules and I hit the ground running
-                                    Didn't make sense not to live for fun
-                                    Your brain gets smart but your head gets dumb
-
-                                    So much to do so much to see
-                                    So what's wrong with taking the back streets
-                                    You'll never know if you don't go
-                                    You'll never shine if you don't glow
-                                    '''
-
-                                    fs.<span class="token function">mail</span>(<span class="token keyword">address</span>, <span class="token keyword">subject</span>, <span class="token keyword">message</span>)
+                                    strgs.<span class="token function">clean_text</span>('Python is slower than C', Casing='spongebob') # PyThOn iS SlOwEr tHaN C
                                         </code></pre>
                                                 </p>
                                                 <p>
-                                            <small>Send Attachments</small>
-                                                </p>
-                                                <p>
-                                        <pre><code class="language-python">
-                                    fs.<span class="token function">mail</span>('email@domain.com', # Recipient
-                                    'Important File', # Subject
-                                    'Here is the file you requested', # Message Body
-                                    '../Documents/important.pdf') # Path to file
-                                        </code></pre>
-                                                </p>
                                             </div>
                                         </div>
                                         <!-- Features -->
@@ -1872,24 +1848,17 @@ fs.<span class="token function">system</span>('is-arm') # True / False
                                             <div class="readmore">
                                                 <span class="readmore-link"></span>
                                                 <h5 class="block-title">Features</h5>
-                                                <p><small>Mail Call</small></p>
+                                                <p><small>Removing Special Characters</small></p>
                                                 <p>
-                                                Create the Python equivalent of a mailto anchor in HTML by calling the
-                                                <strong><span class="token classname">fs</span>.<span class="token function">mail</span></strong>
-                                                function from your program and launching your system's mail application.
+                                                Cleans-up text by removing special characters from strings, useful when you need to parse out characters.
                                                 </p>
-                                                <p><small>Conditional Attachments</small></p>
+                                                <p><small>Format Text</small></p>
                                                 <p>
-                                                Easily add file attachments to your messages and filter them by recipient and/or subject line,
-                                                giving you an easy and autonomous way of associating certain attachments based on certain conditions. 
+                                                Easily format text to your liking, with different casing and punctionation options.
                                                 </p>
-                                                <p><small>Dynamic Composition</small></p>
+                                                <p><small>Removing Whitespaces</small></p>
                                                 <p>
-                                                The 
-                                                <strong><span class="token classname">fs</span>.<span class="token function">mail</span></strong>
-                                                composer allows you to compose emails dynamically with the use of variables.
-                                                Using simple conditional statements and string formation, you can create various pipelines
-                                                composed of dynamic entries, such as email addresses, subject line's and even entire messages.
+                                                Quickly remove all whitespaces from strings, even ones between words.
                                                 </p>
                                                 
                                             </div>
