@@ -618,6 +618,381 @@ def rename(Name: Path, Rename: str='', debug: bool=False):
                             f"Name => {Name}\n"
                             f"Rename => {Rename}\n")
 
+## AMEND ALL FILENAMES WITHIN A DIRECTORY
+def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=False, Output: str='', debug: bool=False):
+    '''
+    Add / Remove text from all filenames within a directory
+
+    Directory: Path to input dir
+    Action: 'add' OR 'remove'
+    Rename: str to add or remove
+    Nested: Iterate through one level of sub-directories
+    debug: Enable debugging console
+    '''
+    
+    ## COUNT CHANGES
+    amend_count = 0
+    total_files = 0
+
+    ## DEBUG HEADER
+    if debug:
+        print("\nn4s.fs.amend_filenames():")
+    
+    ## ADD TEXT TO FILE NAMES
+    if Action == 'add':
+
+        ## ITERATE THROUGH NESTED DIRECTORIES
+        if Nested:
+
+            ## COUNT OF NUMBER OF NESTED DIRECTORIES
+            dirs_count = read_dir(Directory, 'dir_count')
+
+            ## LIST OF DIRECTORIES NESTED WITHIN INPUT DIR
+            dirs_list = read_dir(Directory, 'dirs')
+
+            ## ASSIGN FULL PATHNAME TO DIRS LIST
+            for x in range(dirs_count):
+                if system('is-mac'):
+                    dirs_list[x] = f"{Directory}/{dirs_list[x]}"
+                else:
+                    dirs_list[x] = f"{Directory}\{dirs_list[x]}"
+
+            ## ITERATE THROUGH DIRECTORIES WITHIN INPUT DIR
+            for i in range(dirs_count):
+
+                ## LIST OF FILES WITHIN DIRECTORY
+                file_list = sorted(read_dir(dirs_list[i], 'files'))
+
+                ## COUNT OF FILES WITHIN DIRECTORY
+                file_count = read_dir(dirs_list[i], 'file_count')
+
+                ## RENAME FILES
+                for file in range(file_count):
+
+                    ## MACOS
+                    if system('is-mac'):
+
+                        ## ORIGINAL FILENAME
+                        og_filename = f"{dirs_list[i]}/{file_list[file]}"
+
+                        ## AMENDED FILENAME
+                        new_filename = f"{read_format(file_list[file], True, Read_Filename=True)}{Rename}"
+
+                        ## RENAME FILE
+                        rename(og_filename, new_filename)
+
+                        ## OUTPUT OR DEBUG
+                        if Output == 'amend_count' or debug:
+
+                            ## IF FILENAME WAS CHANGED
+                            if not og_filename == f"{dirs_list[i]}/{new_filename}":
+                            
+                                ## PRINT DEBUG MESSAGE
+                                if debug:
+                                    print(f"\nOriginal: {og_filename}\n"
+                                        f"Amended: {dirs_list[i]}/{new_filename}")
+
+                                ## ADD TO AMEND COUNT
+                                amend_count += 1
+
+                            ## IF FILENAME WAS NOT CHANGED
+                            else:
+                                print(f"No Change: {dirs_list[i]}/{file_list[file]}")
+
+                            ## PRESENT TOTAL CHANGES
+                            if file == file_count - 1:
+                                total_files = total_files + file_count
+
+                    ## WINDOWS
+                    else:
+
+                        ## ORIGINAL FILENAME
+                        og_filename = f"{dirs_list[i]}\{file_list[file]}"
+
+                        ## AMENDED FILENAME
+                        new_filename = f"{read_format(file_list[file], True, Read_Filename=True)}{Rename}"
+
+                        ## RENAME FILE
+                        rename(og_filename, new_filename)
+                        
+                        ## OUTPUT OR DEBUG
+                        if Output == 'amend_count' or debug:
+
+                            ## IF FILENAME WAS CHANGED
+                            if not og_filename == f"{dirs_list[i]}\{new_filename}":
+                            
+                                ## PRINT DEBUG MESSAGE
+                                if debug:
+                                    print(f"\nOriginal: {og_filename}\n"
+                                        f"Amended: {dirs_list[i]}\{new_filename}")
+
+                                ## ADD TO AMEND COUNT
+                                amend_count += 1
+
+                            ## IF FILENAME WAS NOT CHANGED
+                            else:
+                                print(f"No Change: {dirs_list[i]}\{file_list[file]}")
+
+                            ## PRESENT TOTAL CHANGES
+                            if file == file_count - 1:
+                                total_files = total_files + file_count
+        
+                ## END OF DIR LOOP
+                if i == dirs_count - 1:
+
+                    ## PRINT TOTALS
+                    if debug:
+                        print(f"\nTotal Files: {total_files} | Amended: {amend_count}")
+
+                    ## RETURN AMEND COUNT
+                    if Output == 'amend_count':
+                        return amend_count
+
+        ## SINGLE DIRECTORY, ITERATE THROUGH FILES ONLY
+        else:
+        
+            ## LIST OF FILES WITHIN DIRECTORY
+            file_list = sorted(read_dir(Directory, 'files'))
+
+            ## COUNT OF FILES WITHIN DIRECTORY
+            file_count = read_dir(Directory, 'file_count')
+
+            ## RENAME FILES
+            for file in range(file_count):
+                
+                ## MACOS
+                if system('is-mac'):
+
+                    ## ORIGINAL FILENAME
+                    og_filename = f"{Directory}/{file_list[file]}"
+
+                    ## AMENDED FILENAME
+                    new_filename = f"{read_format(file_list[file], True, Read_Filename=True)}{Rename}"
+
+                    ## RENAME FILE
+                    rename(og_filename, new_filename)
+                    
+                    ## OUTPUT OR DEBUG
+                    if Output == 'amend_count' or debug:
+
+                        ## IF FILENAME WAS CHANGED
+                        if not og_filename == f"{Directory}/{new_filename}":
+                            
+                            ## PRINT DEBUG MESSAGE
+                            if debug:
+                                print(f"\nOriginal: {og_filename}\n"
+                                    f"Amended: {Directory}/{new_filename}")
+
+                            ## ADD TO AMEND COUNT
+                            amend_count += 1
+
+                        ## IF FILENAME WAS NOT CHANGED
+                        else:
+                            print(f"No Change: {Directory}/{file_list[file]}")
+
+                        ## PRESENT TOTAL CHANGES
+                        if file == file_count - 1:
+                            if debug:
+                                print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                            if Output == 'amend_count':
+                                return amend_count
+                
+                ## WINDOWS
+                else:
+
+                    ## ORIGINAL FILENAME
+                    og_filename = f"{Directory}\{file_list[file]}"
+
+                    ## AMENDED FILENAME
+                    new_filename = f"{read_format(file_list[file], True, Read_Filename=True)}{Rename}"
+
+                    ## RENAME FILE
+                    rename(og_filename, new_filename)
+                    
+                    ## DEBUG
+                    if debug:
+
+                        ## IF FILENAME WAS CHANGED
+                        if not og_filename == f"{Directory}\{new_filename}":
+                            
+                            ## PRINT DEBUG MESSAGE
+                            print(f"\nOriginal: {og_filename}\n"
+                                f"Amended: {Directory}\{new_filename}")
+
+                            ## ADD TO AMEND COUNT
+                            amend_count += 1
+
+                        ## IF FILENAME WAS NOT CHANGED
+                        else:
+                            print(f"No Change: {Directory}\{file_list[file]}")
+
+                        ## PRESENT TOTAL CHANGES
+                        if file == file_count - 1:
+                            print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+
+    ## REMOVE TEXT FROM FILE NAMES
+    if Action == 'remove':
+
+        ## ITERATE THROUGH NESTED DIRECTORIES
+        if Nested:
+
+            ## COUNT OF NUMBER OF NESTED DIRECTORIES
+            dirs_count = read_dir(Directory, 'dir_count')
+
+            ## LIST OF DIRECTORIES NESTED WITHIN INPUT DIR
+            dirs_list = read_dir(Directory, 'dirs')
+
+            ## ASSIGN FULL PATHNAME TO DIRS LIST
+            for x in range(dirs_count):
+                
+                ## MACOS
+                if system('is-mac'):
+                    dirs_list[x] = f"{Directory}/{dirs_list[x]}"
+                
+                ## WINDOWS
+                else:
+                    dirs_list[x] = f"{Directory}\{dirs_list[x]}"
+
+            ## ITERATE THROUGH DIRECTORIES WITHIN INPUT DIR
+            for i in range(dirs_count):
+
+                ## LIST OF FILES WITHIN DIRECTORY
+                file_list = sorted(read_dir(dirs_list[i], 'files'))
+
+                ## COUNT OF FILES WITHIN DIRECTORY
+                file_count = read_dir(dirs_list[i], 'file_count')
+
+                ## RENAME FILES
+                for file in range(file_count):
+                    
+                    ## MACOS
+                    if system('is-mac'):
+
+                        ## ORIGINAL FILENAME
+                        og_filename = f"{dirs_list[i]}/{file_list[file]}"
+
+                        ## AMENDED FILENAME
+                        new_filename = strgs.filter_text(file_list[file], [Rename])
+
+                        ## RENAME FILE
+                        rename(og_filename, new_filename)
+                        
+                        ## DEBUG
+                        if Output == 'amend_count' or debug:
+
+                            ## IF FILENAME WAS CHANGED
+                            if not og_filename == f"{Directory}/{new_filename}":
+
+                                ## PRINT DEBUG MESSAGE
+                                if debug:
+                                    print(f"\nOriginal: {og_filename}\n"
+                                        f"Amended: {Directory}/{new_filename}")
+
+                                ## ADD TO AMEND COUNT
+                                amend_count += 1
+
+                            ## IF FILENAME WAS NOT CHANGED
+                            else:
+                                print(f"No Change: {Directory}/{file_list[file]}")
+
+                            ## PRESENT TOTAL CHANGES
+                            if file == file_count - 1:
+                                total_files = total_files + file_count
+                
+                    
+                    ## WINDOWS
+                    else:
+                        rename(f"{dirs_list[i]}\{file_list[file]}", strgs.filter_text(file_list[file], [Rename]))
+                        if debug:
+                            print("\nn4s.fs.amend_filenames():\n"
+                                f"Original: {dirs_list[i]}\{file_list[file]}\n"
+                                f"Amended: {read_format(file_list[file], True, Read_Filename=True)}{Rename}\n")
+        
+            ## DEBUG
+            if Output == 'amend_count' or debug:
+                
+                ## PRESENT TOTAL CHANGES
+                if file == file_count - 1:
+                    total_files = total_files + file_count
+                    print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+        ## SINGLE DIRECTORY, ITERATE THROUGH FILES ONLY
+        else:
+
+            ## LIST OF FILES WITHIN DIRECTORY
+            file_list = sorted(read_dir(Directory, 'files'))
+
+            ## COUNT OF FILES WITHIN DIRECTORY
+            file_count = read_dir(Directory, 'file_count')
+
+            ## AMEND FILENAMES
+            for file in range(file_count):
+                
+                ## MACOS
+                if system('is-mac'):
+
+                    ## ORIGINAL FILENAME
+                    og_filename = f"{Directory}/{file_list[file]}"
+
+                    ## AMENDED FILENAME
+                    new_filename = strgs.filter_text(file_list[file], [Rename])
+
+                    ## RENAME FILE
+                    rename(og_filename, new_filename)
+
+                    ## DEBUG
+                    if debug:
+
+                        ## IF FILENAME WAS CHANGED
+                        if not og_filename == f"{Directory}/{new_filename}":
+
+                            ## PRINT DEBUG MESSAGE
+                            print(f"\nOriginal: {og_filename}\n"
+                                f"Amended: {Directory}/{new_filename}")
+                            
+                            ## ADD TO AMEND COUNT
+                            amend_count += 1
+
+                        ## IF FILENAME WAS NOT CHANGED
+                        else:
+                            print(f"No Change: {Directory}/{file_list[file]}")
+
+                        ## PRESENT TOTAL CHANGES
+                        if file == file_count - 1:
+                            print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                
+                ## WINDOWS
+                else:
+                    
+                    ## ORIGINAL FILENAME
+                    og_filename = f"{Directory}\{file_list[file]}"
+
+                    ## AMENDED FILENAME
+                    new_filename = strgs.filter_text(file_list[file], [Rename])
+
+                    ## RENAME FILE
+                    rename(og_filename, new_filename)
+
+                    ## DEBUG
+                    if debug:
+
+                        ## IF FILENAME WAS CHANGED
+                        if not og_filename == f"{Directory}/{new_filename}":
+
+                            ## PRINT DEBUG MESSAGE
+                            print(f"\nOriginal: {og_filename}\n"
+                                f"Amended: {Directory}\{new_filename}")
+                            
+                            ## ADD TO AMEND COUNT
+                            amend_count += 1
+
+                        ## IF FILENAME WAS NOT CHANGED
+                        else:
+                            print(f"No Change: {Directory}\{file_list[file]}")
+
+                        ## PRESENT TOTAL CHANGES
+                        if file == file_count - 1:
+                            print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+
 ## FIND DIRECTORIES (ROOT == USER)
 def root(Directory: str='user', debug: bool=False):
     if Directory == 'applications' or Directory == 'apps':
@@ -930,3 +1305,6 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
+amend_filenames("/Users/afshari/Documents/Rename_Sample/directory 1", 'remove', '_remove', debug=True, Nested=False)
+
+## WORK ON REMOVED
