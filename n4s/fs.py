@@ -4,6 +4,9 @@ from pathlib import Path
 from subprocess import call
 from n4s import strgs
 
+## WINDOWS BACKSLASHES
+backslash = "\\"
+
 ## COPY FILES
 def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: bool=False):
     '''
@@ -89,11 +92,11 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
                                         Destination = f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"
                                     break
                             else:
-                                if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}\{src_filename}({i}){file_format}')}"):
-                                    Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}\{src_filename}({i+1}){file_format}')}"
+                                if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}{backslash}{src_filename}({i}){file_format}')}"):
+                                    Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}{backslash}{src_filename}({i+1}){file_format}')}"
                                 else:
-                                    if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}\{src_filename}{file_format}')}"):
-                                        Destination = f"{Destination.replace(dest_filename, f'{dest_filename}\{src_filename}({i}){file_format}')}"
+                                    if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}{backslash}{src_filename}{file_format}')}"):
+                                        Destination = f"{Destination.replace(dest_filename, f'{dest_filename}{backslash}{src_filename}({i}){file_format}')}"
                                     break
 
                 ## IF DESTINATION IS A FILE PATH
@@ -494,6 +497,18 @@ def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Upper
     ## RETURN FORMAT
     return file_format
 
+## READS THE NAME OF THE FILE/DIR AT THE END OF A PATH
+def read_pathname(Source: Path, Include_Format: bool=False, Print: bool=False):
+    '''
+    Source: Input path
+    Include_Format: Include file extension if applicable
+    Print: Print to terminal
+    '''
+    print_arg = Print
+    if Source[-1] == '/' or Source[-1] == backslash:
+        Source = Source[:-1]
+    return read_format(Input=Source, Include_Period=True, Print=print_arg, Uppercase=Include_Format, Read_Filename=True)
+
 ## REMOVE DIRECTORIES
 def remove_dir(Directory: Path, debug: bool=False):
     '''
@@ -643,7 +658,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
     Nested: Iterate through one level of sub-directories
     debug: Enable debugging console
     '''
-    
+
     ## COUNT CHANGES
     amend_count = 0
     total_files = 0
@@ -673,7 +688,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                 
                 ## WINDOWS
                 else:
-                    dirs_list[x] = f"{Directory}\{dirs_list[x]}"
+                    dirs_list[x] = f"{Directory}{backslash}{dirs_list[x]}"
 
             ## ITERATE THROUGH DIRECTORIES WITHIN INPUT DIR
             for i in range(dirs_count):
@@ -725,7 +740,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                     else:
 
                         ## ORIGINAL FILENAME
-                        og_filename = f"{dirs_list[i]}\{file_list[file]}"
+                        og_filename = f"{dirs_list[i]}{backslash}{file_list[file]}"
 
                         ## AMENDED FILENAME
                         new_filename = f"{read_format(file_list[file], True, Read_Filename=True)}{Rename}"
@@ -737,7 +752,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                         if Output == 'amend_count' or debug:
 
                             ## IF FILENAME WAS CHANGED
-                            if not og_filename == f"{dirs_list[i]}\{new_filename}":
+                            if not og_filename == f"{dirs_list[i]}{backslash}{new_filename}":
                             
                                 ## PRINT DEBUG MESSAGE
                                 if debug:
@@ -749,7 +764,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                             ## IF FILENAME WAS NOT CHANGED
                             else:
-                                print(f"No Change: {dirs_list[i]}\{file_list[file]}")
+                                print(f"No Change: {dirs_list[i]}{backslash}{file_list[file]}")
 
                             ## PRESENT TOTAL CHANGES
                             if file == file_count - 1:
@@ -819,7 +834,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                 else:
 
                     ## ORIGINAL FILENAME
-                    og_filename = f"{Directory}\{file_list[file]}"
+                    og_filename = f"{Directory}{backslash}{file_list[file]}"
 
                     ## AMENDED FILENAME
                     new_filename = f"{read_format(file_list[file], True, Read_Filename=True)}{Rename}"
@@ -831,19 +846,19 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                     if Output == 'amend_count' or debug:
 
                         ## IF FILENAME WAS CHANGED
-                        if not og_filename == f"{Directory}\{new_filename}":
+                        if not og_filename == f"{Directory}{backslash}{new_filename}":
                             
                             ## PRINT DEBUG MESSAGE
                             if debug:
                                 print(f"\nOriginal: {og_filename}\n"
-                                    f"Amended: {Directory}\{new_filename}")
+                                    f"Amended: {Directory}{backslash}{new_filename}")
 
                             ## ADD TO AMEND COUNT
                             amend_count += 1
 
                         ## IF FILENAME WAS NOT CHANGED
                         else:
-                            print(f"No Change: {Directory}\{file_list[file]}")
+                            print(f"No Change: {Directory}{backslash}{file_list[file]}")
 
                         ## PRESENT TOTAL CHANGES
                         if file == file_count - 1:
@@ -873,7 +888,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                 
                 ## WINDOWS
                 else:
-                    dirs_list[x] = f"{Directory}\{dirs_list[x]}"
+                    dirs_list[x] = f"{Directory}{backslash}{dirs_list[x]}"
 
             ## ITERATE THROUGH DIRECTORIES WITHIN INPUT DIR
             for i in range(dirs_count):
@@ -923,10 +938,10 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                     ## WINDOWS
                     else:
-                        rename(f"{dirs_list[i]}\{file_list[file]}", strgs.filter_text(file_list[file], [Rename]))
+                        rename(f"{dirs_list[i]}{backslash}{file_list[file]}", strgs.filter_text(file_list[file], [Rename]))
                         if debug:
                             print("\nn4s.fs.amend_filenames():\n"
-                                f"Original: {dirs_list[i]}\{file_list[file]}\n"
+                                f"Original: {dirs_list[i]}{backslash}{file_list[file]}\n"
                                 f"Amended: {read_format(file_list[file], True, Read_Filename=True)}{Rename}\n")
                 
                 ## END OF DIR LOOP
@@ -993,7 +1008,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                 else:
                     
                     ## ORIGINAL FILENAME
-                    og_filename = f"{Directory}\{file_list[file]}"
+                    og_filename = f"{Directory}{backslash}{file_list[file]}"
 
                     ## AMENDED FILENAME
                     new_filename = strgs.filter_text(file_list[file], [Rename])
@@ -1010,14 +1025,14 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                             ## PRINT DEBUG MESSAGE
                             if debug:
                                 print(f"\nOriginal: {og_filename}\n"
-                                    f"Amended: {Directory}\{new_filename}")
+                                    f"Amended: {Directory}{backslash}{new_filename}")
                             
                             ## ADD TO AMEND COUNT
                             amend_count += 1
 
                         ## IF FILENAME WAS NOT CHANGED
                         else:
-                            print(f"No Change: {Directory}\{file_list[file]}")
+                            print(f"No Change: {Directory}{backslash}{file_list[file]}")
 
                         ## PRESENT TOTAL CHANGES
                         if file == file_count - 1:
