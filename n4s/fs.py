@@ -894,7 +894,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                                 ## PRINT DEBUG MESSAGE
                                 if debug:
                                     print(f"\nOriginal: {og_filename}\n"
-                                        f"Amended: {dirs_list[i]}/{new_filename}")
+                                        f"Amended: {dirs_list[i]}/{new_filename}\n")
 
                                 ## ADD TO AMEND COUNT
                                 amend_count += 1
