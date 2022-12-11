@@ -47,7 +47,10 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
         if path_exists(Source):
 
             ## GET SOURCE FILENAME
-            src_filename = str(Source).split('.')[0].split('/')[-1]
+            if system('is-mac'):
+                src_filename = str(Source).split('.')[0].split('/')[-1]
+            else:
+                src_filename = str(Source).split('.')[0].split('\\')[-1]
 
             ## IF NO DEST., USE SOURCE DIR AND ITERATE WITH INT
             if Destination == '':
@@ -64,7 +67,10 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
             if path_exists(Destination):
 
                 ## GET DESTINATION FILENAME
-                dest_filename = str(Destination).split('.')[0].split('/')[-1]
+                if system('is-mac'):
+                    dest_filename = str(Destination).split('.')[0].split('/')[-1]
+                else:
+                    dest_filename = str(Destination).split('.')[0].split('\\')[-1]
                 file_format = read_format(Source, True)
 
                 ## IF DESTINATION IS A DIRECTORY
@@ -75,12 +81,20 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
 
                         ## ITERATE COPIES WITH NUMERICAL VALUES
                         for i in range(1, 100):
-                            if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"):
-                                Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}/{src_filename}({i+1}){file_format}')}"
+                            if system('is-mac'):
+                                if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"):
+                                    Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}/{src_filename}({i+1}){file_format}')}"
+                                else:
+                                    if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}{file_format}')}"):
+                                        Destination = f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"
+                                    break
                             else:
-                                if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}{file_format}')}"):
-                                    Destination = f"{Destination.replace(dest_filename, f'{dest_filename}/{src_filename}({i}){file_format}')}"
-                                break
+                                if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}\{src_filename}({i}){file_format}')}"):
+                                    Destination = f"{Destination.replace(f'{dest_filename}({i})', f'{dest_filename}\{src_filename}({i+1}){file_format}')}"
+                                else:
+                                    if path_exists(f"{Destination.replace(dest_filename, f'{dest_filename}\{src_filename}{file_format}')}"):
+                                        Destination = f"{Destination.replace(dest_filename, f'{dest_filename}\{src_filename}({i}){file_format}')}"
+                                    break
 
                 ## IF DESTINATION IS A FILE PATH
                 else:
