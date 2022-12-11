@@ -652,8 +652,12 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
             ## ASSIGN FULL PATHNAME TO DIRS LIST
             for x in range(dirs_count):
+
+                ## MACOS
                 if system('is-mac'):
                     dirs_list[x] = f"{Directory}/{dirs_list[x]}"
+                
+                ## WINDOWS
                 else:
                     dirs_list[x] = f"{Directory}\{dirs_list[x]}"
 
@@ -809,15 +813,16 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                     ## RENAME FILE
                     rename(og_filename, new_filename)
                     
-                    ## DEBUG
-                    if debug:
+                    ## OUTPUT OR DEBUG
+                    if Output == 'amend_count' or debug:
 
                         ## IF FILENAME WAS CHANGED
                         if not og_filename == f"{Directory}\{new_filename}":
                             
                             ## PRINT DEBUG MESSAGE
-                            print(f"\nOriginal: {og_filename}\n"
-                                f"Amended: {Directory}\{new_filename}")
+                            if debug:
+                                print(f"\nOriginal: {og_filename}\n"
+                                    f"Amended: {Directory}\{new_filename}")
 
                             ## ADD TO AMEND COUNT
                             amend_count += 1
@@ -828,7 +833,10 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                         ## PRESENT TOTAL CHANGES
                         if file == file_count - 1:
-                            print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                            if debug:
+                                print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                            if Output == 'amend_count':
+                                return amend_count
 
     ## REMOVE TEXT FROM FILE NAMES
     if Action == 'remove':
@@ -881,25 +889,24 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                         if Output == 'amend_count' or debug:
 
                             ## IF FILENAME WAS CHANGED
-                            if not og_filename == f"{Directory}/{new_filename}":
+                            if not og_filename == f"{dirs_list[i]}/{new_filename}":
 
                                 ## PRINT DEBUG MESSAGE
                                 if debug:
                                     print(f"\nOriginal: {og_filename}\n"
-                                        f"Amended: {Directory}/{new_filename}")
+                                        f"Amended: {dirs_list[i]}/{new_filename}")
 
                                 ## ADD TO AMEND COUNT
                                 amend_count += 1
 
                             ## IF FILENAME WAS NOT CHANGED
                             else:
-                                print(f"No Change: {Directory}/{file_list[file]}")
+                                print(f"No Change: {dirs_list[i]}/{new_filename}")
 
                             ## PRESENT TOTAL CHANGES
                             if file == file_count - 1:
                                 total_files = total_files + file_count
-                
-                    
+
                     ## WINDOWS
                     else:
                         rename(f"{dirs_list[i]}\{file_list[file]}", strgs.filter_text(file_list[file], [Rename]))
@@ -907,14 +914,18 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                             print("\nn4s.fs.amend_filenames():\n"
                                 f"Original: {dirs_list[i]}\{file_list[file]}\n"
                                 f"Amended: {read_format(file_list[file], True, Read_Filename=True)}{Rename}\n")
-        
-            ## DEBUG
-            if Output == 'amend_count' or debug:
                 
-                ## PRESENT TOTAL CHANGES
-                if file == file_count - 1:
-                    total_files = total_files + file_count
-                    print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                ## END OF DIR LOOP
+                if i == dirs_count - 1:
+
+                    ## PRINT TOTALS
+                    if debug:
+                        print(f"\nTotal Files: {total_files} | Amended: {amend_count}")
+
+                    ## RETURN AMEND COUNT
+                    if Output == 'amend_count':
+                        return amend_count
+
         ## SINGLE DIRECTORY, ITERATE THROUGH FILES ONLY
         else:
 
@@ -940,14 +951,15 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                     rename(og_filename, new_filename)
 
                     ## DEBUG
-                    if debug:
+                    if Output == 'amend_count' or debug:
 
                         ## IF FILENAME WAS CHANGED
                         if not og_filename == f"{Directory}/{new_filename}":
 
                             ## PRINT DEBUG MESSAGE
-                            print(f"\nOriginal: {og_filename}\n"
-                                f"Amended: {Directory}/{new_filename}")
+                            if debug:
+                                print(f"\nOriginal: {og_filename}\n"
+                                    f"Amended: {Directory}/{new_filename}")
                             
                             ## ADD TO AMEND COUNT
                             amend_count += 1
@@ -958,7 +970,10 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                         ## PRESENT TOTAL CHANGES
                         if file == file_count - 1:
-                            print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                            if debug:
+                                print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                            if Output == 'amend_count':
+                                return amend_count
                 
                 ## WINDOWS
                 else:
@@ -973,14 +988,15 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                     rename(og_filename, new_filename)
 
                     ## DEBUG
-                    if debug:
+                    if Output == 'amend_count' or debug:
 
                         ## IF FILENAME WAS CHANGED
-                        if not og_filename == f"{Directory}/{new_filename}":
+                        if not og_filename == f"{Directory}{new_filename}":
 
                             ## PRINT DEBUG MESSAGE
-                            print(f"\nOriginal: {og_filename}\n"
-                                f"Amended: {Directory}\{new_filename}")
+                            if debug:
+                                print(f"\nOriginal: {og_filename}\n"
+                                    f"Amended: {Directory}\{new_filename}")
                             
                             ## ADD TO AMEND COUNT
                             amend_count += 1
@@ -991,7 +1007,10 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                         ## PRESENT TOTAL CHANGES
                         if file == file_count - 1:
-                            print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                            if debug:
+                                print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
+                            if Output == 'amend_count':
+                                return amend_count
 
 ## FIND DIRECTORIES (ROOT == USER)
 def root(Directory: str='user', debug: bool=False):
@@ -1305,6 +1324,3 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
-amend_filenames("/Users/afshari/Documents/Rename_Sample/directory 1", 'remove', '_remove', debug=True, Nested=False)
-
-## WORK ON REMOVED
