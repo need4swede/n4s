@@ -606,10 +606,16 @@ def rename(Name: Path, Rename: str='', debug: bool=False):
     Pathname = Name
 
     ## CHECKS FOR TRAILING '/' DASH
-    if str(Name[-1]) == '/':
-        Name = str(Name.split('/')[-2])
+    if system('is-mac'):
+        if str(Name[-1]) == '/':
+            Name = str(Name.split('/')[-2])
+        else:
+            Name = str(Name.split('/')[-1])
     else:
-        Name = str(Name.split('/')[-1])
+        if str(Name[-1]) == '\\':
+            Name = str(Name.split('\\')[-2])
+        else:
+            Name = str(Name.split('\\')[-1])
 
     ## UPDATE INPUT PATH
     Pathname = strgs.filter_text(Pathname, [Name])
@@ -634,9 +640,14 @@ def rename(Name: Path, Rename: str='', debug: bool=False):
     Rename = f"{Pathname}{Rename}"
 
     ## CHECK FOR EXCPLICIT FILE EXTENSION
-    if not '.' in str(Rename).split('/')[-1]:
-        inherited_format = read_format(Name, True)
-        Rename = f"{Rename}{inherited_format}"
+    if system('is-mac'):
+        if not '.' in str(Rename).split('/')[-1]:
+            inherited_format = read_format(Name, True)
+            Rename = f"{Rename}{inherited_format}"
+    else:
+        if not '.' in str(Rename).split('\\')[-1]:
+            inherited_format = read_format(Name, True)
+            Rename = f"{Rename}{inherited_format}"
 
     ## RUN RENAME
     os.rename(Name, Rename)
@@ -837,7 +848,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                     og_filename = f"{Directory}{backslash}{file_list[file]}"
 
                     ## AMENDED FILENAME
-                    new_filename = f"{read_format(file_list[file], True, Read_Filename=True)}{Rename}"
+                    new_filename = f"{read_format(file_list[file], Include_Period=True, Read_Filename=True)}{Rename}{read_format(file_list[file], Include_Period=True)}"
 
                     ## RENAME FILE
                     rename(og_filename, new_filename)
@@ -1020,7 +1031,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                     if Output == 'amend_count' or debug:
 
                         ## IF FILENAME WAS CHANGED
-                        if not og_filename == f"{Directory}{new_filename}":
+                        if not og_filename == f"{Directory}{backslash}{new_filename}":
 
                             ## PRINT DEBUG MESSAGE
                             if debug:
@@ -1353,3 +1364,15 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
+
+input_dir = "C:\\Users\\mafshari\\Downloads\\Rename_Sample\\directory 1"
+# Rename = "_remove"
+# file_list = sorted(read_dir(Directory, 'files'))
+# file_count = read_dir(Directory, 'file_count')
+
+# for file in range(file_count):
+#     og_filename = f"{Directory}{backslash}{file_list[file]}"
+#     new_filename = strgs.filter_text(file_list[file], [Rename])
+#     rename(og_filename, new_filename, debug=True)
+
+amend_filenames(input_dir, 'remove', '_remove', debug=True)
