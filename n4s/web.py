@@ -757,6 +757,74 @@ def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads
     if debug:
       print(f'Done: {Save_Directory}/{Filename}')
 
+## CALL ITUNES API
+def itunes_api(Type: str, Country: str, Term: str, Output: str='all', Print: bool=False):
+  '''
+  Type: movie, podcast, music, musicVideo, audiobook, shortFilm, tvShow, software, ebook, all
+  
+  Country: The two-letter country code for the store you want to search
+  
+  Term: The string you want to search for
+  
+  Limit: The number of results you want the iTunes API to return
+  
+  Output: wrapperType, kind, artistId, collectionId, trackId, artistName, collectionName, trackName, collectionCensoredName, trackCensoredName, artistViewUrl, collectionViewUrl, feedUrl, trackViewUrl, artworkUrl30, artworkUrl60, artworkUrl100, collectionPrice, trackPrice, collectionHdPrice, releaseDate, collectionExplicitness, trackExplicitness, trackCount, trackTimeMillis, country, currency, primaryGenreName, contentAdvisoryRating, artworkUrl600, genreIds, genres, all
+
+  Print: Prints results to terminal
+  '''
+  
+  ## TYPES OF RETURN OPTIONS
+  output_options = 'wrapperType,kind,artistId,collectionId,trackId,artistName,collectionName,trackName,collectionCensoredName,trackCensoredName,artistViewUrl,collectionViewUrl,feedUrl,trackViewUrl,artworkUrl30,artworkUrl60,artworkUrl100,collectionPrice,trackPrice,collectionHdPrice,releaseDate,collectionExplicitness,trackExplicitness,trackCount,trackTimeMillis,country,currency,primaryGenreName,contentAdvisoryRating,artworkUrl600,genreIds,genres,all'
+  
+  ## SPLIT OPTIONS INTO LIST
+  output_options = output_options.split(',')
+
+  ## VERIFY A VALID NETWORK CONNECTION
+  _network = network_test()
+
+  ## CALL ITUNES API
+  if _network:
+    r = requests.get("https://itunes.apple.com/search", params={
+        'term': Term,
+        'country': Country,
+        'entity': Type,
+        'limit': 1
+    })
+
+    ## GATHER RESULTS
+    data = r.json()
+  
+  ## NO INTERNET CONNECTION
+  else:
+    return print("\nn4s.web.itunes_api():\n"
+            "Failed to connect online. Verify your internet connection!\n")
+  
+  ## RETURN ALL RESULTS FROM API CALL
+  if Output == 'all':
+
+    ## IF PRINT
+    if Print:
+      data = str(data)
+      data = data.split(',')
+      for x in range(len(data)):
+        print(data[x])
+    
+    ## RETURN
+    return data
+  
+  ## RETURN SPECIFIC RESULT FROM API CALL
+  else:
+
+    ## ITERATE THROUGH OUTPUT OPTIONS
+    for option in output_options:
+
+      ## IF PRINT
+      if Print:
+        print(data['results'][0][Output])
+
+      ## RETURN
+      return data['results'][0][Output]
+
 ## READS FILE SIZES
 def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=False):
   '''
