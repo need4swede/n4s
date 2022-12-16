@@ -1,5 +1,71 @@
 import re
 
+## TURN STRINGS INTO ACRONYMS
+def acronym_text(Text: str, Casing: str="default", Punctuate: bool=False, Print: bool=False, debug: bool=False):
+    
+    ## INITIALIZE ACRONYM
+    acronym = ''
+
+    ## DEBUG MESSAGE HEADER
+    if debug:
+        print("\nn4s.strgs.acronym_text():")
+
+    ## SPLIT TEXT INTO WORDS
+    for word in Text.split():
+
+        ## ADD FIRST CHAR OF EACH WORD TO ACRONYM
+        acronym = acronym + word[0]
+
+        ## PRINT DEBUG MESSAGE
+        if debug:
+
+            if Casing == "default":
+                print(f"{word[0]} => {word}")
+            if Casing == "upper":
+                print(f"{word[0].upper()} => {clean_text(Input=word, Casing='title')}")
+            if Casing == "lower":
+                print(f"{word[0].lower()} => {word.lower()}")
+
+        ## ADDS PERIODS BETWEEN CHARS
+        if Punctuate:
+            acronym = acronym + "."
+
+    ## ADD SPACE AFTER DEBUG
+    if debug:
+        print()
+
+    ## REMOVE '.' FROM ACRONYM END
+    if Punctuate:
+        acronym = acronym[:-1]
+
+    ## RETURN ACRONYM
+    if Casing == "default":
+
+        ## IF PRINT
+        if Print:
+            print(acronym)
+
+        ## RETURN
+        return acronym
+
+    if Casing == "upper":
+
+        ## IF PRINT
+        if Print:
+            print(acronym.upper())
+
+        ## RETURN
+        return acronym.upper()
+
+    if Casing == "lower":
+
+        ## IF PRINT
+        if Print:
+            print(acronym.lower())
+
+        ## RETURN
+        return acronym.lower()
+
 ## REMOVES CHARACTERS FROM TEXT
 def clean_text(Input: str, Casing: str="default", Remove_Spaces: bool=False, Remove_Comma: bool=False, Print: bool=False):
     '''
