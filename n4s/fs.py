@@ -214,6 +214,20 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                                         f"Created Dir - {Path[x]}\n")
                             if x+1 == len(Path):
                                 return True
+                        ## IF MAKE IS ENABLED AND PATH IS A HIDDEN DIRECTORY
+                        elif Make and str(Path[x]).split('/')[-1][0] == '.' and not len(str(Path[x]).split('/')[-1].split('.')) == 3:
+                            ## MAC ONLY
+                            if system('is-mac'):
+                                ## CREATE DIRECTORY
+                                os.makedirs(Path[x])
+                                ## DEBUG: FILE CREATED
+                                if debug:
+                                    print("\nn4s.fs.path_exists():\n"
+                                            f"Created Directory - {Path[x]}\n")
+                            else:
+                                print("\nn4s.fs.path_exists():\n"
+                                    f"Invalid Input - {Path[x]}\n"
+                                    "Cannot have '.' in pathname!\n") 
                         ## IF MAKE IS ENABLED AND PATH IS A FILENAME
                         elif Make:
                             ## CREATE THE FILE
@@ -261,6 +275,20 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                             print("\nn4s.fs.path_exists():\n"
                                     f"Created - {Path}\n")
                         return True
+                    ## IF MAKE IS ENABLED AND PATH IS A HIDDEN DIRECTORY
+                    elif Make and str(Path).split('/')[-1][0] == '.' and not len(str(Path).split('/')[-1].split('.')) == 3:
+                        ## MAC ONLY
+                        if system('is-mac'):
+                            ## CREATE DIRECTORY
+                            os.makedirs(Path)
+                            ## DEBUG: FILE CREATED
+                            if debug:
+                                print("\nn4s.fs.path_exists():\n"
+                                        f"Created Directory - {Path}\n")
+                        else:
+                            return print("\nn4s.fs.path_exists():\n"
+                                f"Invalid Input - {Path}\n"
+                                "Cannot have '.' in pathname!\n") 
                     ## IF MAKE IS ENABLED AND PATH IS A FILENAME
                     elif Make:
                         ## CREATE THE FILE
@@ -1364,15 +1392,3 @@ def system(Action: str='info', Print: bool=False):
 
 
 ## TESTS
-
-input_dir = "C:\\Users\\mafshari\\Downloads\\Rename_Sample\\directory 1"
-# Rename = "_remove"
-# file_list = sorted(read_dir(Directory, 'files'))
-# file_count = read_dir(Directory, 'file_count')
-
-# for file in range(file_count):
-#     og_filename = f"{Directory}{backslash}{file_list[file]}"
-#     new_filename = strgs.filter_text(file_list[file], [Rename])
-#     rename(og_filename, new_filename, debug=True)
-
-amend_filenames(input_dir, 'remove', '_remove', debug=True)
