@@ -4,7 +4,7 @@ from n4s import fs, strgs
 from bs4 import BeautifulSoup
 from pathlib import Path
 ##### Dismiss the 'XML' warning
-warnings.filterwarnings("ignore", 
+warnings.filterwarnings("ignore",
 category=UserWarning, module='bs4')
 #############################
 
@@ -52,9 +52,10 @@ def browser(Action: str, Browser: str, URL: str='', debug: bool=False):
 
     ## ADD PROTOCOL
     if not "http://" or not "https://" in URL:
-      URL = URL.split('/')[-1]
-      URL = f"https://{URL}"
-    
+      if "file://" not in URL:
+        URL = URL.split('/')[-1]
+        URL = f"https://{URL}"
+
     ## OPEN WEB ADDRESS IN BROWSER
     if Action.lower() == 'open':
 
@@ -62,7 +63,7 @@ def browser(Action: str, Browser: str, URL: str='', debug: bool=False):
       if Browser.lower() == 'google chrome':
         web_browser.open_location(URL)
         return
-      
+
       ## OPEN URL IN SAFARI
       if Browser.lower() == 'safari':
         web_browser.make(new=k.document,with_properties={k.URL:URL})
@@ -77,7 +78,7 @@ def browser(Action: str, Browser: str, URL: str='', debug: bool=False):
 
 ## BUILD WEB TEMPLATES
 def build_html(Design: str='default', onefile: bool=False, Directory: Path=fs.root('desktop'), debug: bool=False):
-        
+
   ## DIRECTORIES
   index_dir = f"{Directory}/index"
   assets_dir = f"{index_dir}/assets"
@@ -88,11 +89,11 @@ def build_html(Design: str='default', onefile: bool=False, Directory: Path=fs.ro
   html_file = f"{index_dir}/index.html"
   css_file = f"{css_dir}/style.css"
   js_file = f"{js_dir}/script.js"
-  
+
   Design = Design.lower()
   ###### TEMPLATES #############
   ## DEFAULT                   #
-  if Design == 'default':      
+  if Design == 'default':
     ## HTML - DEFAULT TEMPALTE
     html_string = '''
 <!DOCTYPE html>
@@ -470,7 +471,7 @@ template {
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
 '''
   ## IFRAME                    #
-  elif Design == 'iframe':    
+  elif Design == 'iframe':
     ## HTML - IFRAME
     html_string = '''
 <!DOCTYPE html>
@@ -483,40 +484,40 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
     <title>Document</title>
 </head>
 <body>
-    <iframe src="https://www.mafshari.work/websites/simplicity" frameborder="0" 
-    marginheight="0" 
-    marginwidth="0" 
-    width="100%" 
-    height="100%" 
+    <iframe src="https://www.mafshari.work/websites/simplicity" frameborder="0"
+    marginheight="0"
+    marginwidth="0"
+    width="100%"
+    height="100%"
     scrolling="auto"></iframe>
 </body>
 </html>
 '''
-          
+
     ## CSS - IFRAME
     css_string = '''
-html 
+html
 {
  overflow: auto;
 }
- 
-html, body, div, iframe 
+
+html, body, div, iframe
 {
- margin: 0px; 
- padding: 0px; 
- height: 100%; 
+ margin: 0px;
+ padding: 0px;
+ height: 100%;
  border: none;
 }
-iframe 
+iframe
 {
- display: block; 
- width: 100%; 
- border: none; 
- overflow-y: auto; 
+ display: block;
+ width: 100%;
+ border: none;
+ overflow-y: auto;
  overflow-x: hidden;
 }
 '''
-          
+
     ## JS - IFRAME
     js_string = '''
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
@@ -539,40 +540,40 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
     <title>N4S - Barcode Generator</title>
 </head>
 <body>
-    <iframe src="https://barcode-maker.netlify.app/generator/" frameborder="0" 
-    marginheight="0" 
-    marginwidth="0" 
-    width="100%" 
-    height="100%" 
+    <iframe src="https://barcode-maker.netlify.app/generator/" frameborder="0"
+    marginheight="0"
+    marginwidth="0"
+    width="100%"
+    height="100%"
     scrolling="auto"></iframe>
 </body>
 </html>
 '''
-          
+
           ## CSS - IFRAME
           css_string = '''
-html 
+html
 {
  overflow: auto;
 }
- 
-html, body, div, iframe 
+
+html, body, div, iframe
 {
- margin: 0px; 
- padding: 0px; 
- height: 100%; 
+ margin: 0px;
+ padding: 0px;
+ height: 100%;
  border: none;
 }
-iframe 
+iframe
 {
- display: block; 
- width: 100%; 
- border: none; 
- overflow-y: auto; 
+ display: block;
+ width: 100%;
+ border: none;
+ overflow-y: auto;
  overflow-x: hidden;
 }
 '''
-          
+
           ## JS - IFRAME
           js_string = '''
 console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:lightgreen;');
@@ -585,7 +586,7 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
     open(f"{Directory}/barcode_generator.zip", 'wb').write(r.content)
     return print(f'Done: {Directory}/barcode_generator.zip')
   ## CLEAN GUIDE TEMPLATE      #
-  elif Design == 'guide-clean-noscroll':      
+  elif Design == 'guide-clean-noscroll':
     print('\nDownloading Guide - Clean w/ No Scroll...')
     url = "https://drive.google.com/uc?export=download&id=1gKpq1a1Ddfo5CRGA5jmh6vzUXmIPaIbf"
     r = requests.get(url, allow_redirects=True)
@@ -605,11 +606,11 @@ console.log(`%cCreated using n4s, by: \nhttps://www.mafshari.work`, 'color:light
   ## OUTPUT HTML FILE
   with open(html_file, 'w') as htmlFile:
     htmlFile.write(html_string)
-  
+
   ## OUTPUT CSS FILE
   with open(css_file, 'w') as cssFile:
     cssFile.write(css_string)
-  
+
   ## OUTPUT JAVASCRIPT FILE
   with open(js_file, 'w') as jsFile:
     jsFile.write(js_string)
@@ -664,11 +665,11 @@ def create_html(HTML: str='', CSS: str='', JS: str='', onefile: bool=False, Dire
   if not fs.path_exists(html_file) and not HTML == '':
     with open(html_file, 'w+') as htmlFile:
         htmlFile.write(HTML)
-  
+
   ## OUTPUT CSS FILE
   with open(css_file, 'w+') as cssFile:
       cssFile.write(CSS)
-  
+
   ## OUTPUT JAVASCRIPT FILE
   with open(js_file, 'w+') as jsFile:
       jsFile.write(JS)
@@ -685,7 +686,7 @@ def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads
   Save_Directory: Save To... (default = User/Downloads)
   debug: Print downloads to console
   '''
-  
+
   ## DOWNLOAD A LIST OF FILES
   if type(URL) == list:
 
@@ -707,7 +708,7 @@ def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads
       ## DEBUG: PRINT DL MESSAGE
       if debug:
         print(f"\nDownloading from {URL[link]}")
-      
+
       ## DOWNLOAD FILE
       r = requests.get(URL[link], allow_redirects=True)
 
@@ -728,24 +729,24 @@ def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads
       ## DEBUG: PRINT COMPLETION MESSAGE
       if debug:
         print(f'Done: {Save_Directory}/{Filename}')
-  
+
   ## DOWNLOAD SINGLE FILE
   if type(URL) == str:
-    
+
     ## READ FILE FORMAT
     file_format = f".{str(URL).split('.')[-1]}"
 
     ## DEBUG: PRINT DL MESSAGE
     if debug:
       print(f'\nDownloading from [{URL}]')
-    
+
     ## DOWNLOAD FILE
     r = requests.get(URL, allow_redirects=True)
-    
+
     ## IF NO FILENAME ENTERED, USE ORIGINAL FILENAME FROM WEB
     if Filename == '':
       Filename = str(URL).split("/")[-1]
-    
+
     ## IF FILENAME ENTERED, BUT NO EXTENSION SPECIFIED - GET EXTENSION FROM ORIGINAL FILE
     if not '.' in Filename and Detect_Format:
       Filename = f"{Filename}{file_format}"
@@ -761,21 +762,21 @@ def download(URL: str, Filename: str='', Save_Directory: Path=fs.root('downloads
 def itunes_api(Type: str, Country: str, Term: str, Output: str='all', Print: bool=False):
   '''
   Type: movie, podcast, music, musicVideo, audiobook, shortFilm, tvShow, software, ebook, all
-  
+
   Country: The two-letter country code for the store you want to search
-  
+
   Term: The string you want to search for
-  
+
   Limit: The number of results you want the iTunes API to return
-  
+
   Output: wrapperType, kind, artistId, collectionId, trackId, artistName, collectionName, trackName, collectionCensoredName, trackCensoredName, artistViewUrl, collectionViewUrl, feedUrl, trackViewUrl, artworkUrl30, artworkUrl60, artworkUrl100, collectionPrice, trackPrice, collectionHdPrice, releaseDate, collectionExplicitness, trackExplicitness, trackCount, trackTimeMillis, country, currency, primaryGenreName, contentAdvisoryRating, artworkUrl600, genreIds, genres, all
 
   Print: Prints results to terminal
   '''
-  
+
   ## TYPES OF RETURN OPTIONS
   output_options = 'wrapperType,kind,artistId,collectionId,trackId,artistName,collectionName,trackName,collectionCensoredName,trackCensoredName,artistViewUrl,collectionViewUrl,feedUrl,trackViewUrl,artworkUrl30,artworkUrl60,artworkUrl100,collectionPrice,trackPrice,collectionHdPrice,releaseDate,collectionExplicitness,trackExplicitness,trackCount,trackTimeMillis,country,currency,primaryGenreName,contentAdvisoryRating,artworkUrl600,genreIds,genres,all'
-  
+
   ## SPLIT OPTIONS INTO LIST
   output_options = output_options.split(',')
 
@@ -793,12 +794,12 @@ def itunes_api(Type: str, Country: str, Term: str, Output: str='all', Print: boo
 
     ## GATHER RESULTS
     data = r.json()
-  
+
   ## NO INTERNET CONNECTION
   else:
     return print("\nn4s.web.itunes_api():\n"
             "Failed to connect online. Verify your internet connection!\n")
-  
+
   ## RETURN ALL RESULTS FROM API CALL
   if Output == 'all':
 
@@ -808,10 +809,10 @@ def itunes_api(Type: str, Country: str, Term: str, Output: str='all', Print: boo
       data = data.split(',')
       for x in range(len(data)):
         print(data[x])
-    
+
     ## RETURN
     return data
-  
+
   ## RETURN SPECIFIC RESULT FROM API CALL
   else:
 
@@ -843,7 +844,7 @@ def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=
             "Unable to retrieve filesize\n"
             "Error => Failed to Connect / Invalid Address\n")
     return
-  
+
   ## VERIFY CONTENT LENGTH KEY IN HEADER
   if 'Content-Length' in resp.headers:
       file_size = resp.headers['Content-Length']
@@ -857,10 +858,10 @@ def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=
                   "Unable to retrieve filesize\n"
                   "Error => No 'Content-Length' Key\n")
           return
-  
+
   ## CAST FILE SIZE AS INT
   file_size = int(file_size)
-  
+
   ## CONVERT FILE SIZE
   if file_size == 0:
       return "0B"
@@ -868,13 +869,13 @@ def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=
   i = int(math.floor(math.log(file_size, 1024)))
   p = math.pow(1024, i)
   s = round(file_size / p, 2)
-  
+
   # RETURN FILE SIZE IN BYTES
   if Bytes:
     if Print:
       print(file_size)
     return file_size
-  
+
   ## RETURN FILE SIZE (FORMATTED)
   if Print:
     print("%s %s" % (s, size_name[i]))
@@ -925,13 +926,13 @@ def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool
 
                 # remove the tag from soup
                 tag.extract()
-        
+
                 # insert style element
                 new_style = soup.new_tag('style')
                 new_style.string = css_file
                 soup.html.head.append(new_style)
                 break
-        
+
         ## FIND SCRIPT TAGS : <script src="js/script.js"></script>
         for tag in soup.find_all('script', src=True):
             if tag.has_attr('src'):
@@ -945,17 +946,17 @@ def merge_html(HTML: Path, CSS: Path, JS: Path, onefile: bool=False, debug: bool
 
                 # remove the tag from soup
                 tag.extract()
-        
+
                 # insert script element
                 new_script = soup.new_tag('script')
                 new_script.string = js_file
                 soup.html.body.append(new_script)
-        
+
         ## FIND IMAGE TAGS : <img src="" alt="">
         for tag in soup.find_all('img', src=True):
             if tag.has_attr('src'):
                 file_content = Path(tag['src']).read_bytes()
-        
+
                 # replace filename with base64 of the content of the file
                 base64_file_content = base64.b64encode(file_content)
                 tag['src'] = "data:image/png;base64, {}".format(base64_file_content.decode('ascii'))
@@ -1023,11 +1024,11 @@ def network_test():
 
 ## READS FILE EXTENSIONS
 def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Uppercase: bool=False):
-    
+
     ## INCLUDE PERIOD IN FORMAT
     if Include_Period:
         file_format = f".{Input.split('.')[-1]}"
-    
+
     ## RETURN FORMAT WITHOUT PERIOD
     else:
         file_format = Input.split('.')[-1]
@@ -1037,7 +1038,7 @@ def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Upper
         file_format = file_format.split('?')[0]
     if '/' in file_format:
         file_format = file_format.split('/')[0]
-    
+
     ## IF UPPERCASE == ENABLED
     if Uppercase:
         file_format = file_format.upper()
