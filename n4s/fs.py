@@ -4,23 +4,20 @@ from pathlib import Path
 from subprocess import call
 from n4s import strgs
 
+
+## TODO FINISH LIST FOR COPYFILE
+
 ## WINDOWS BACKSLASHES
 backslash = "\\"
 
 ## COPY FILES
-def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: bool=False):
+def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, hidden: bool=False, debug: bool=False):
     '''
     Source: path to file(s)
     Destination: path to place copied file(s)
     overwrite: (boolean), enable to overwrite existing files
     debug: (boolean)
     '''
-
-    ## CHECK IF DESTINATION IS A DIRECTORY OR FILE PATH
-    if read_format(Destination, False) == '':
-        is_dir = True
-    else:
-        is_dir = False
 
     ## COPY A LIST OF FILES
     if type(Source) == list:
@@ -42,9 +39,57 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
                 if debug:
                     print("\nn4s.fs.copy_file():\n"
                             f"Source => {Source[x]}\nDestination => {Destination}\n")
-    
+
     ## COPY A SINGLE FILE
     elif type(Source) == str:
+
+        ## CHECK IF SOURCE IS A DIRECTORY OR FILE PATH
+        if read_format(Source, False) == '':
+            src_is_dir = True
+        else:
+            src_is_dir = False
+
+        ## CHECK IF DESTINATION IS A DIRECTORY OR FILE PATH
+        if read_format(Destination, False) == '':
+            dst_is_dir = True
+        else:
+            dst_is_dir = False
+
+        ## SOURCE == DIRECTORY
+        if src_is_dir:
+
+            ## GET A LIST OF FILES AND DIRS WITHIN SOURCE DIR
+            files_in_src_dir = read_dir(Source=Source, Output='files', Hidden=hidden)
+            dirs_in_src_dir = read_dir(Source=Source, Output='dirs', Hidden=hidden)
+
+            ## INITIALIZE LISTS
+            dirs_in_src_dir_list = []
+            dirs_in_dst_dir_list = []
+            files_in_src_dir_list = []
+
+            ## ADD FILES WITHIN ROOT OF SOURCE DIR TO THE NEW LIST
+            for x in range(len(files_in_src_dir)):
+                files_in_src_dir_list.append(f'{Source}/{files_in_src_dir[x]}')
+
+            ## ADD DIRS WITHIN ROOT SOURCE DIR TO THE NEW LIST
+            for x in range(len(dirs_in_src_dir)):
+
+                ## LIST OF DIRS WITHIN SOURCE
+                dirs_in_src_dir_list.append(f'{Source}/{dirs_in_src_dir[x]}')
+
+                ## LIST OF DIRS WITHIN DESTINATION
+                dirs_in_dst_dir_list.append(f'{Destination}/{dirs_in_src_dir[x]}')
+
+                ## CREATE THE DIRS FROM THE ROOT OF THE SRC INTO THE DST
+                path_exists(Path=f'{Destination}/{dirs_in_src_dir[x]}', Make=True)
+
+            ## COPY THE FILES IN ROOT OF SOURCE DIR
+            for x in range(len(files_in_src_dir_list)):
+                shutil.copy(files_in_src_dir_list[x], Destination)
+
+            ## RECURSIVELY SELECT THE NEXT DIR
+            for x in range(len(dirs_in_src_dir_list)):
+                copy_file(dirs_in_src_dir_list[x], dirs_in_dst_dir_list[x], overwrite=overwrite, hidden=hidden)
 
         ## VALIDATE SOURCE
         if path_exists(Source):
@@ -54,6 +99,9 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
                 src_filename = str(Source).split('.')[0].split('/')[-1]
             else:
                 src_filename = str(Source).split('.')[0].split('\\')[-1]
+
+            ## GET SOURCE FILE FORMAT
+            src_file_format = read_format(Input=str(Source), Include_Period=False)
 
             ## IF NO DEST., USE SOURCE DIR AND ITERATE WITH INT
             if Destination == '':
@@ -65,7 +113,7 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
                     else:
                         Destination = f"{Source.replace(src_filename, f'{src_filename}({i})')}"
                         break
-            
+
             ## IF DEST. EXISTS, ITERATE WITH INT
             if path_exists(Destination):
 
@@ -77,7 +125,7 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
                 file_format = read_format(Source, True)
 
                 ## IF DESTINATION IS A DIRECTORY
-                if is_dir:
+                if dst_is_dir:
 
                     ## OVERWRITE DISABLED
                     if not overwrite:
@@ -112,14 +160,23 @@ def copy_file(Source: Path, Destination: Path='', overwrite: bool=False, debug: 
                             else:
                                 Destination = f"{Destination.replace(dest_filename, f'{dest_filename}({i})')}"
                                 break
-            
-            ## COPY FILE
-            shutil.copy(Source, Destination)
+
+            ## IF SOURCE IS NOT A DIR
+            if not src_is_dir:
+
+                ## IF DST IS A DIR
+                if dst_is_dir:
+
+                    ## CREATE DIR IF IT DOESN'T EXIST
+                    path_exists(Path=Destination, Make=True)
+
+                ## COPY FILE
+                shutil.copy(Source, Destination)
 
             ## DEBUG: PRINT COMPLETION MESSAGE
             if debug:
                 return print("\nn4s.fs.copy_file():\n"
-                            f"Source => {Source}\nDestination => {Destination}\n") 
+                            f"Source => {Source}\nDestination => {Destination}\n")
         else:
             if debug:
                 return print("\nn4s.fs.copy_file():\n"
@@ -154,7 +211,7 @@ def mail(Send_To: str='', Subject: str='', Body: str='', Attachment: Path=''):
                 with_properties={k.file_name: p})
 
         ## ADD RECIPIENT
-        msg.make(new=k.to_recipient, 
+        msg.make(new=k.to_recipient,
             with_properties={k.name: Send_To})
 
         ## ACTIVATE MAIL APP
@@ -171,7 +228,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
     '''
     ## CATCH ERROR
     try:
-        
+
         ## IF ALL PATHS ALREADY EXIST
         all_paths_exists = True
         ## IF PATH IS A LIST OF PATHS
@@ -182,7 +239,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                     ## DEBUG: FILES EXIST
                     if debug:
                         print("\nn4s.fs.path_exists():\n"
-                                    f"File Exists - {Path[x]}\n") 
+                                    f"File Exists - {Path[x]}\n")
                     ## AT COMPLETION
                     if x+1 == len(Path):
                         if debug and all_paths_exists:
@@ -195,7 +252,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                         ## DEBUG: DIRS EXIST
                         if debug:
                             print("\nn4s.fs.path_exists():\n"
-                                        f"Directory Exists - {Path[x]}\n") 
+                                        f"Directory Exists - {Path[x]}\n")
                         if x+1 == len(Path):
                             if debug and all_paths_exists:
                                 print("All Paths Exist")
@@ -227,7 +284,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                             else:
                                 print("\nn4s.fs.path_exists():\n"
                                     f"Invalid Input - {Path[x]}\n"
-                                    "Cannot have '.' in pathname!\n") 
+                                    "Cannot have '.' in pathname!\n")
                         ## IF MAKE IS ENABLED AND PATH IS A FILENAME
                         elif Make:
                             ## CREATE THE FILE
@@ -251,7 +308,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                 ## DEBUG: FILE EXISTS
                 if debug:
                     print("\nn4s.fs.path_exists():\n"
-                                f"File Exists - {Path}\n") 
+                                f"File Exists - {Path}\n")
                 return True
             ## IF PATH IS NOT A FILE......
             else:
@@ -260,7 +317,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                     ## DEBUG: DIR EXISTS
                     if debug:
                         print("\nn4s.fs.path_exists():\n"
-                                    f"Directory Exists - {Path}\n") 
+                                    f"Directory Exists - {Path}\n")
                     return True
                 ## IF PATH DOES NOT EXIST....
                 else:
@@ -288,7 +345,7 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                         else:
                             return print("\nn4s.fs.path_exists():\n"
                                 f"Invalid Input - {Path}\n"
-                                "Cannot have '.' in pathname!\n") 
+                                "Cannot have '.' in pathname!\n")
                     ## IF MAKE IS ENABLED AND PATH IS A FILENAME
                     elif Make:
                         ## CREATE THE FILE
@@ -302,20 +359,20 @@ def path_exists(Path: Path, Make: bool=False, debug: bool=False):
                     else:
                         if debug:
                             print("\nn4s.fs.path_exists():\n"
-                                    f"Does Not Exist - {Path}\n") 
+                                    f"Does Not Exist - {Path}\n")
                         return False
     ## PATH != LIST OR STR
     except Exception:
         return print("\nn4s.fs.path_exists():\n"
                                 f"Invalid Input - {Path}\n"
                                 "Make sure path is type(list) or type(string), "
-                                "and that parent directories are created before nesting files\n") 
+                                "and that parent directories are created before nesting files\n")
 
 ## READ THE CONTENTS OF A DIRECTORY
 def read_dir(Source: Path, Output: str='content', Ignore: list=[], Filter: list=[], Print: bool=False, Hidden: bool=False, debug: bool=False):
     '''
     Source: (str) path to a directory
-    
+
     Output: 'content', 'files', 'dirs', 'content_count', 'file_count', 'dir_count'
 
     Ignore: (list) of files and dirs to ignore
@@ -352,13 +409,13 @@ def read_dir(Source: Path, Output: str='content', Ignore: list=[], Filter: list=
     if type(Ignore) == list:
         if len(Ignore) > 0:
             for x in range(len(Ignore)):
-                
+
                 ## ADD FILE EXTENSION IF NOT PASSED IN
                 if not str(Ignore[x]).endswith(read_format(Ignore[x], True)):
                     for y in range(len(total_list)):
                         if Ignore[x] == str(total_list[y]).split('.')[0]:
                             Ignore[x] = total_list[y]
-                
+
                 ## REMOVE FROM TOTAL
                 if Ignore[x] in total_list:
                     total_list.remove(Ignore[x])
@@ -372,7 +429,7 @@ def read_dir(Source: Path, Output: str='content', Ignore: list=[], Filter: list=
                 for x in range(len(total_list)):
                     if Ignore == str(total_list[x]).split('.')[0]:
                         Ignore = total_list[x]
-            
+
             ## REMOVE FROM TOTAL
             if Ignore in total_list:
                 total_list.remove(Ignore)
@@ -459,12 +516,12 @@ def read_dir(Source: Path, Output: str='content', Ignore: list=[], Filter: list=
 
 ## READS FILE SIZES
 def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=False):
-    
+
     file_size = os.path.getsize(File)
 
     ## CAST FILE SIZE AS INT
     file_size = int(file_size)
-    
+
     ## CONVERT FILE SIZE
     if file_size == 0:
         return "0B"
@@ -478,7 +535,7 @@ def read_filesize(File: Path, Print: bool=False, Bytes: bool=False, debug: bool=
         if Print:
             print(file_size)
         return file_size
-    
+
     ## RETURN FILE SIZE (FORMATTED)
     if Print:
         print("%s %s" % (s, size_name[i]))
@@ -490,7 +547,7 @@ def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Upper
     ## INCLUDE PERIOD IN FORMAT
     if Include_Period:
         file_format = f".{Input.split('.')[-1]}"
-    
+
     ## RETURN FORMAT WITHOUT PERIOD
     else:
         file_format = Input.split('.')[-1]
@@ -500,7 +557,7 @@ def read_format(Input: str, Include_Period: bool=False, Print: bool=False, Upper
         file_format = file_format.split('?')[0]
     if '/' in file_format:
         file_format = file_format.split('/')[0]
-    
+
     ## IF UPPERCASE == ENABLED
     if Uppercase:
         file_format = file_format.upper()
@@ -550,7 +607,7 @@ def remove_dir(Directory: Path, debug: bool=False):
                 shutil.rmtree(Dirs[x])
                 if debug:
                     print("\nn4s.fs.remove_dir():\n"
-                            f"Removed - {Dirs[x]}\n") 
+                            f"Removed - {Dirs[x]}\n")
             else:
                 if debug:
                     print("\nn4s.fs.remove_dir():\n"
@@ -560,7 +617,7 @@ def remove_dir(Directory: Path, debug: bool=False):
             shutil.rmtree(Directory)
             if debug:
                 return print("\nn4s.fs.remove_dir():\n"
-                            f"Removed - {Directory}\n") 
+                            f"Removed - {Directory}\n")
         else:
             if debug:
                 return print("\nn4s.fs.remove_dir():\n"
@@ -579,7 +636,7 @@ def remove_file(File: Path, debug: bool=False):
                 os.remove(Files[x])
                 if debug:
                     print("\nn4s.fs.remove_file():\n"
-                            f"Removed - {Files[x]}\n") 
+                            f"Removed - {Files[x]}\n")
             else:
                 if debug:
                     print("\nn4s.fs.remove_file():\n"
@@ -589,7 +646,7 @@ def remove_file(File: Path, debug: bool=False):
             os.remove(File)
             if debug:
                 return print("\nn4s.fs.remove_file():\n"
-                            f"Removed - {File}\n") 
+                            f"Removed - {File}\n")
         else:
             if debug:
                 return print("\nn4s.fs.remove_file():\n"
@@ -620,8 +677,8 @@ def rename(Name: Path, Rename: str='', debug: bool=False):
         str(root('syslib')),
         '/Users/afshari/test',
         '/Users/afshari/Desktop/index'
-    ] 
-    
+    ]
+
     ## PREVENT RENAMING ROOT DIRS
     for i in range(len(root_dirs)):
         if Name == root_dirs[i] or Name == f"{root_dirs[i]}/":
@@ -647,7 +704,7 @@ def rename(Name: Path, Rename: str='', debug: bool=False):
 
     ## UPDATE INPUT PATH
     Pathname = strgs.filter_text(Pathname, [Name])
-    
+
     ## VALIDATE RENAME ARG
     if Rename == '':
         if debug:
@@ -705,7 +762,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
     ## DEBUG HEADER
     if debug:
         print("\nn4s.fs.amend_filenames():")
-    
+
     ## ADD TEXT TO FILE NAMES
     if Action == 'add':
 
@@ -724,7 +781,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                 ## MACOS
                 if system('is-mac'):
                     dirs_list[x] = f"{Directory}/{dirs_list[x]}"
-                
+
                 ## WINDOWS
                 else:
                     dirs_list[x] = f"{Directory}{backslash}{dirs_list[x]}"
@@ -758,7 +815,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                             ## IF FILENAME WAS CHANGED
                             if not og_filename == f"{dirs_list[i]}/{new_filename}":
-                            
+
                                 ## PRINT DEBUG MESSAGE
                                 if debug:
                                     print(f"\nOriginal: {og_filename}\n"
@@ -786,13 +843,13 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                         ## RENAME FILE
                         rename(og_filename, new_filename)
-                        
+
                         ## OUTPUT OR DEBUG
                         if Output == 'amend_count' or debug:
 
                             ## IF FILENAME WAS CHANGED
                             if not og_filename == f"{dirs_list[i]}{backslash}{new_filename}":
-                            
+
                                 ## PRINT DEBUG MESSAGE
                                 if debug:
                                     print(f"\nOriginal: {og_filename}\n"
@@ -808,7 +865,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                             ## PRESENT TOTAL CHANGES
                             if file == file_count - 1:
                                 total_files = total_files + file_count
-        
+
                 ## END OF DIR LOOP
                 if i == dirs_count - 1:
 
@@ -822,7 +879,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
         ## SINGLE DIRECTORY, ITERATE THROUGH FILES ONLY
         else:
-        
+
             ## LIST OF FILES WITHIN DIRECTORY
             file_list = sorted(read_dir(Directory, 'files'))
 
@@ -831,7 +888,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
             ## RENAME FILES
             for file in range(file_count):
-                
+
                 ## MACOS
                 if system('is-mac'):
 
@@ -843,13 +900,13 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                     ## RENAME FILE
                     rename(og_filename, new_filename)
-                    
+
                     ## OUTPUT OR DEBUG
                     if Output == 'amend_count' or debug:
 
                         ## IF FILENAME WAS CHANGED
                         if not og_filename == f"{Directory}/{new_filename}":
-                            
+
                             ## PRINT DEBUG MESSAGE
                             if debug:
                                 print(f"\nOriginal: {og_filename}\n"
@@ -868,7 +925,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                                 print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
                             if Output == 'amend_count':
                                 return amend_count
-                
+
                 ## WINDOWS
                 else:
 
@@ -880,13 +937,13 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                     ## RENAME FILE
                     rename(og_filename, new_filename)
-                    
+
                     ## OUTPUT OR DEBUG
                     if Output == 'amend_count' or debug:
 
                         ## IF FILENAME WAS CHANGED
                         if not og_filename == f"{Directory}{backslash}{new_filename}":
-                            
+
                             ## PRINT DEBUG MESSAGE
                             if debug:
                                 print(f"\nOriginal: {og_filename}\n"
@@ -920,11 +977,11 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
             ## ASSIGN FULL PATHNAME TO DIRS LIST
             for x in range(dirs_count):
-                
+
                 ## MACOS
                 if system('is-mac'):
                     dirs_list[x] = f"{Directory}/{dirs_list[x]}"
-                
+
                 ## WINDOWS
                 else:
                     dirs_list[x] = f"{Directory}{backslash}{dirs_list[x]}"
@@ -940,7 +997,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                 ## RENAME FILES
                 for file in range(file_count):
-                    
+
                     ## MACOS
                     if system('is-mac'):
 
@@ -952,7 +1009,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
                         ## RENAME FILE
                         rename(og_filename, new_filename)
-                        
+
                         ## DEBUG
                         if Output == 'amend_count' or debug:
 
@@ -982,7 +1039,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                             print("\nn4s.fs.amend_filenames():\n"
                                 f"Original: {dirs_list[i]}{backslash}{file_list[file]}\n"
                                 f"Amended: {read_format(file_list[file], True, Read_Filename=True)}{Rename}\n")
-                
+
                 ## END OF DIR LOOP
                 if i == dirs_count - 1:
 
@@ -1005,7 +1062,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
 
             ## AMEND FILENAMES
             for file in range(file_count):
-                
+
                 ## MACOS
                 if system('is-mac'):
 
@@ -1028,7 +1085,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                             if debug:
                                 print(f"\nOriginal: {og_filename}\n"
                                     f"Amended: {Directory}/{new_filename}")
-                            
+
                             ## ADD TO AMEND COUNT
                             amend_count += 1
 
@@ -1042,10 +1099,10 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                                 print(f"\nTotal Files: {file_count} | Amended: {amend_count}")
                             if Output == 'amend_count':
                                 return amend_count
-                
+
                 ## WINDOWS
                 else:
-                    
+
                     ## ORIGINAL FILENAME
                     og_filename = f"{Directory}{backslash}{file_list[file]}"
 
@@ -1065,7 +1122,7 @@ def amend_filenames(Directory: Path, Action='add', Rename: str='', Nested: bool=
                             if debug:
                                 print(f"\nOriginal: {og_filename}\n"
                                     f"Amended: {Directory}{backslash}{new_filename}")
-                            
+
                             ## ADD TO AMEND COUNT
                             amend_count += 1
 
@@ -1167,7 +1224,7 @@ def system(Action: str='info', Print: bool=False):
         ## IF NO FOLLOW UP COMMAND ENTERED
         if Action == 'is-':
             return print("\nn4s.fs.system('is-'):\n"
-                        f"['is-mac', 'is-windows', 'is-arm']\n") 
+                        f"['is-mac', 'is-windows', 'is-arm']\n")
 
         ## IF MACOS
         if Action == 'is-mac' and os_ver == 'macos':
@@ -1201,12 +1258,12 @@ def system(Action: str='info', Print: bool=False):
         ## VERIFY COMPATIBILITY
         if not system('is-mac'):
             return print("\nn4s.fs.system('app-'):\n"
-                        f"ONLY supports macOS at this moment!\n") 
+                        f"ONLY supports macOS at this moment!\n")
 
         ## IF NO FOLLOW-UP COMMAND ENTERED
         if Action == 'app-':
             return print("\nn4s.fs.system('app-'):\n"
-                        f"Enter an app's name or use 'app-list' to return a list of installed apps\n") 
+                        f"Enter an app's name or use 'app-list' to return a list of installed apps\n")
 
         ## LIST OF ALL APPS
         app_list = []
@@ -1221,12 +1278,12 @@ def system(Action: str='info', Print: bool=False):
         user_app_list = []
 
         ## FILTER OUT THESE PHRASES
-        filter_list = ['.app', 
-                        '.DS_Store', 
-                        '.localized', 
+        filter_list = ['.app',
+                        '.DS_Store',
+                        '.localized',
                         '.Karabiner-VirtualHIDDevice-Manager',
                         'Utilities']
-        
+
         ## READ SYSTEM APPS
         for x in range(len(os.listdir('/System/Applications'))):
             app_list.append(strgs.filter_text(os.listdir('/System/Applications')[x], filter_list))
@@ -1241,7 +1298,7 @@ def system(Action: str='info', Print: bool=False):
         for x in range(len(os.listdir('/Applications'))):
             app_list.append(strgs.filter_text(os.listdir('/Applications')[x], filter_list))
             user_app_list.append(strgs.filter_text(os.listdir('/Applications')[x], filter_list))
-        
+
         ## SORT LISTS
         app_list.sort()
         sys_app_list.sort()
@@ -1264,7 +1321,7 @@ def system(Action: str='info', Print: bool=False):
 
         ## APP...
         for x in range(len(app_list)):
-            
+
             ## IF APP IS FOUND
             app_found = False
 
@@ -1274,7 +1331,7 @@ def system(Action: str='info', Print: bool=False):
                 ## PRINT: LAUNCHING APP...
                 if Print:
                     print(f"Launching: {app_list[x]}...")
-                
+
                 ## LAUNCH SYSTEM APP
                 if str(app_list[x]).lower() in str(sys_app_list).lower():
                     call(["/usr/bin/open", f"/System/Applications/{app_list[x]}.app"])
@@ -1307,7 +1364,7 @@ def system(Action: str='info', Print: bool=False):
                 ## LAUNCH USER INSTALLED APP
                 if str(app_list[x]).lower() in str(user_app_list).lower():
                     app_found = True
-                
+
                 ## PRINT: APP_FOUND VALUE
                 if Print:
                     print(app_found)
@@ -1387,8 +1444,9 @@ def system(Action: str='info', Print: bool=False):
                 python_exit()
 
         return print("\nn4s.fs.system():\n"
-                    f"['app-', 'is-'], ['info', 'os', 'python']\n") 
+                    f"['app-', 'is-'], ['info', 'os', 'python']\n")
 
 
 
 ## TESTS
+copy_file(['/Users/afshari/Documents/src_dir/d', '/Users/afshari/Documents/src_dir/f', '/Users/afshari/Documents/src_dir/k'], '/Users/afshari/Documents/dst_dir')
